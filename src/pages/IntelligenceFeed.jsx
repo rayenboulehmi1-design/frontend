@@ -1,19 +1,33 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Filter, Search, Loader2 } from "lucide-react";
+import { Filter, Search, Loader2, MapPin, X } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import SignalCard from "@/components/SignalCard";
 
 const categories = ["All", "Real Estate", "Investment", "Business"];
+
+const MARKET_MAP = {
+  US: { code: "US", name: "United States" },
+  GB: { code: "GB", name: "United Kingdom" },
+  AE: { code: "AE", name: "United Arab Emirates" },
+  QA: { code: "QA", name: "Qatar" },
+};
 
 export default function IntelligenceFeed() {
   const [signals, setSignals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
+  const [market, setMarket] = useState(null);
 
   useEffect(() => {
-    base44.entities.Signal.list("-created_date", 50)
+    const params = new URLSearchParams(window.location.search);
+    const m = params.get("market");
+    if (m) setMarket(MARKET_MAP[m.toUpperCase()] || { code: m.toUpperCase(), name: m });
+  }, []);
+
+  useEffect(() => {
+    base44.entities.Signal.list("-created_date", 200)
       .then(setSignals)
       .catch(() => setSignals([]))
       .finally(() => setLoading(false));
@@ -27,9 +41,13 @@ export default function IntelligenceFeed() {
         s.title?.toLowerCase().includes(search.toLowerCase()) ||
         s.location?.toLowerCase().includes(search.toLowerCase()) ||
         s.entity_name?.toLowerCase().includes(search.toLowerCase());
-      return matchesCategory && matchesSearch;
+      const matchesMarket =
+        !market ||
+        s.location?.includes(market.code) ||
+        s.location?.toLowerCase().includes(market.name.toLowerCase());
+      return matchesCategory && matchesSearch && matchesMarket;
     });
-  }, [signals, activeCategory, search]);
+  }, [signals, activeCategory, search, market]);
 
   return (
     <div className="min-h-screen pt-24 pb-20">
@@ -53,6 +71,19 @@ export default function IntelligenceFeed() {
           <p className="mt-2 text-slate-500">
             Real-time signals detected across global markets — updated continuously.
           </p>
+
+          {market && (
+            <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 text-slate-700">
+              <MapPin className="w-3.5 h-3.5 text-blue-600" />
+              <span className="text-sm font-medium">{market.name}</span>
+              <button
+                onClick={() => setMarket(null)}
+                className="ml-1 p-0.5 rounded-full hover:bg-slate-200 transition-colors"
+              >
+                <X className="w-3.5 h-3.5 text-slate-500" />
+              </button>
+            </div>
+          )}
         </motion.div>
 
         {/* Filters */}

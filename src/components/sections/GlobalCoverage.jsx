@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Globe } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const markets = [
   { code: "US", name: "United States", records: 503 },
@@ -43,20 +44,21 @@ export default function GlobalCoverage() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {markets.map((market, i) => (
-            <motion.div
-              key={market.code}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 hover:border-blue-600/50 hover:bg-slate-900 transition-all group cursor-pointer"
-            >
-              <div className="text-4xl font-bold text-blue-400 mb-2 group-hover:scale-110 transition-transform origin-left">
-                {market.code}
-              </div>
-              <div className="text-sm text-slate-300 font-medium mb-1">{market.name}</div>
-              <div className="text-xs text-slate-500">{market.records} records tracked</div>
-            </motion.div>
+            <Link key={market.code} to={`/intelligence-feed?market=${market.code}`}>
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 hover:border-blue-600/50 hover:bg-slate-900 transition-all group cursor-pointer h-full"
+              >
+                <div className="text-4xl font-bold text-blue-400 mb-2 group-hover:scale-110 transition-transform origin-left">
+                  {market.code}
+                </div>
+                <div className="text-sm text-slate-300 font-medium mb-1">{market.name}</div>
+                <div className="text-xs text-slate-500">{market.records} records tracked</div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>

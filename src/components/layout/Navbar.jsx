@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Radar } from "lucide-react";
+import { Menu, X, Radar, LayoutDashboard } from "lucide-react";
 
 const navLinks = [
   { label: "Products", href: "#products" },
@@ -65,6 +65,13 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-4">
+          <Link
+            to="/dashboard"
+            className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+          >
+            <LayoutDashboard className="w-4 h-4" />
+            Dashboard
+          </Link>
           <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
             Sign In
           </button>
@@ -94,6 +101,9 @@ export default function Navbar() {
             </button>
           ))}
           <div className="pt-3 border-t border-slate-100 flex flex-col gap-3">
+            <Link to="/dashboard" className="flex items-center gap-1.5 text-left text-sm font-medium text-slate-600">
+              <LayoutDashboard className="w-4 h-4" /> Dashboard
+            </Link>
             <button className="text-left text-sm font-medium text-slate-600">Sign In</button>
             <button className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold">
               Get Access

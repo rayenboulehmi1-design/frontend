@@ -10,6 +10,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Layout from '@/components/layout/Layout';
 import Home from '@/pages/Home';
 import IntelligenceFeed from '@/pages/IntelligenceFeed';
+import Dashboard from '@/pages/Dashboard';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -41,6 +42,7 @@ const AuthenticatedApp = () => {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/intelligence-feed" element={<IntelligenceFeed />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

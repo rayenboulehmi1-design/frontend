@@ -1,0 +1,45 @@
+{
+  "name": "Signal",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Headline of the intelligence signal"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Real Estate",
+        "Investment",
+        "Business"
+      ],
+      "description": "Type of intelligence signal"
+    },
+    "location": {
+      "type": "string",
+      "description": "Geographic location of the signal"
+    },
+    "entity_name": {
+      "type": "string",
+      "description": "Company or entity associated with the signal"
+    },
+    "time_ago": {
+      "type": "string",
+      "description": "Human-readable relative time, e.g. '3h ago'"
+    },
+    "confidence": {
+      "type": "number",
+      "description": "Confidence score percentage (0-100)"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Short description of the signal"
+    }
+  },
+  "required": [
+    "title",
+    "category",
+    "location",
+    "time_ago"
+  ]
+}

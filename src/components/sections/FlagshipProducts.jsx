@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Building2, Briefcase, TrendingUp, ArrowUpRight } from "lucide-react";
+import { Building2, Briefcase, TrendingUp, ArrowUpRight, MapPin } from "lucide-react";
+import { base44 } from "@/api/base44Client";
 
 const products = [
   {
@@ -25,6 +26,7 @@ const products = [
     ],
     icon: Building2,
     accent: "blue",
+    category: "Real Estate",
   },
   {
     number: "02",
@@ -46,6 +48,7 @@ const products = [
     ],
     icon: Briefcase,
     accent: "violet",
+    category: "Business",
   },
   {
     number: "03",
@@ -67,6 +70,7 @@ const products = [
     ],
     icon: TrendingUp,
     accent: "emerald",
+    category: "Investment",
   },
 ];
 
@@ -77,6 +81,35 @@ const accentMap = {
 };
 
 export default function FlagshipProducts() {
+  const [allSignals, setAllSignals] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    base44.entities.Signal.list("-created_date", 200)
+      .then(setAllSignals)
+      .catch(() => setAllSignals([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const signalsByCategory = useMemo(() => {
+    const map = {};
+    allSignals.forEach((s) => {
+      if (!s.category) return;
+      if (!map[s.category]) map[s.category] = [];
+      map[s.category].push(s);
+    });
+    return map;
+  }, [allSignals]);
+
+  const getStats = (category) => {
+    const items = signalsByCategory[category] || [];
+    const entities = new Set(items.map((s) => s.entity_name).filter(Boolean));
+    return [
+      { value: items.length.toLocaleString(), label: "Live Signals" },
+      { value: entities.size.toLocaleString(), label: "Entities Tracked" },
+    ];
+  };
+
   return (
     <section id="products" className="py-20 sm:py-28 bg-white border-y border-slate-100">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 space-y-20">
@@ -84,6 +117,7 @@ export default function FlagshipProducts() {
           const a = accentMap[product.accent];
           const Icon = product.icon;
           const reversed = idx % 2 === 1;
+          const productSignals = (signalsByCategory[product.category] || []).slice(0, 4);
 
           return (
             <motion.div
@@ -120,7 +154,7 @@ export default function FlagshipProducts() {
                 </div>
 
                 <div className="flex gap-8">
-                  {product.stats.map((stat) => (
+                  {getStats(product.category).map((stat) => (
                     <div key={stat.label}>
                       <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
                       <div className="text-xs text-slate-400 uppercase tracking-wide mt-0.5">
@@ -140,16 +174,25 @@ export default function FlagshipProducts() {
                   <Icon className={`w-7 h-7 ${a.text}`} />
                 </div>
                 <div className="space-y-3">
-                  {[0, 1, 2, 3].map((i) => (
-                    <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-white/70 backdrop-blur-sm">
-                      <span className={`w-2 h-2 rounded-full ${a.dot} ${i === 0 ? "animate-pulse" : ""}`} />
-                      <div className="flex-1">
-                        <div className="h-3 w-3/4 bg-slate-200/80 rounded-full mb-2" />
-                        <div className="h-2.5 w-1/2 bg-slate-100 rounded-full" />
-                      </div>
-                      <span className="text-xs text-slate-400 font-medium">{["3h ago", "2d ago", "2d ago", "4d ago"][i]}</span>
-                    </div>
-                  ))}
+                  {loading
+                    ? [0, 1, 2, 3].map((i) => (
+                        <div key={i} className="h-16 rounded-xl bg-white/70 animate-pulse" />
+                      ))
+                    : productSignals.length === 0
+                    ? <p className="text-sm text-slate-400 py-8 text-center">No active signals in this market right now — check back soon.</p>
+                    : productSignals.map((signal, i) => (
+                        <div key={signal.id} className="flex items-center gap-3 p-4 rounded-xl bg-white/70 backdrop-blur-sm">
+                          <span className={`w-2 h-2 rounded-full ${a.dot} shrink-0 ${i === 0 ? "animate-pulse" : ""}`} />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-slate-800 truncate">{signal.title}</p>
+                            <div className="flex items-center gap-1 mt-1 text-xs text-slate-400">
+                              <MapPin className="w-3 h-3" />
+                              <span className="truncate">{signal.location}{signal.entity_name ? ` • ${signal.entity_name}` : ""}</span>
+                            </div>
+                          </div>
+                          <span className="text-xs text-slate-400 font-medium shrink-0">{signal.time_ago}</span>
+                        </div>
+                      ))}
                 </div>
               </div>
             </motion.div>

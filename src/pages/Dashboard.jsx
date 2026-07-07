@@ -5,7 +5,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from "recharts";
 import { Activity, TrendingUp, MapPin, Building2, Loader2, Briefcase } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { fetchSignals } from "@/lib/scoutyClient";
 
 const CATEGORY_COLORS = {
   "Real Estate": "#2563eb",
@@ -18,7 +18,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    base44.entities.Signal.list("-created_date", 200)
+    fetchSignals(200)
       .then(setSignals)
       .catch(() => setSignals([]))
       .finally(() => setLoading(false));

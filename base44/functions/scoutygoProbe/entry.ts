@@ -18,41 +18,35 @@ Deno.serve(async (req) => {
     }
 
     // Probe several common endpoints to discover the API surface
-    const endpoints = [
-      '', '/',
-      '/health', '/status',
-      '/opportunities', '/signals', '/signals/recent',
-      '/dashboard', '/stats', '/stats/dashboard',
-      '/markets', '/categories',
-      '/watchlist', '/entitlements',
-    ];
+    const headers = { 'Authorization': `Bearer ${apiKey}`, 'X-API-Key': apiKey };
 
-    const results = {};
-    for (const ep of endpoints) {
-      try {
-        const url = baseUrl + ep;
-        const res = await fetch(url, {
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'X-API-Key': apiKey,
-            'Content-Type': 'application/json',
-          },
-          signal: AbortSignal.timeout(8000),
-        });
-        const text = await res.text();
-        let body;
-        try { body = JSON.parse(text); } catch { body = text.substring(0, 500); }
-        results[ep || '(root)'] = {
-          status: res.status,
-          contentType: res.headers.get('content-type'),
-          body: typeof body === 'string' ? body.substring(0, 500) : body,
-        };
-      } catch (err) {
-        results[ep || '(root)'] = { error: err.message };
-      }
-    }
+    // Get one opportunity, extract only mapping-relevant scalar fields
+    const oppRes = await fetch(baseUrl + '/opportunities?limit=1', { headers, signal: AbortSignal.timeout(8000) });
+    const oppBody = await oppRes.json();
+    const o = oppBody.opportunities?.[0] || {};
+    const opp = {
+      id: o.id, title: o.title, summary: o.summary?.substring(0, 200),
+      category: o.category, subcategory: o.subcategory, opportunityType: o.opportunityType,
+      company: o.company, country: o.country, city: o.city, location: o.location,
+      stage: o.stage, lifecycleState: o.lifecycleState, status: o.status,
+      confidenceScore: o.confidenceScore, matchScore: o.matchScore, actionabilityScore: o.actionabilityScore,
+      estimatedValue: o.estimatedValue, estimatedTimeline: o.estimatedTimeline,
+      tags: o.tags, urgency: o.urgency, verificationStatus: o.verificationStatus,
+      featured: o.featured, trending: o.trending, sourceType: o.sourceType,
+      detectedAt: o.detectedAt, createdAt: o.createdAt,
+      realEstateKeys: o.realEstate ? Object.keys(o.realEstate) : null,
+      companiesType: o.companies ? (Array.isArray(o.companies) ? `arr[${o.companies.length}]` : typeof o.companies) : null,
+      signalsType: o.signals ? (Array.isArray(o.signals) ? `arr[${o.signals.length}]` : typeof o.signals) : null,
+    };
 
-    return Response.json({ baseUrl, results });
+    // Get pagination shape
+    const pagination = oppBody.pagination;
+
+    // Get stats structure
+    const statsRes = await fetch(baseUrl + '/stats', { headers, signal: AbortSignal.timeout(8000) });
+    const statsBody = await statsRes.json();
+
+    return Response.json({ opp, pagination, stats: statsBody });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }

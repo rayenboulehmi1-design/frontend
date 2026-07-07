@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Filter, Search, Loader2, MapPin, X } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { fetchSignals } from "@/lib/scoutyClient";
 import SignalCard from "@/components/SignalCard";
 
 const categories = ["All", "Real Estate", "Investment", "Business"];
@@ -27,7 +27,7 @@ export default function IntelligenceFeed() {
   }, []);
 
   useEffect(() => {
-    base44.entities.Signal.list("-created_date", 200)
+    fetchSignals(200)
       .then(setSignals)
       .catch(() => setSignals([]))
       .finally(() => setLoading(false));

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Building2, Briefcase, TrendingUp, ArrowUpRight, MapPin } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { fetchSignals } from "@/lib/scoutyClient";
 
 const products = [
   {
@@ -85,7 +85,7 @@ export default function FlagshipProducts() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    base44.entities.Signal.list("-created_date", 200)
+    fetchSignals(200)
       .then(setAllSignals)
       .catch(() => setAllSignals([]))
       .finally(() => setLoading(false));

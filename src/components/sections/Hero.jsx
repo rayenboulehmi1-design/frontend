@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Search, Radar, ArrowRight, Activity } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { fetchSignals } from "@/lib/scoutyClient";
 import SignalCard from "@/components/SignalCard";
 
 export default function Hero() {
@@ -11,7 +11,7 @@ export default function Hero() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    base44.entities.Signal.list("-created_date", 3)
+    fetchSignals(3)
       .then(setSignals)
       .catch(() => setSignals([]))
       .finally(() => setLoading(false));

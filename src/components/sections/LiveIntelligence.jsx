@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { base44 } from "@/api/base44Client";
+import { fetchSignals } from "@/lib/scoutyClient";
 import SignalCard from "@/components/SignalCard";
 
 export default function LiveIntelligence() {
@@ -10,7 +10,7 @@ export default function LiveIntelligence() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    base44.entities.Signal.list("-created_date", 6)
+    fetchSignals(6)
       .then(setSignals)
       .catch(() => setSignals([]))
       .finally(() => setLoading(false));

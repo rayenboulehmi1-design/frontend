@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, MapPin, Clock, Building2, Bookmark, Share2, Loader2 } from "lucide-react";
+import { ArrowLeft, MapPin, Clock, Building2, Bookmark, Share2, Loader2, Bell } from "lucide-react";
 import { fetchSignalById, fetchSignals } from "@/lib/scoutyClient";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 import ConfidenceBadge from "@/components/dashboard/ConfidenceBadge";
@@ -19,6 +19,8 @@ export default function OpportunityDetail() {
   const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
   const { isSaved, toggleSave } = useSavedOpportunities();
+  const [shareMsg, setShareMsg] = useState(false);
+  const [trackedMsg, setTrackedMsg] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -56,6 +58,33 @@ export default function OpportunityDetail() {
   const style = categoryStyles[signal.category] || categoryStyles["Real Estate"];
   const saved = isSaved(signal.id);
 
+  const handleShare = async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try { await navigator.share({ title: signal.title, url }); } catch {}
+    } else {
+      navigator.clipboard.writeText(url);
+      setShareMsg(true);
+      setTimeout(() => setShareMsg(false), 2000);
+    }
+  };
+
+  const handleTrack = () => {
+    const alerts = JSON.parse(localStorage.getItem("scouty_alerts") || "[]");
+    const newAlert = {
+      id: Date.now().toString(),
+      name: signal.title.substring(0, 50),
+      category: signal.category || "",
+      location: signal.location || "",
+      keywords: signal.entity_name || "",
+      minConfidence: signal.confidence || 50,
+      createdAt: new Date().toISOString(),
+    };
+    localStorage.setItem("scouty_alerts", JSON.stringify([newAlert, ...alerts]));
+    setTrackedMsg(true);
+    setTimeout(() => setTrackedMsg(false), 3000);
+  };
+
   return (
     <div className="p-5 sm:p-8 max-w-5xl mx-auto">
       <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-6 transition-colors">
@@ -77,11 +106,16 @@ export default function OpportunityDetail() {
             {signal.title}
           </h1>
           <div className="flex items-center gap-2 shrink-0">
-            <button onClick={() => toggleSave(signal)} className="p-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition-colors">
+            <button onClick={() => toggleSave(signal)} className="p-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition-colors" aria-label="Save">
               <Bookmark className={`w-4 h-4 ${saved ? "fill-blue-600 text-blue-600" : "text-slate-400"}`} />
             </button>
-            <button className="p-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition-colors">
+            <button onClick={handleTrack} className="p-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition-colors relative" aria-label="Create alert">
+              <Bell className={`w-4 h-4 ${trackedMsg ? "fill-blue-600 text-blue-600" : "text-slate-400"}`} />
+              {trackedMsg && <span className="absolute -top-9 left-1/2 -translate-x-1/2 text-xs bg-slate-900 text-white px-2 py-1 rounded whitespace-nowrap">Alert created</span>}
+            </button>
+            <button onClick={handleShare} className="p-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition-colors relative" aria-label="Share">
               <Share2 className="w-4 h-4 text-slate-400" />
+              {shareMsg && <span className="absolute -top-9 left-1/2 -translate-x-1/2 text-xs bg-slate-900 text-white px-2 py-1 rounded whitespace-nowrap">Link copied</span>}
             </button>
           </div>
         </div>
@@ -123,13 +157,13 @@ export default function OpportunityDetail() {
           </div>
         )}
 
-        <div className="rounded-xl bg-slate-50 border border-slate-100 p-4 mb-8">
-          <p className="text-xs text-slate-400">
-            Detailed opportunity metadata (source links, financials, contact data) requires the Replit{" "}
-            <code className="text-slate-600">GET /opportunities/:id</code> endpoint. See{" "}
-            <code className="text-slate-600">DASHBOARD_API_CONTRACT.md</code>.
-          </p>
-        </div>
+        {trackedMsg && (
+          <div className="mb-8">
+            <Link to="/alerts" className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:gap-3 transition-all">
+              <Bell className="w-4 h-4" /> View All Alerts
+            </Link>
+          </div>
+        )}
       </motion.div>
 
       {/* Related signals */}

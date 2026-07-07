@@ -60,7 +60,7 @@ export default function FAQ() {
   const [open, setOpen] = useState(0);
 
   return (
-    <section className="py-20 sm:py-28 bg-white border-y border-slate-100">
+    <section id="faq" className="py-20 sm:py-28 bg-white border-y border-slate-100">
       <div className="max-w-3xl mx-auto px-5 sm:px-8">
         <motion.h2
           initial={{ opacity: 0, y: 12 }}

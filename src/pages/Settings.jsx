@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Settings as SettingsIcon, Bell, Globe, Database } from "lucide-react";
+import { ArrowLeft, Settings as SettingsIcon, Bell, Globe } from "lucide-react";
 
 const STORAGE_KEY = "scouty_settings";
 
@@ -102,20 +102,6 @@ export default function Settings() {
         </div>
       </div>
 
-      {/* Data Source */}
-      <div className="rounded-2xl border border-slate-100 bg-slate-50 p-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Database className="w-4 h-4 text-slate-400" />
-          <h2 className="font-semibold text-slate-900">Data Source</h2>
-        </div>
-        <p className="text-xs text-slate-400 leading-relaxed">
-          Live intelligence data is sourced from the ScoutyGo API via the{" "}
-          <code className="text-slate-600">scoutygoSignals</code> backend function. Settings are stored
-          locally in your browser. Cross-device sync requires Replit{" "}
-          <code className="text-slate-600">/users/settings</code> endpoints. See{" "}
-          <code className="text-slate-600">DASHBOARD_API_CONTRACT.md</code>.
-        </p>
-      </div>
     </div>
   );
 }

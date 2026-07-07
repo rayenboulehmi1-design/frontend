@@ -19,8 +19,12 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [minConfidence, setMinConfidence] = useState(0);
+  const [activeCategory, setActiveCategory] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("scouty_settings") || "{}").defaultCategory || "All"; } catch { return "All"; }
+  });
+  const [minConfidence, setMinConfidence] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("scouty_settings") || "{}").minConfidence || 0; } catch { return 0; }
+  });
   const { savedCount } = useSavedOpportunities();
 
   useEffect(() => {

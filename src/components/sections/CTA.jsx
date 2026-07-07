@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function CTA() {
   return (
@@ -32,13 +33,13 @@ export default function CTA() {
               Join top dealmakers using ScoutyGo to monitor the market and close deals faster.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-xl shadow-blue-600/30 group">
+              <Link to="/register" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-xl shadow-blue-600/30 group">
                 Get Access Now
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="text-slate-300 font-medium hover:text-white transition-colors">
-                Talk to Sales
-              </button>
+              </Link>
+              <Link to="/intelligence-feed" className="text-slate-300 font-medium hover:text-white transition-colors">
+                Browse Intelligence
+              </Link>
             </div>
           </div>
         </motion.div>

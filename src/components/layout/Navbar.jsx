@@ -71,7 +71,7 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-4">
-          {authed && (
+          {authed ? (
             <Link
               to="/dashboard"
               className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
@@ -79,13 +79,16 @@ export default function Navbar() {
               <LayoutDashboard className="w-4 h-4" />
               Dashboard
             </Link>
+          ) : (
+            <>
+              <Link to="/login" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                Sign In
+              </Link>
+              <Link to="/register" className="px-5 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm shadow-blue-600/20">
+                Get Access
+              </Link>
+            </>
           )}
-          <Link to="/login" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-            Sign In
-          </Link>
-          <Link to="/dashboard" className="px-5 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm shadow-blue-600/20">
-            Get Access
-          </Link>
         </div>
 
         <button
@@ -109,15 +112,18 @@ export default function Navbar() {
             </button>
           ))}
           <div className="pt-3 border-t border-slate-100 flex flex-col gap-3">
-            {authed && (
+            {authed ? (
               <Link to="/dashboard" className="flex items-center gap-1.5 text-left text-sm font-medium text-slate-600">
                 <LayoutDashboard className="w-4 h-4" /> Dashboard
               </Link>
+            ) : (
+              <>
+                <Link to="/login" className="text-left text-sm font-medium text-slate-600">Sign In</Link>
+                <Link to="/register" className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold text-center">
+                  Get Access
+                </Link>
+              </>
             )}
-            <Link to="/login" className="text-left text-sm font-medium text-slate-600">Sign In</Link>
-            <Link to="/dashboard" className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold">
-              Get Access
-            </Link>
           </div>
         </div>
       )}

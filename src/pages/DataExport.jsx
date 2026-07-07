@@ -87,7 +87,7 @@ export default function DataExport() {
         <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-12 text-center">
           <FileText className="w-10 h-10 text-slate-300 mx-auto mb-4" />
           <p className="text-slate-400 mb-4">No saved signals to export.</p>
-          <Link to="/dashboard" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
+          <Link to="/intelligence-feed" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
             Browse Intelligence
           </Link>
         </div>

@@ -1,20 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-
-const stats = [
-  { value: "3", label: "Countries Monitored" },
-  { value: "1,388", label: "Live Signals (7d)" },
-  { value: "13", label: "Active Opportunities" },
-  { value: "200", label: "Entities Monitored" },
-  { value: "0", label: "Verified Today" },
-];
+import { fetchSignalsWithMeta } from "@/lib/scoutyClient";
 
 export default function StatsBar() {
+  const [stats, setStats] = useState(null);
+  const [signalCount, setSignalCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchSignalsWithMeta(500)
+      .then((data) => {
+        setStats(data.stats || null);
+        setSignalCount((data.signals || []).length);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const platform = stats?.platform || {};
+  const statsList = [
+    { value: platform.countries ?? 3, label: "Countries Monitored" },
+    { value: platform.newSignalsLast7Days ?? signalCount, label: "Live Signals" },
+    { value: platform.activeOpportunities ?? signalCount, label: "Active Opportunities" },
+    { value: platform.companiesMonitored ?? 0, label: "Entities Monitored" },
+  ];
+
   return (
     <section className="border-y border-slate-100 bg-white">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 py-10">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-          {stats.map((stat, i) => (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {statsList.map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 16 }}
@@ -24,7 +39,7 @@ export default function StatsBar() {
               className="text-center"
             >
               <div className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
-                {stat.value}
+                {loading ? "—" : (typeof stat.value === "number" ? stat.value.toLocaleString() : stat.value)}
               </div>
               <div className="mt-1 text-xs font-medium text-slate-400 uppercase tracking-wide">
                 {stat.label}

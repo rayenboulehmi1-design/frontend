@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Building2, Briefcase, TrendingUp, ArrowUpRight, MapPin } from "lucide-react";
 import { fetchSignals } from "@/lib/scoutyClient";
+import { Link } from "react-router-dom";
 
 const products = [
   {
@@ -164,9 +165,9 @@ export default function FlagshipProducts() {
                   ))}
                 </div>
 
-                <button className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 hover:gap-2.5 transition-all">
+                <Link to={`/intelligence-feed?category=${encodeURIComponent(product.category)}`} className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 hover:gap-2.5 transition-all">
                   Explore {product.title.replace(".", "")} <ArrowUpRight className="w-4 h-4" />
-                </button>
+                </Link>
               </div>
 
               <div className={`rounded-3xl ${a.bg} ${a.border} border p-8 lg:p-10`}>

@@ -24,6 +24,10 @@ export default function IntelligenceFeed() {
     const params = new URLSearchParams(window.location.search);
     const m = params.get("market");
     if (m) setMarket(MARKET_MAP[m.toUpperCase()] || { code: m.toUpperCase(), name: m });
+    const s = params.get("search");
+    if (s) setSearch(s);
+    const c = params.get("category");
+    if (c && categories.includes(c)) setActiveCategory(c);
   }, []);
 
   useEffect(() => {

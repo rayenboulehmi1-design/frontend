@@ -51,6 +51,25 @@ export default function AccountOverview() {
     setCheckoutLoading(false);
   };
 
+  const handleBillingPortal = async () => {
+    if (window.self !== window.top) {
+      setStatusMsg({ type: "error", text: "Billing portal works only from a published app. Please open the app in a new tab." });
+      return;
+    }
+    setCheckoutLoading(true);
+    try {
+      const res = await base44.functions.invoke("stripeBillingPortal", {});
+      if (res.data?.url) {
+        window.location.href = res.data.url;
+      } else {
+        setStatusMsg({ type: "error", text: "Could not open billing portal." });
+      }
+    } catch (err) {
+      setStatusMsg({ type: "error", text: err.message || "Failed to open billing portal." });
+    }
+    setCheckoutLoading(false);
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -124,7 +143,7 @@ export default function AccountOverview() {
             </p>
           </div>
           <button
-            onClick={handleCheckout}
+            onClick={tier === "Free" ? handleCheckout : handleBillingPortal}
             disabled={checkoutLoading}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
@@ -172,7 +191,7 @@ export default function AccountOverview() {
           <div className="flex items-center justify-between">
             <p className="text-sm text-slate-500">Manage your billing details, update payment method, or cancel your subscription via Stripe's secure portal.</p>
             <button
-              onClick={handleCheckout}
+              onClick={handleBillingPortal}
               disabled={checkoutLoading}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 text-sm font-medium text-slate-700 hover:border-slate-300 transition-colors"
             >

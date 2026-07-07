@@ -44,13 +44,6 @@ export default function SavedOpportunities() {
         </div>
       )}
 
-      <div className="mt-8 rounded-xl bg-slate-50 border border-slate-100 p-4">
-        <p className="text-xs text-slate-400">
-          Saved opportunities are stored locally in your browser. Persistent cross-device saving requires
-          the Replit <code className="text-slate-600">/users/saved</code> API endpoints. See{" "}
-          <code className="text-slate-600">DASHBOARD_API_CONTRACT.md</code>.
-        </p>
-      </div>
     </div>
   );
 }

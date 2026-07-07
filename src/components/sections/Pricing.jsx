@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const tiers = [
   {
@@ -124,15 +125,16 @@ export default function Pricing() {
                   /month
                 </span>
               </div>
-              <button
-                className={`w-full py-3 rounded-full text-sm font-semibold transition-colors mb-8 ${
+              <Link
+                to="/register"
+                className={`block w-full text-center py-3 rounded-full text-sm font-semibold transition-colors mb-8 ${
                   tier.popular
                     ? "bg-blue-600 text-white hover:bg-blue-700"
                     : "bg-slate-900 text-white hover:bg-slate-800"
                 }`}
               >
                 Get Started
-              </button>
+              </Link>
               <ul className="space-y-3">
                 {tier.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2.5">

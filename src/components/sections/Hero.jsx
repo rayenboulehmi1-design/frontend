@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search, Radar, ArrowRight, Activity } from "lucide-react";
 import { fetchSignals } from "@/lib/scoutyClient";
 import SignalCard from "@/components/SignalCard";
@@ -9,6 +9,7 @@ export default function Hero() {
   const [signals, setSignals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchSignals(3)
@@ -103,7 +104,10 @@ export default function Hero() {
                 placeholder="Search off-plan developments in Dubai..."
                 className="flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400 px-1"
               />
-              <button className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
+              <button
+                onClick={() => navigate(`/intelligence-feed?search=${encodeURIComponent(search)}`)}
+                className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors"
+              >
                 Search
               </button>
             </motion.div>
@@ -145,13 +149,7 @@ export default function Hero() {
               </Link>
             </div>
 
-            {/* Floating badge */}
-            <div className="hidden lg:flex items-center gap-2 mt-4 ml-auto w-fit px-4 py-2 rounded-full bg-white border border-slate-200 shadow-md">
-              <Radar className="w-4 h-4 text-blue-600" />
-              <span className="text-xs font-semibold text-slate-700">Real Estate Activity</span>
-              <span className="w-1 h-1 rounded-full bg-slate-300" />
-              <span className="text-xs text-slate-500">Chicago, US</span>
-            </div>
+
           </motion.div>
         </div>
       </div>

@@ -135,40 +135,41 @@ export default function Alerts() {
         </div>
       ) : (
         <div className="space-y-3">
-          {alerts.map((alert) => (
-            <motion.div
-              key={alert.id}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="rounded-2xl border border-slate-100 bg-white p-5 flex items-center justify-between gap-4"
-            >
-              <div className="min-w-0">
-                <h3 className="font-semibold text-slate-900">{alert.name}</h3>
-                <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-slate-500">
-                  {alert.category && <span className="flex items-center gap-1"><Tag className="w-3 h-3" /> {alert.category}</span>}
-                  {alert.location && <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {alert.location}</span>}
-                  {alert.keywords && <span>Keywords: {alert.keywords}</span>}
-                  <span className="flex items-center gap-1"><SlidersHorizontal className="w-3 h-3" /> {alert.minConfidence}%+ confidence</span>
-                </div>
-              </div>
-              <button
-                onClick={() => handleDelete(alert.id)}
-                className="p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </motion.div>
-          ))}
+          {alerts.map((alert) => {
+            const alertParams = new URLSearchParams();
+            if (alert.category) alertParams.set("category", alert.category);
+            if (alert.keywords || alert.location) {
+              alertParams.set("search", [alert.keywords, alert.location].filter(Boolean).join(" "));
+            }
+            return (
+              <Link key={alert.id} to={`/intelligence-feed?${alertParams.toString()}`}>
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="rounded-2xl border border-slate-100 bg-white p-5 flex items-center justify-between gap-4 hover:border-blue-200 hover:shadow-sm transition-all"
+                >
+                  <div className="min-w-0">
+                    <h3 className="font-semibold text-slate-900">{alert.name}</h3>
+                    <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-slate-500">
+                      {alert.category && <span className="flex items-center gap-1"><Tag className="w-3 h-3" /> {alert.category}</span>}
+                      {alert.location && <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {alert.location}</span>}
+                      {alert.keywords && <span>Keywords: {alert.keywords}</span>}
+                      <span className="flex items-center gap-1"><SlidersHorizontal className="w-3 h-3" /> {alert.minConfidence}%+ confidence</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(alert.id); }}
+                    className="p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </motion.div>
+              </Link>
+            );
+          })}
         </div>
       )}
 
-      <div className="mt-8 rounded-xl bg-slate-50 border border-slate-100 p-4">
-        <p className="text-xs text-slate-400">
-          Alerts are stored locally. Real-time push notifications and email alerts require Replit API
-          endpoints <code className="text-slate-600">/users/alerts</code> and a notification service. See{" "}
-          <code className="text-slate-600">DASHBOARD_API_CONTRACT.md</code>.
-        </p>
-      </div>
     </div>
   );
 }

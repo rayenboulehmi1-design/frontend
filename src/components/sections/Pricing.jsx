@@ -11,7 +11,7 @@ const tiers = [
     features: [
       "Full AI deal analysis & confidence scoring",
       "Public business contacts & decision makers",
-      "Deal timelines & procurement predictions",
+      "Deal timelines & procurement insights",
       "Up to 2 active missions",
       "Email support",
     ],
@@ -152,6 +152,14 @@ export default function Pricing() {
             </motion.div>
           ))}
         </div>
+
+        <p className="mt-10 text-center text-xs text-slate-400 max-w-2xl mx-auto leading-relaxed">
+          ScoutyGo is a market intelligence and research platform. Plans include access to signal
+          data, confidence scoring, alerts, and export tools. Confidence scores represent the
+          platform's analytical assessment of public data and do not guarantee business outcomes.
+          Subscriptions renew automatically until cancelled. Conduct your own due diligence before
+          making business or financial decisions.
+        </p>
       </div>
     </section>
   );

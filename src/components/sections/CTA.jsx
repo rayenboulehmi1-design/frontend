@@ -30,7 +30,7 @@ export default function CTA() {
               Ready to uncover what's next?
             </h2>
             <p className="mt-5 text-slate-400 max-w-xl mx-auto leading-relaxed">
-              Join top dealmakers using ScoutyGo to monitor the market and close deals faster.
+              Join professionals using ScoutyGo to monitor the market and discover opportunities earlier.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link to="/register" className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-xl shadow-blue-600/30 group">

@@ -9,15 +9,15 @@ const faqs = [
   },
   {
     q: "How do the confidence scores work?",
-    a: "Every signal is graded by our AI based on the number and quality of corroborating data points, the recency of activity, and historical patterns. A 75% confidence score means our system has identified multiple independent signals pointing to the same corporate intent.",
+    a: "Every signal is graded by our AI based on the number and quality of corroborating data points, the recency of activity, and historical patterns. A 75% confidence score means our system has identified multiple independent signals pointing to the same area of activity. Confidence scores represent the platform's analytical assessment of available signals — they are not a guarantee of outcome, and users should conduct their own due diligence before making business or financial decisions.",
   },
   {
     q: "Where do you get your data?",
-    a: "We aggregate exclusively from public sources: government registries, planning portals, procurement databases, company filings, job boards, and press releases. No private or confidential data is ever used.",
+    a: "We aggregate exclusively from public sources: government registries, planning portals, procurement databases, company filings, job boards, and press releases. No private or confidential data is ever used. We do not guarantee that any signal will result in a successful business outcome.",
   },
   {
     q: "How does billing work?",
-    a: "Plans are billed monthly or annually. You can upgrade, downgrade, or cancel at any time. Annual plans receive a 20% discount. All plans include a full-feature trial period so you can evaluate the platform before committing.",
+    a: "Plans are billed monthly or annually. You can upgrade, downgrade, or cancel at any time through your account settings. Annual plans receive a 20% discount. Payments are processed securely by Stripe. Subscriptions renew automatically until cancelled.",
   },
 ];
 

@@ -15,21 +15,21 @@ const steps = [
     title: "Analyze",
     icon: BrainCircuit,
     description:
-      "Isolated events mean nothing. Scouty clusters related signals to identify high-probability corporate intent before it's public.",
+      "Isolated events mean little on their own. Scouty clusters related signals to identify potential corporate intent before it's widely known.",
   },
   {
     number: "03",
     title: "Match",
     icon: Target,
     description:
-      "Every opportunity is graded and matched to your saved markets and industries, filtering out noise and surfacing only validated fits.",
+      "Every signal is scored and matched to your saved markets and industries, filtering out noise and surfacing relevant opportunities for your review.",
   },
   {
     number: "04",
     title: "Alert",
     icon: Bell,
     description:
-      "Receive real-time alerts the moment a high-confidence opportunity is detected, with full analysis and contacts ready to go.",
+      "Receive alerts when a signal matching your criteria is detected, with analysis and context to support your own research.",
   },
 ];
 
@@ -54,7 +54,7 @@ export default function HowItWorks() {
             className="mt-3 text-slate-500 leading-relaxed"
           >
             Stop relying on stale databases. Scouty turns scattered public data into structured,
-            actionable intelligence in near real time.
+            searchable intelligence — updated regularly.
           </motion.p>
         </div>
 

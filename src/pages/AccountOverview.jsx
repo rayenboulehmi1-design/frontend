@@ -136,11 +136,18 @@ export default function AccountOverview() {
                 tier === "Pro" ? "bg-emerald-50 text-emerald-700" : "bg-blue-50 text-blue-700"
               }`}>{tier === "Pro" ? "Active" : "Current Plan"}</span>
             </div>
-            <p className="text-sm text-slate-400 mt-1">
-              {tier === "Free"
-                ? "Upgrade to Pro for $49/mo — unlimited signals, advanced filters, and CSV export."
-                : "You have access to all premium features."}
-            </p>
+            <div className="mt-1">
+              <p className="text-sm text-slate-400">
+                {tier === "Free"
+                  ? "Upgrade to Pro for $49/mo — unlimited signals, advanced filters, and CSV export."
+                  : "You have access to all premium features."}
+              </p>
+              {tier === "Free" && (
+                <p className="text-xs text-slate-400 mt-2">
+                  $49/month · Billed monthly · Renews automatically · Cancel anytime
+                </p>
+              )}
+            </div>
           </div>
           <button
             onClick={tier === "Free" ? handleCheckout : handleBillingPortal}
@@ -153,18 +160,25 @@ export default function AccountOverview() {
         </div>
 
         {tier === "Free" && (
-          <div className="mt-6 grid sm:grid-cols-3 gap-3">
-            {[
-              { label: "Unlimited Signals", pro: true },
-              { label: "Advanced Filters", pro: true },
-              { label: "CSV Export", pro: true },
-            ].map((feat) => (
-              <div key={feat.label} className="flex items-center gap-2 text-sm">
-                <Check className={`w-4 h-4 ${feat.pro ? "text-emerald-500" : "text-slate-300"}`} />
-                <span className={feat.pro ? "text-slate-700" : "text-slate-400"}>{feat.label}</span>
-              </div>
-            ))}
-          </div>
+          <>
+            <div className="mt-6 grid sm:grid-cols-3 gap-3">
+              {[
+                { label: "Unlimited Signals", pro: true },
+                { label: "Advanced Filters", pro: true },
+                { label: "CSV Export", pro: true },
+              ].map((feat) => (
+                <div key={feat.label} className="flex items-center gap-2 text-sm">
+                  <Check className={`w-4 h-4 ${feat.pro ? "text-emerald-500" : "text-slate-300"}`} />
+                  <span className={feat.pro ? "text-slate-700" : "text-slate-400"}>{feat.label}</span>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-xs text-slate-400 leading-relaxed">
+              ScoutyGo is a market intelligence and research tool. Confidence scores represent
+              analytical assessments of public data and do not guarantee business outcomes. Conduct
+              your own due diligence before making business or financial decisions.
+            </p>
+          </>
         )}
       </motion.div>
 

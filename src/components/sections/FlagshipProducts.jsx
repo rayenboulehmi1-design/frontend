@@ -34,7 +34,7 @@ const products = [
     tag: "Corporate Intent",
     title: "Business Deals.",
     description:
-      "Find companies entering new markets. Track businesses for sale, acquisitions, partnerships, franchise expansion and corporate expansion before it's announced.",
+      "Find companies entering new markets. Track businesses for sale, acquisitions, partnerships, franchise expansion and corporate expansion before it's widely known.",
     features: [
       "Businesses for sale",
       "Acquisitions",

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Radar, Bookmark, Bell, User, Settings, LogOut, Search } from "lucide-react";
+import { LayoutDashboard, Radar, Bookmark, Bell, User, Settings, LogOut, Search, CreditCard, Download } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 
 const navItems = [
@@ -8,6 +8,8 @@ const navItems = [
   { label: "Intelligence Feed", path: "/intelligence-feed", icon: Search },
   { label: "Saved", path: "/saved", icon: Bookmark },
   { label: "Alerts", path: "/alerts", icon: Bell },
+  { label: "Account", path: "/account-overview", icon: CreditCard },
+  { label: "Data Export", path: "/data-export", icon: Download },
   { label: "Profile", path: "/profile", icon: User },
   { label: "Settings", path: "/settings", icon: Settings },
 ];

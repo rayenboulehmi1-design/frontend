@@ -22,6 +22,8 @@ import SavedOpportunities from '@/pages/SavedOpportunities';
 import Alerts from '@/pages/Alerts';
 import Profile from '@/pages/Profile';
 import Settings from '@/pages/Settings';
+import AccountOverview from '@/pages/AccountOverview';
+import DataExport from '@/pages/DataExport';
 import { Navigate } from 'react-router-dom';
 
 const AuthenticatedApp = () => {
@@ -64,6 +66,8 @@ const AuthenticatedApp = () => {
         <Route path="/opportunities/:id" element={<OpportunityDetail />} />
         <Route path="/saved" element={<SavedOpportunities />} />
         <Route path="/alerts" element={<Alerts />} />
+        <Route path="/account-overview" element={<AccountOverview />} />
+        <Route path="/data-export" element={<DataExport />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
       </Route>

@@ -80,12 +80,12 @@ export default function Navbar() {
               Dashboard
             </Link>
           )}
-          <button className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+          <Link to="/login" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
             Sign In
-          </button>
-          <button className="px-5 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm shadow-blue-600/20">
+          </Link>
+          <Link to="/register" className="px-5 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm shadow-blue-600/20">
             Get Access
-          </button>
+          </Link>
         </div>
 
         <button
@@ -114,10 +114,10 @@ export default function Navbar() {
                 <LayoutDashboard className="w-4 h-4" /> Dashboard
               </Link>
             )}
-            <button className="text-left text-sm font-medium text-slate-600">Sign In</button>
-            <button className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold">
+            <Link to="/login" className="text-left text-sm font-medium text-slate-600">Sign In</Link>
+            <Link to="/register" className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold">
               Get Access
-            </button>
+            </Link>
           </div>
         </div>
       )}

@@ -4,15 +4,18 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LogIn, Mail, Lock, Loader2 } from "lucide-react";
+import { LogIn, Mail, Lock, Loader2, Phone, ArrowLeft } from "lucide-react";
 import AuthLayout from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
+import AppleIcon from "@/components/AppleIcon";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState("main"); // main | phone
+  const [phone, setPhone] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +35,39 @@ export default function Login() {
     base44.auth.loginWithProvider("google", "/");
   };
 
+  const handleApple = () => {
+    base44.auth.loginWithProvider("apple", "/");
+  };
+
+  if (mode === "phone") {
+    return (
+      <AuthLayout
+        icon={Phone}
+        title="Sign in with phone"
+        subtitle="Enter your phone number to receive a code"
+        footer={
+          <button
+            onClick={() => { setMode("main"); setError(""); }}
+            className="text-primary font-medium hover:underline flex items-center gap-1"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" /> Back to all options
+          </button>
+        }
+      >
+        <p className="text-sm text-muted-foreground mb-6 text-center">
+          Phone authentication requires additional setup. Contact support to enable it.
+        </p>
+        <Button
+          variant="outline"
+          className="w-full h-12 font-medium"
+          onClick={() => setMode("main")}
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" /> Back
+        </Button>
+      </AuthLayout>
+    );
+  }
+
   return (
     <AuthLayout
       icon={LogIn}
@@ -46,14 +82,32 @@ export default function Login() {
         </>
       }
     >
-      <Button
-        variant="outline"
-        className="w-full h-12 text-sm font-medium mb-6"
-        onClick={handleGoogle}
-      >
-        <GoogleIcon className="w-5 h-5 mr-2" />
-        Continue with Google
-      </Button>
+      <div className="space-y-3 mb-6">
+        <Button
+          variant="outline"
+          className="w-full h-12 text-sm font-medium"
+          onClick={handleGoogle}
+        >
+          <GoogleIcon className="w-5 h-5 mr-2" />
+          Continue with Google
+        </Button>
+        <Button
+          variant="outline"
+          className="w-full h-12 text-sm font-medium"
+          onClick={handleApple}
+        >
+          <AppleIcon className="w-5 h-5 mr-2" />
+          Continue with Apple
+        </Button>
+        <Button
+          variant="outline"
+          className="w-full h-12 text-sm font-medium"
+          onClick={() => setMode("phone")}
+        >
+          <Phone className="w-4 h-4 mr-2" />
+          Continue with Phone
+        </Button>
+      </div>
 
       <div className="relative mb-6">
         <div className="absolute inset-0 flex items-center">

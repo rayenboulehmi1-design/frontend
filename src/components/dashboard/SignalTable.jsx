@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowUpDown, MapPin, Building2 } from "lucide-react";
 
 const CATEGORY_STYLES = {
@@ -8,6 +9,7 @@ const CATEGORY_STYLES = {
 };
 
 export default function SignalTable({ signals, loading }) {
+  const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("time_ago");
   const [sortDir, setSortDir] = useState("desc");
 
@@ -74,7 +76,7 @@ export default function SignalTable({ signals, loading }) {
           </thead>
           <tbody>
             {sorted.map((signal) => (
-              <tr key={signal.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+              <tr key={signal.id} onClick={() => navigate(`/opportunities/${signal.id}`)} className="border-b border-slate-50 hover:bg-blue-50/40 transition-colors cursor-pointer">
                 <td className="px-5 py-3 max-w-xs">
                   <p className="font-medium text-slate-900 truncate">{signal.title}</p>
                 </td>

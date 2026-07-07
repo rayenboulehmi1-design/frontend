@@ -83,7 +83,7 @@ export default function Navbar() {
           <Link to="/login" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
             Sign In
           </Link>
-          <Link to="/command-center" className="px-5 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm shadow-blue-600/20">
+          <Link to="/dashboard" className="px-5 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm shadow-blue-600/20">
             Get Access
           </Link>
         </div>
@@ -115,7 +115,7 @@ export default function Navbar() {
               </Link>
             )}
             <Link to="/login" className="text-left text-sm font-medium text-slate-600">Sign In</Link>
-            <Link to="/command-center" className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold">
+            <Link to="/dashboard" className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold">
               Get Access
             </Link>
           </div>

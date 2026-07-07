@@ -16,6 +16,13 @@ import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import ForgotPassword from '@/pages/ForgotPassword';
 import ResetPassword from '@/pages/ResetPassword';
+import DashboardLayout from '@/components/dashboard/DashboardLayout';
+import OpportunityDetail from '@/pages/OpportunityDetail';
+import SavedOpportunities from '@/pages/SavedOpportunities';
+import Alerts from '@/pages/Alerts';
+import Profile from '@/pages/Profile';
+import Settings from '@/pages/Settings';
+import { Navigate } from 'react-router-dom';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -51,9 +58,16 @@ const AuthenticatedApp = () => {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/intelligence-feed" element={<IntelligenceFeed />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/command-center" element={<CommandCenter />} />
       </Route>
+      <Route element={<DashboardLayout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/opportunities/:id" element={<OpportunityDetail />} />
+        <Route path="/saved" element={<SavedOpportunities />} />
+        <Route path="/alerts" element={<Alerts />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
+      </Route>
+      <Route path="/command-center" element={<Navigate to="/dashboard" replace />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

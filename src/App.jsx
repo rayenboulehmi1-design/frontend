@@ -10,6 +10,8 @@ import ScrollToTop from './components/ScrollToTop';
 import Layout from '@/components/layout/Layout';
 import Home from '@/pages/Home';
 import IntelligenceFeed from '@/pages/IntelligenceFeed';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import TermsOfService from '@/pages/TermsOfService';
 import Dashboard from '@/pages/Dashboard';
 import CommandCenter from '@/pages/CommandCenter';
 import Login from '@/pages/Login';
@@ -60,6 +62,8 @@ const AuthenticatedApp = () => {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/intelligence-feed" element={<IntelligenceFeed />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
       </Route>
       <Route element={<DashboardLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />

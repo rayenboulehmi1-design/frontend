@@ -11,6 +11,7 @@ import Layout from '@/components/layout/Layout';
 import Home from '@/pages/Home';
 import IntelligenceFeed from '@/pages/IntelligenceFeed';
 import Dashboard from '@/pages/Dashboard';
+import CommandCenter from '@/pages/CommandCenter';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -43,6 +44,7 @@ const AuthenticatedApp = () => {
         <Route path="/" element={<Home />} />
         <Route path="/intelligence-feed" element={<IntelligenceFeed />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/command-center" element={<CommandCenter />} />
       </Route>
       <Route path="*" element={<PageNotFound />} />
     </Routes>

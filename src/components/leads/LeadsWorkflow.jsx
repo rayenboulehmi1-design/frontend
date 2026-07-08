@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Search, Building2, UserCheck, Mail, ShieldCheck, Sparkles, GitBranch, ArrowRight } from "lucide-react";
+import { Search, Building2, UserCheck, Mail, ShieldCheck, Sparkles, GitBranch, ArrowRight, Gauge } from "lucide-react";
 import { useDemoLink } from "@/lib/demoMode";
 import { useEntitlement } from "@/hooks/useEntitlement";
 import LockedFeature from "@/components/entitlement/LockedFeature";
@@ -12,6 +12,7 @@ const WORKFLOW_STEPS = [
   { label: "Find Decision Makers", icon: UserCheck, desc: "Discover key decision makers at matched companies" },
   { label: "Contact Enrichment", icon: Mail, desc: "Gather public business contact information" },
   { label: "Verification", icon: ShieldCheck, desc: "Verify contact details and data quality" },
+  { label: "Lead Relevance", icon: Gauge, desc: "Score how strongly the verified company and decision maker match the source opportunity" },
   { label: "Outreach Assistance", icon: Sparkles, desc: "Generate AI-powered outreach from verified data only" },
   { label: "Add to CRM", icon: GitBranch, desc: "Track the lead through your pipeline to outcome" },
 ];

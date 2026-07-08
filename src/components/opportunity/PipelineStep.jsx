@@ -1,6 +1,15 @@
 import React from "react";
 
-export default function PipelineStep({ number, title, icon: Icon, isLast = false, compact = false, children }) {
+const ownerStyles = {
+  engine: { label: "Intelligence Engine", className: "bg-blue-50 text-blue-600 border-blue-100" },
+  ai: { label: "AI Assistant", className: "bg-violet-50 text-violet-600 border-violet-100" },
+  future: { label: "Future Module", className: "bg-slate-100 text-slate-500 border-slate-200" },
+  action: { label: "Action", className: "bg-emerald-50 text-emerald-600 border-emerald-100" },
+};
+
+export default function PipelineStep({ number, title, icon: Icon, owner, isLast = false, compact = false, children }) {
+  const ownerInfo = owner ? ownerStyles[owner] : null;
+
   if (compact) {
     return (
       <div className="relative flex gap-4">
@@ -10,9 +19,14 @@ export default function PipelineStep({ number, title, icon: Icon, isLast = false
           </div>
           {!isLast && <div className="w-px flex-1 bg-slate-200 min-h-[0.75rem] my-1" />}
         </div>
-        <div className={`flex-1 flex items-center gap-2.5 ${isLast ? "pb-0" : "pb-3"}`}>
+        <div className={`flex-1 flex items-center gap-2.5 flex-wrap ${isLast ? "pb-0" : "pb-3"}`}>
           {Icon && <Icon className="w-4 h-4 text-slate-400 shrink-0" />}
           <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wide shrink-0">{title}</h3>
+          {ownerInfo && (
+            <span className={`px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase tracking-wide border ${ownerInfo.className}`}>
+              {ownerInfo.label}
+            </span>
+          )}
           <div className="flex-1 flex justify-end">{children}</div>
         </div>
       </div>
@@ -28,9 +42,14 @@ export default function PipelineStep({ number, title, icon: Icon, isLast = false
         {!isLast && <div className="w-px flex-1 bg-gradient-to-b from-slate-200 to-slate-100 min-h-[1.5rem] my-1" />}
       </div>
       <div className={`flex-1 ${isLast ? "pb-0" : "pb-6"}`}>
-        <div className="flex items-center gap-2 mb-2.5">
-          {Icon && <Icon className="w-4 h-4 text-slate-400" />}
+        <div className="flex items-center gap-2 mb-2.5 flex-wrap">
+          {Icon && <Icon className="w-4 h-4 text-slate-400 shrink-0" />}
           <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wide">{title}</h3>
+          {ownerInfo && (
+            <span className={`px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase tracking-wide border ${ownerInfo.className}`}>
+              {ownerInfo.label}
+            </span>
+          )}
         </div>
         {children}
       </div>

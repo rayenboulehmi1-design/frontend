@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import {
   Target, Sparkles, Gauge, ShieldCheck, FileSearch, Lightbulb,
   Users, UserCheck, Mail, Bookmark, Radar, Bell, PieChart,
-  Share2, Loader2, Check, MapPin, Building2, Clock,
+  Share2, Loader2, Check, MapPin, Building2, Clock, ExternalLink,
+  TrendingUp, Calendar, Tag,
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
@@ -13,12 +14,56 @@ import { useDemoLink } from "@/lib/demoMode";
 import ConfidenceBadge from "@/components/dashboard/ConfidenceBadge";
 import LockedFeature from "@/components/entitlement/LockedFeature";
 import PipelineStep from "@/components/opportunity/PipelineStep";
+import EnginePlaceholder from "@/components/opportunity/EnginePlaceholder";
 
 const categoryStyles = {
   "Real Estate": { badge: "bg-blue-50 text-blue-700 border-blue-100" },
   Investment: { badge: "bg-emerald-50 text-emerald-700 border-emerald-100" },
   Business: { badge: "bg-violet-50 text-violet-700 border-violet-100" },
 };
+
+// ─── Future module placeholder ───
+function FutureModulePlaceholder({ icon: Icon, description }) {
+  return (
+    <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 p-5 text-center">
+      {Icon && <Icon className="w-8 h-8 text-slate-300 mx-auto mb-2" />}
+      <p className="text-sm font-medium text-slate-500">Coming Soon</p>
+      <p className="text-xs text-slate-400 mt-1 max-w-xs mx-auto">{description}</p>
+    </div>
+  );
+}
+
+// ─── Engine confidence reasoning (derived from engine states, NOT AI) ───
+function getConfidenceReasoning(signal) {
+  const reasons = [];
+  if (signal.verificationStatus === "VERIFIED") reasons.push("Source verified by the Intelligence Engine");
+  if (signal.corroborationState === "CORROBORATED") reasons.push("Corroborated across multiple independent sources");
+  if (signal.corroborationState === "SINGLE_SOURCE") reasons.push("Based on a single source — further corroboration pending");
+  if (signal.freshnessState === "FRESH") reasons.push("Signal is fresh — detected recently");
+  if (signal.freshnessState === "RECENT") reasons.push("Signal is recent");
+  if (signal.sourceType) reasons.push(`Sourced from ${signal.sourceType}`);
+  return reasons;
+}
+
+// ─── Engine evidence items (derived from engine data, NOT AI) ───
+function getEvidenceItems(signal) {
+  const items = [];
+  if (signal.sourceType) {
+    items.push({ type: signal.sourceType, description: signal.explanation || signal.summary || "Source detected by the Intelligence Engine", url: signal.sourceUrl });
+  }
+  if (signal.signals && signal.signals.length > 0) {
+    signal.signals.forEach((tag) => {
+      items.push({ type: "Signal Indicator", description: tag, url: null });
+    });
+  }
+  if (signal.verificationStatus) {
+    items.push({ type: "Verification", description: `Verification status: ${signal.verificationStatus}`, url: null });
+  }
+  if (signal.corroborationState) {
+    items.push({ type: "Corroboration", description: `Corroboration: ${signal.corroborationState}`, url: null });
+  }
+  return items;
+}
 
 export default function OpportunityPipeline({ signal }) {
   const demoLink = useDemoLink();
@@ -36,59 +81,50 @@ export default function OpportunityPipeline({ signal }) {
 
   const style = categoryStyles[signal.category] || categoryStyles["Real Estate"];
   const aiAccess = checkAccess("aiAnalysis");
+  const scoreAccess = checkAccess("confidenceScores");
+  const evidenceAccess = checkAccess("evidenceAndSources");
+  const detailsAccess = checkAccess("opportunityDetails");
+  const leadsAccess = checkAccess("leadsProvider");
+  const outreachAccess = checkAccess("aiOutreachAssistance");
   const crmAccess = checkAccess("opportunityCRM");
-  const score = signal.confidence;
 
-  // ─── AI Analysis ───
+  const confidenceScore = signal.confidence;
+  const confidenceReasons = getConfidenceReasoning(signal);
+  const evidenceItems = getEvidenceItems(signal);
+
+  // ─── AI Assistant: Executive Brief + Why It Matters ───
+  // The AI ONLY explains verified engine output. It NEVER invents facts.
   const generateAnalysis = async () => {
     setLoading(true);
     setError(null);
     try {
       const result = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are ScoutyGo Intelligence. Analyze this business opportunity and provide structured insights.
+        prompt: `You are the ScoutyGo AI Intelligence Assistant. Your role is to EXPLAIN verified intelligence data. You must NEVER invent facts, evidence, sources, companies, people, or statistics.
 
-Title: ${signal.title}
-Category: ${signal.category}
-Location: ${signal.location}
-Entity: ${signal.entity_name || "N/A"}
-Summary: ${signal.summary || signal.explanation || "N/A"}
-Confidence: ${signal.confidence || "N/A"}%
+You are given the following VERIFIED Intelligence Engine output:
+- Title: ${signal.title}
+- Category: ${signal.category}
+- Location: ${signal.location}
+- Entity: ${signal.entity_name || "N/A"}
+- Summary: ${signal.summary || signal.explanation || "N/A"}
+- Confidence: ${signal.confidence || "N/A"}%
+- Source Type: ${signal.sourceType || "N/A"}
+- Verification: ${signal.verificationStatus || "N/A"}
+- Corroboration: ${signal.corroborationState || "N/A"}
+- Detected Signals: ${(signal.signals || []).join(", ") || "N/A"}
 
-Provide:
-1. ai_summary: A concise 2-3 sentence intelligent summary of what this opportunity is.
-2. ai_confidence: An object with:
-   - level: "High", "Moderate", or "Low"
-   - reasoning: 1-2 sentences explaining the confidence assessment based on available data.
-3. supporting_evidence: An array of 3-5 evidence items, each with:
-   - type: The type of evidence (e.g., "Public Filing", "News Source", "Market Data", "Registry Record", "Broker Activity")
-   - description: Brief description of what the evidence indicates.
-4. why_it_matters: 2-3 key reasons why this opportunity is significant right now.`,
+Provide ONLY the following:
+1. executive_brief: A concise 2-3 sentence executive-level explanation of what this opportunity is. Base this ONLY on the verified data above. Do not add details not present in the data.
+2. why_it_matters: 2-3 key reasons why this verified opportunity is significant right now. Base this ONLY on the provided evidence and signals.
+
+Do NOT invent companies, people, evidence, sources, or statistics that are not in the verified data above.`,
         response_json_schema: {
           type: "object",
           properties: {
-            ai_summary: { type: "string" },
-            ai_confidence: {
-              type: "object",
-              properties: {
-                level: { type: "string" },
-                reasoning: { type: "string" },
-              },
-              required: ["level", "reasoning"],
-            },
-            supporting_evidence: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  type: { type: "string" },
-                  description: { type: "string" },
-                },
-                required: ["type", "description"],
-              },
-            },
+            executive_brief: { type: "string" },
             why_it_matters: { type: "array", items: { type: "string" } },
           },
-          required: ["ai_summary", "ai_confidence", "supporting_evidence", "why_it_matters"],
+          required: ["executive_brief", "why_it_matters"],
         },
       });
       setAnalysis(result);
@@ -171,13 +207,13 @@ Provide:
       onClick={generateAnalysis}
       className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors"
     >
-      <Sparkles className="w-3.5 h-3.5" /> Generate AI Analysis
+      <Sparkles className="w-3.5 h-3.5" /> Generate Executive Brief
     </button>
   );
 
   const loadingEl = (
     <div className="flex items-center gap-2 text-sm text-slate-400 py-2">
-      <Loader2 className="w-4 h-4 animate-spin" /> Analyzing opportunity...
+      <Loader2 className="w-4 h-4 animate-spin" /> AI Assistant is analyzing verified intelligence...
     </div>
   );
 
@@ -194,31 +230,28 @@ Provide:
     </div>
   );
 
-  const futureCard = (icon, description) => (
-    <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 p-5 text-center">
-      {icon && React.createElement(icon, { className: "w-8 h-8 text-slate-300 mx-auto mb-2" })}
-      <p className="text-sm font-medium text-slate-500">Coming Soon</p>
-      <p className="text-xs text-slate-400 mt-1 max-w-xs mx-auto">{description}</p>
-    </div>
-  );
-
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-      {/* Step 1: Opportunity */}
-      <PipelineStep number={1} title="Opportunity" icon={Target}>
+      {/* ───────── Step 1: Opportunity (Intelligence Engine) ───────── */}
+      <PipelineStep number={1} title="Opportunity" icon={Target} owner="engine">
         <div className="rounded-2xl border border-slate-100 bg-white p-5">
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
             <span className={`px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide border ${style.badge}`}>
               {signal.category}
             </span>
             <span className="text-xs text-slate-400 flex items-center gap-1">
               <Clock className="w-3 h-3" /> {signal.time_ago}
             </span>
+            {signal.isNew && (
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-600 border border-rose-100">
+                NEW
+              </span>
+            )}
           </div>
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 leading-tight mb-3">
             {signal.title}
           </h1>
-          <div className="flex flex-wrap gap-4 text-sm">
+          <div className="flex flex-wrap gap-4 text-sm mb-3">
             <span className="flex items-center gap-1.5 text-slate-600">
               <MapPin className="w-3.5 h-3.5 text-slate-400" /> {signal.location}
             </span>
@@ -228,17 +261,40 @@ Provide:
               </span>
             )}
           </div>
+          {/* Engine metadata */}
+          <div className="flex flex-wrap gap-2 pt-3 border-t border-slate-50">
+            {signal.marketSize && (
+              <span className="inline-flex items-center gap-1 text-xs text-slate-500 bg-slate-50 px-2 py-1 rounded-lg">
+                <TrendingUp className="w-3 h-3" /> {signal.marketSize}
+              </span>
+            )}
+            {signal.timeline && (
+              <span className="inline-flex items-center gap-1 text-xs text-slate-500 bg-slate-50 px-2 py-1 rounded-lg">
+                <Calendar className="w-3 h-3" /> {signal.timeline}
+              </span>
+            )}
+            {signal.sourceType && (
+              <span className="inline-flex items-center gap-1 text-xs text-slate-500 bg-slate-50 px-2 py-1 rounded-lg">
+                <Tag className="w-3 h-3" /> {signal.sourceType}
+              </span>
+            )}
+            {signal.verificationStatus && (
+              <span className="inline-flex items-center gap-1 text-xs font-medium bg-emerald-50 text-emerald-700 px-2 py-1 rounded-lg">
+                <ShieldCheck className="w-3 h-3" /> {signal.verificationStatus}
+              </span>
+            )}
+          </div>
         </div>
       </PipelineStep>
 
-      {/* Step 2: AI Summary */}
-      <PipelineStep number={2} title="AI Summary" icon={Sparkles}>
+      {/* ───────── Step 2: Executive Intelligence Brief (AI Assistant) ───────── */}
+      <PipelineStep number={2} title="Executive Intelligence Brief" icon={Sparkles} owner="ai">
         {aiAccess === "LOCKED" || aiAccess === "PREVIEW" ? (
-          <LockedFeature featureKey="aiAnalysis" title="AI Summary" description="AI-powered summaries are available on Pro and higher plans.">
+          <LockedFeature featureKey="aiAnalysis" title="Executive Intelligence Brief" description="AI-powered executive briefs are available on Pro and higher plans.">
             <div className="h-8" />
           </LockedFeature>
         ) : analysis ? (
-          aiCard(<p className="text-slate-600 leading-relaxed">{analysis.ai_summary}</p>)
+          aiCard(<p className="text-slate-600 leading-relaxed">{analysis.executive_brief}</p>)
         ) : (
           <div className="rounded-2xl border border-slate-100 bg-white p-5">
             {(signal.summary || signal.explanation) && (
@@ -249,89 +305,115 @@ Provide:
         )}
       </PipelineStep>
 
-      {/* Step 3: Opportunity Score */}
-      <PipelineStep number={3} title="Opportunity Score" icon={Gauge}>
-        <div className="rounded-2xl border border-slate-100 bg-white p-5 flex items-center gap-5">
-          <ConfidenceBadge score={score} size="lg" />
-          <div>
-            <p className="text-2xl font-bold text-slate-900">
-              {score != null ? `${score}%` : "N/A"}
-            </p>
-            <p className="text-xs text-slate-500 mt-0.5">ScoutyGo Confidence Score</p>
-          </div>
-        </div>
-      </PipelineStep>
-
-      {/* Step 4: AI Confidence */}
-      <PipelineStep number={4} title="AI Confidence" icon={ShieldCheck}>
-        {aiAccess === "LOCKED" || aiAccess === "PREVIEW" ? (
-          <LockedFeature featureKey="aiAnalysis" title="AI Confidence" description="AI confidence assessment is available on Pro and higher plans.">
+      {/* ───────── Step 3: Opportunity Score (Intelligence Engine) ───────── */}
+      <PipelineStep number={3} title="Opportunity Score" icon={Gauge} owner="engine">
+        {scoreAccess === "LOCKED" ? (
+          <LockedFeature featureKey="confidenceScores" title="Opportunity Score" description="Opportunity scores are available on Pro and higher plans.">
             <div className="h-8" />
           </LockedFeature>
-        ) : (
-          aiCard(
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
-                  analysis.ai_confidence?.level === "High" ? "bg-emerald-50 text-emerald-700" :
-                  analysis.ai_confidence?.level === "Moderate" ? "bg-amber-50 text-amber-700" :
-                  "bg-rose-50 text-rose-700"
-                }`}>
-                  {analysis.ai_confidence?.level || "—"} Confidence
-                </span>
+        ) : confidenceScore != null ? (
+          <div className="rounded-2xl border border-slate-100 bg-white p-5 flex items-center gap-5">
+            <ConfidenceBadge score={confidenceScore} size="lg" />
+            <div className="flex-1">
+              <p className="text-2xl font-bold text-slate-900">{confidenceScore}%</p>
+              <p className="text-xs text-slate-500 mt-0.5">Business Attractiveness Score</p>
+              {/* Contributing factors from engine data */}
+              <div className="flex flex-wrap gap-1.5 mt-3">
+                {signal.marketSize && (
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
+                    Market: {signal.marketSize}
+                  </span>
+                )}
+                {signal.timeline && (
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                    Timeline: {signal.timeline}
+                  </span>
+                )}
+                {signal.category && (
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-violet-50 text-violet-700 border border-violet-100">
+                    {signal.category}
+                  </span>
+                )}
               </div>
-              <p className="text-sm text-slate-600 leading-relaxed">{analysis.ai_confidence?.reasoning}</p>
-              {(signal.verificationStatus || signal.corroborationState || signal.freshnessState) && (
-                <div className="flex flex-wrap gap-1.5 mt-3">
-                  {signal.verificationStatus && (
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
-                      {signal.verificationStatus}
-                    </span>
-                  )}
-                  {signal.corroborationState && (
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-50 text-blue-700 border border-blue-100">
-                      {signal.corroborationState}
-                    </span>
-                  )}
-                  {signal.freshnessState && (
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-50 text-amber-700 border border-amber-100">
-                      {signal.freshnessState}
-                    </span>
-                  )}
-                </div>
-              )}
             </div>
-          )
+          </div>
+        ) : (
+          <EnginePlaceholder message="Opportunity Score will be available when supported by the ScoutyGo Intelligence Engine." />
         )}
       </PipelineStep>
 
-      {/* Step 5: Supporting Evidence */}
-      <PipelineStep number={5} title="Supporting Evidence" icon={FileSearch}>
-        {aiAccess === "LOCKED" || aiAccess === "PREVIEW" ? (
-          <LockedFeature featureKey="aiAnalysis" title="Supporting Evidence" description="AI evidence analysis is available on Pro and higher plans.">
+      {/* ───────── Step 4: AI Confidence (Intelligence Engine) ───────── */}
+      <PipelineStep number={4} title="AI Confidence" icon={ShieldCheck} owner="engine">
+        {scoreAccess === "LOCKED" ? (
+          <LockedFeature featureKey="confidenceScores" title="AI Confidence" description="Confidence analysis is available on Pro and higher plans.">
             <div className="h-8" />
           </LockedFeature>
+        ) : confidenceScore != null ? (
+          <div className="rounded-2xl border border-slate-100 bg-white p-5">
+            <div className="flex items-center gap-3 mb-3">
+              <div className={`px-3 py-1 rounded-full text-sm font-bold ${
+                confidenceScore >= 75 ? "bg-emerald-50 text-emerald-700" :
+                confidenceScore >= 50 ? "bg-amber-50 text-amber-700" :
+                "bg-rose-50 text-rose-700"
+              }`}>
+                {confidenceScore}% Confidence
+              </div>
+              <span className="text-xs text-slate-400">Intelligence Engine Assessment</span>
+            </div>
+            {confidenceReasons.length > 0 ? (
+              <ul className="space-y-2">
+                {confidenceReasons.map((reason, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <ShieldCheck className="w-3.5 h-3.5 mt-0.5 text-slate-400 shrink-0" />
+                    <span className="text-sm text-slate-600">{reason}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-slate-400">Detailed confidence reasoning will be provided by the Intelligence Engine.</p>
+            )}
+          </div>
         ) : (
-          aiCard(
+          <EnginePlaceholder message="Confidence assessment will be available when supported by the ScoutyGo Intelligence Engine." />
+        )}
+      </PipelineStep>
+
+      {/* ───────── Step 5: Supporting Evidence (Intelligence Engine) ───────── */}
+      <PipelineStep number={5} title="Supporting Evidence" icon={FileSearch} owner="engine">
+        {evidenceAccess === "LOCKED" ? (
+          <LockedFeature featureKey="evidenceAndSources" title="Supporting Evidence" description="Evidence and sources are available on Pro and higher plans.">
+            <div className="h-8" />
+          </LockedFeature>
+        ) : evidenceItems.length > 0 ? (
+          <div className="rounded-2xl border border-slate-100 bg-white p-5">
             <div className="space-y-3">
-              {analysis.supporting_evidence?.map((item, i) => (
+              {evidenceItems.map((item, i) => (
                 <div key={i} className="flex items-start gap-3">
                   <div className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
                     <FileSearch className="w-3.5 h-3.5 text-slate-500" />
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">{item.type}</p>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-medium text-slate-900">{item.type}</p>
+                      {item.url && (
+                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                    </div>
                     <p className="text-xs text-slate-500 mt-0.5">{item.description}</p>
                   </div>
                 </div>
               ))}
             </div>
-          )
+          </div>
+        ) : (
+          <EnginePlaceholder message="Supporting evidence will be available when provided by the ScoutyGo Intelligence Engine." />
         )}
       </PipelineStep>
 
-      {/* Step 6: Why It Matters */}
-      <PipelineStep number={6} title="Why It Matters" icon={Lightbulb}>
+      {/* ───────── Step 6: Why It Matters (AI Assistant) ───────── */}
+      <PipelineStep number={6} title="Why It Matters" icon={Lightbulb} owner="ai">
         {aiAccess === "LOCKED" || aiAccess === "PREVIEW" ? (
           <LockedFeature featureKey="aiAnalysis" title="Why It Matters" description="AI significance analysis is available on Pro and higher plans.">
             <div className="h-8" />
@@ -350,23 +432,41 @@ Provide:
         )}
       </PipelineStep>
 
-      {/* Step 7: Potential Buyers (future) */}
-      <PipelineStep number={7} title="Potential Buyers" icon={Users}>
-        {futureCard(Users, "AI-powered buyer identification will automatically match this opportunity to likely investor and buyer profiles.")}
+      {/* ───────── Step 7: Potential Buyers (Future Leads Engine) ───────── */}
+      <PipelineStep number={7} title="Potential Buyers" icon={Users} owner="future">
+        {leadsAccess === "LOCKED" ? (
+          <LockedFeature featureKey="leadsProvider" title="Potential Buyers" description="Buyer identification is available on Pro+ and higher plans.">
+            <div className="h-8" />
+          </LockedFeature>
+        ) : (
+          <FutureModulePlaceholder icon={Users} description="AI-powered buyer identification will automatically match this opportunity to likely investor and buyer profiles." />
+        )}
       </PipelineStep>
 
-      {/* Step 8: Decision Makers (future) */}
-      <PipelineStep number={8} title="Decision Makers" icon={UserCheck}>
-        {futureCard(UserCheck, "The Leads Provider Agent will discover and verify key decision makers associated with this opportunity.")}
+      {/* ───────── Step 8: Decision Makers (Future Leads Engine) ───────── */}
+      <PipelineStep number={8} title="Decision Makers" icon={UserCheck} owner="future">
+        {leadsAccess === "LOCKED" ? (
+          <LockedFeature featureKey="leadsProvider" title="Decision Makers" description="Decision maker discovery is available on Pro+ and higher plans.">
+            <div className="h-8" />
+          </LockedFeature>
+        ) : (
+          <FutureModulePlaceholder icon={UserCheck} description="The Leads Intelligence Engine will discover and verify key decision makers associated with this opportunity." />
+        )}
       </PipelineStep>
 
-      {/* Step 9: Suggested Outreach (future) */}
-      <PipelineStep number={9} title="Suggested Outreach" icon={Mail}>
-        {futureCard(Mail, "AI outreach assistance will generate personalized outreach strategies and messaging for decision makers.")}
+      {/* ───────── Step 9: Suggested Outreach (Future AI Assistant) ───────── */}
+      <PipelineStep number={9} title="Suggested Outreach" icon={Mail} owner="future">
+        {outreachAccess === "LOCKED" ? (
+          <LockedFeature featureKey="aiOutreachAssistance" title="Suggested Outreach" description="AI outreach assistance is available on Pro+ and higher plans.">
+            <div className="h-8" />
+          </LockedFeature>
+        ) : (
+          <FutureModulePlaceholder icon={Mail} description="AI outreach assistance will generate personalized outreach strategies after verified leads and decision makers are identified." />
+        )}
       </PipelineStep>
 
-      {/* Step 10: Save */}
-      <PipelineStep number={10} title="Save" icon={Bookmark} compact>
+      {/* ───────── Step 10: Save (Frontend + Backend) ───────── */}
+      <PipelineStep number={10} title="Save" icon={Bookmark} owner="action" compact>
         <div className="flex items-center gap-2">
           {saved && <span className="text-xs text-blue-600 font-medium">Saved</span>}
           <button
@@ -381,8 +481,8 @@ Provide:
         </div>
       </PipelineStep>
 
-      {/* Step 11: Create AI Mission */}
-      <PipelineStep number={11} title="Create AI Mission" icon={Radar} compact>
+      {/* ───────── Step 11: Create AI Mission (Frontend + Backend) ───────── */}
+      <PipelineStep number={11} title="Create AI Mission" icon={Radar} owner="action" compact>
         <div className="flex items-center gap-2">
           {missionCreated && (
             <Link to={demoLink("/missions")} className="text-xs text-blue-600 font-medium hover:underline">View Missions</Link>
@@ -399,8 +499,8 @@ Provide:
         </div>
       </PipelineStep>
 
-      {/* Step 12: Track */}
-      <PipelineStep number={12} title="Track" icon={Bell} compact>
+      {/* ───────── Step 12: Track (Frontend + Backend) ───────── */}
+      <PipelineStep number={12} title="Track" icon={Bell} owner="action" compact>
         <div className="flex items-center gap-2">
           {tracked && (
             <Link to={demoLink("/alerts")} className="text-xs text-blue-600 font-medium hover:underline">View Alerts</Link>
@@ -417,8 +517,8 @@ Provide:
         </div>
       </PipelineStep>
 
-      {/* Step 13: Add to CRM */}
-      <PipelineStep number={13} title="Add to CRM" icon={PieChart} compact isLast>
+      {/* ───────── Step 13: Add to CRM (Future Backend) ───────── */}
+      <PipelineStep number={13} title="Add to CRM" icon={PieChart} owner="action" compact isLast>
         {crmAccess === "LOCKED" ? (
           <Link
             to={demoLink("/account-overview")}

@@ -56,17 +56,38 @@ Deno.serve(async (req) => {
 });
 
 function mapOpportunityToSignal(opp) {
-  const detectedAt = opp.detectedAt || (opp.createdAt ? new Date(opp.createdAt).getTime() : Date.now());
+  const detectedAt = opp.detectedAt || opp.detectedTimestamp || (opp.createdAt ? new Date(opp.createdAt).getTime() : Date.now());
+  const rawCountry = opp.country || (opp.location && opp.location.country);
+  const rawCity = opp.city || (opp.location && opp.location.city);
+  const country = (rawCountry && rawCountry !== 'Unknown' && rawCountry !== 'unknown') ? rawCountry : null;
+  const city = (rawCity && rawCity !== 'Unknown' && rawCity !== 'unknown') ? rawCity : null;
+
   return {
     id: opp.id,
-    title: opp.title || 'Untitled Signal',
+    title: opp.title || opp.company || 'Untitled Signal',
+    company: opp.company || opp.title || null,
     category: mapCategory(opp),
+    type: opp.type || opp.opportunityType || mapCategory(opp),
     location: formatLocation(opp),
+    country,
+    city,
     entity_name: opp.company || null,
     time_ago: formatTimeAgo(detectedAt),
-    confidence: typeof opp.confidenceScore === 'number' ? opp.confidenceScore : null,
+    confidence: typeof opp.confidenceScore === 'number' ? opp.confidenceScore : (typeof opp.confidence === 'number' ? opp.confidence : null),
     summary: opp.summary ? opp.summary.substring(0, 280) : null,
+    explanation: opp.explanation || opp.summary || opp.executiveSummary || null,
+    signals: Array.isArray(opp.signals) ? opp.signals : (Array.isArray(opp.signalTags) ? opp.signalTags : []),
+    timeline: opp.timeline || opp.estimatedTimeline || null,
+    marketSize: opp.marketSize || null,
     created_date: new Date(detectedAt).toISOString(),
+    detected_timestamp: detectedAt,
+    sourceType: opp.sourceType || null,
+    sourceUrl: opp.sourceUrl || null,
+    verificationStatus: opp.verificationStatus || null,
+    freshnessState: opp.freshnessState || null,
+    corroborationState: opp.corroborationState || null,
+    realEstateDetails: opp.realEstateDetails || null,
+    isNew: false,
   };
 }
 

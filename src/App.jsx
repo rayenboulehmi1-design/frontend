@@ -26,6 +26,7 @@ import Profile from '@/pages/Profile';
 import Settings from '@/pages/Settings';
 import AccountOverview from '@/pages/AccountOverview';
 import DataExport from '@/pages/DataExport';
+import ComingSoon from '@/pages/ComingSoon';
 import { Navigate } from 'react-router-dom';
 
 const AuthenticatedApp = () => {
@@ -74,6 +75,13 @@ const AuthenticatedApp = () => {
         <Route path="/data-export" element={<DataExport />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/missions" element={<ComingSoon title="Missions" description="Persistent saved searches that continuously scan for new opportunities matching your criteria — targeting your markets, industries, and keywords with confidence thresholds." />} />
+        <Route path="/off-plan" element={<ComingSoon title="Off-Plan Intel" description="Off-plan development intelligence — track upcoming launches, developer activity, and planning approvals across markets." />} />
+        <Route path="/property-records" element={<ComingSoon title="Property Records" description="Raw property and permit records sourced from public registries and planning portals." />} />
+        <Route path="/developers" element={<ComingSoon title="Developers" description="Developer profiles and track records — active projects, historical launches, and market presence." />} />
+        <Route path="/geo-intelligence" element={<ComingSoon title="Country & City Intelligence" description="Geographic intelligence breakdown — activity patterns, market trends, and opportunity density by region." />} />
+        <Route path="/watchlist" element={<ComingSoon title="Watchlist" description="Real-estate-specific watch targets — monitor properties, developments, and areas of interest." />} />
+        <Route path="/admin" element={<ComingSoon title="Admin Panel" description="Pipeline administration panel — manage data sources, monitor ingestion, and configure system settings." />} />
       </Route>
       <Route path="/command-center" element={<Navigate to="/dashboard" replace />} />
       <Route path="*" element={<PageNotFound />} />

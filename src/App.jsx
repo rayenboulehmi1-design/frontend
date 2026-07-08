@@ -27,6 +27,8 @@ import Settings from '@/pages/Settings';
 import AccountOverview from '@/pages/AccountOverview';
 import DataExport from '@/pages/DataExport';
 import ComingSoon from '@/pages/ComingSoon';
+import Missions from '@/pages/Missions';
+import MissionDetail from '@/pages/MissionDetail';
 import Leads from '@/pages/Leads';
 import CRM from '@/pages/CRM';
 import DemoLayout from '@/components/dashboard/DemoLayout';
@@ -86,7 +88,8 @@ const AuthenticatedApp = () => {
         <Route path="/data-export" element={<DataExport />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/missions" element={<ComingSoon title="Missions" description="Persistent saved searches that continuously scan for new opportunities matching your criteria — targeting your markets, industries, and keywords with confidence thresholds." />} />
+        <Route path="/missions" element={<Missions />} />
+        <Route path="/missions/:id" element={<MissionDetail />} />
         <Route path="/off-plan" element={<ComingSoon title="Off-Plan Intel" description="Off-plan development intelligence — track upcoming launches, developer activity, and planning approvals across markets." />} />
         <Route path="/property-records" element={<ComingSoon title="Property Records" description="Raw property and permit records sourced from public registries and planning portals." />} />
         <Route path="/developers" element={<ComingSoon title="Developers" description="Developer profiles and track records — active projects, historical launches, and market presence." />} />
@@ -106,7 +109,8 @@ const AuthenticatedApp = () => {
         <Route path="/demo-profile" element={<DemoProfile />} />
         <Route path="/demo-settings" element={<DemoSettings />} />
         <Route path="/demo-account" element={<DemoAccountOverview />} />
-        <Route path="/demo-missions" element={<ComingSoon title="Missions" description="Persistent saved searches that continuously scan for new opportunities matching your criteria." />} />
+        <Route path="/demo-missions" element={<Missions />} />
+        <Route path="/demo-missions/:id" element={<MissionDetail />} />
         <Route path="/demo-off-plan" element={<ComingSoon title="Off-Plan Intel" description="Off-plan development intelligence — track upcoming launches, developer activity, and planning approvals." />} />
         <Route path="/demo-property-records" element={<ComingSoon title="Property Records" description="Raw property and permit records sourced from public registries." />} />
         <Route path="/demo-developers" element={<ComingSoon title="Developers" description="Developer profiles and track records." />} />

@@ -218,7 +218,7 @@ export default function Dashboard() {
           </div>
 
           {/* D. Active AI Missions */}
-          <ActiveMissions />
+          <ActiveMissions signals={signals} />
 
           {/* E. Watchlist Activity */}
           <WatchlistActivity signals={signals} />

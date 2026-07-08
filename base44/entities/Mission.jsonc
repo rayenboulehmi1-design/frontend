@@ -1,0 +1,136 @@
+{
+  "name": "Mission",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Mission name"
+    },
+    "objective": {
+      "type": "string",
+      "description": "Natural language business objective describing what the mission is searching for"
+    },
+    "industry": {
+      "type": "string",
+      "description": "Industry focus (e.g. Hospitality, Construction, Logistics)"
+    },
+    "countries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Target countries to monitor"
+    },
+    "regions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Target regions to monitor"
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Opportunity categories to match (Real Estate, Investment, Business)"
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Keywords to match against opportunity text"
+    },
+    "excluded_keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Keywords to exclude from matches"
+    },
+    "company_names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Specific company names to track"
+    },
+    "opportunity_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Opportunity types to match"
+    },
+    "min_confidence": {
+      "type": "number",
+      "description": "Minimum confidence threshold (0-100)",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "paused",
+        "completed",
+        "archived"
+      ],
+      "default": "running",
+      "description": "Mission execution status"
+    },
+    "priority_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "medium",
+      "description": "Mission priority level"
+    },
+    "notification_preference": {
+      "type": "string",
+      "enum": [
+        "immediate",
+        "daily",
+        "weekly",
+        "disabled"
+      ],
+      "default": "immediate",
+      "description": "How often the user receives match notifications"
+    },
+    "last_scan": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the last engine scan"
+    },
+    "last_match": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the last matched opportunity"
+    },
+    "matches_found": {
+      "type": "number",
+      "default": 0,
+      "description": "Total opportunities matched by the engine"
+    },
+    "saved_opportunities": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of matched opportunities the user saved"
+    },
+    "plan_owner": {
+      "type": "string",
+      "description": "Plan tier of the mission owner"
+    },
+    "source_opportunity_id": {
+      "type": "string",
+      "description": "ID of the opportunity this mission was created from (if applicable)"
+    }
+  },
+  "required": [
+    "name",
+    "objective"
+  ]
+}

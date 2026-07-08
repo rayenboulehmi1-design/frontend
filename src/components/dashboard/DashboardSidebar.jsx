@@ -12,7 +12,7 @@ const navGroups = [
     label: "Intelligence",
     items: [
       { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
-      { label: "Missions", path: "/missions", icon: Radar, badge: "Core" },
+      { label: "AI Missions", path: "/missions", icon: Radar, badge: "Core" },
       { label: "Intelligence Feed", path: "/intelligence-feed", icon: Radio },
       { label: "Watchlist", path: "/watchlist", icon: Bookmark },
     ],

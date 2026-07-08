@@ -9,7 +9,7 @@ import { getStoredMarket, setStoredMarket } from "@/components/dashboard/MarketS
 
 import DailyIntelligenceBriefing from "@/components/dashboard/DailyIntelligenceBriefing";
 import WatchlistModule from "@/components/dashboard/WatchlistModule";
-import MissionsModule from "@/components/dashboard/MissionsModule";
+import ActiveMissions from "@/components/dashboard/ActiveMissions";
 import LiveActivityBar from "@/components/dashboard/LiveActivityBar";
 import EnhancedFilterBar from "@/components/dashboard/EnhancedFilterBar";
 import DealCard from "@/components/dashboard/DealCard";
@@ -141,7 +141,7 @@ export default function DemoDashboard() {
     <div className="p-5 md:p-8 lg:p-10 max-w-7xl mx-auto space-y-6">
       <DailyIntelligenceBriefing signals={signals} user={user} loading={false} dataStatus="success" lastUpdated={new Date().toISOString()} />
       <WatchlistModule />
-      <MissionsModule />
+      <ActiveMissions signals={signals} />
       <LiveActivityBar liveCount={signals.length} />
 
       <div className="flex items-center justify-between flex-wrap gap-3 pt-2">

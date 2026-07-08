@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Radar } from "lucide-react";
 import { DEMO_SIGNALS } from "@/lib/demoData";
 import { useDemoLink } from "@/lib/demoMode";
 import OpportunityPipeline from "@/components/opportunity/OpportunityPipeline";
 import SignalCard from "@/components/SignalCard";
+import CreateMissionWizard from "@/components/missions/CreateMissionWizard";
 
 export default function DemoOpportunityDetail() {
   const { id } = useParams();
   const demoLink = useDemoLink();
+  const [missionWizardOpen, setMissionWizardOpen] = useState(false);
 
   const signal = DEMO_SIGNALS.find((s) => s.id === id);
 
@@ -31,6 +33,18 @@ export default function DemoOpportunityDetail() {
         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
       </Link>
 
+      <div className="mb-6">
+        <button
+          onClick={() => setMissionWizardOpen(true)}
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors"
+        >
+          <Radar className="w-4 h-4" /> Create AI Mission from this Opportunity
+        </button>
+        <p className="text-xs text-slate-400 mt-2">
+          ScoutyGo will continuously monitor for opportunities similar to this one
+        </p>
+      </div>
+
       <OpportunityPipeline signal={signal} />
 
       {related.length > 0 && (
@@ -43,6 +57,22 @@ export default function DemoOpportunityDetail() {
           </div>
         </div>
       )}
+      <CreateMissionWizard
+        open={missionWizardOpen}
+        onClose={() => setMissionWizardOpen(false)}
+        prefill={{
+          objective: signal.title
+            ? `Find opportunities similar to: ${signal.title}${signal.country ? ` in ${signal.country}` : ""}`
+            : signal.country
+            ? `Monitor opportunities in ${signal.country}`
+            : "",
+          industry: signal.category || "",
+          countries: signal.country ? [signal.country] : [],
+          categories: signal.category ? [signal.category] : [],
+          keywords: [signal.company, signal.entity_name].filter(Boolean),
+          source_opportunity_id: signal.id,
+        }}
+      />
     </div>
   );
 }

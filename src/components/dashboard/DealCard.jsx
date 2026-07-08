@@ -22,40 +22,42 @@ export default function DealCard({ deal }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.3 }}
-      className="relative rounded-2xl border border-border bg-card p-5 hover:shadow-xl hover:border-primary/30 transition-all flex flex-col"
+      className="relative rounded-2xl border border-slate-100 bg-white p-5 hover:shadow-xl hover:border-slate-200 transition-all flex flex-col"
     >
+      {/* NEW badge */}
       <AnimatePresence>
         {deal.isNew && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            className="absolute -top-2.5 -right-2.5 z-10 px-2.5 py-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center gap-1 shadow-lg"
+            className="absolute -top-2.5 -right-2.5 z-10 px-2.5 py-1 rounded-full bg-blue-600 text-white text-[10px] font-bold flex items-center gap-1 shadow-lg"
           >
             ✨ NEW
           </motion.div>
         )}
       </AnimatePresence>
 
+      {/* Header: type + company + confidence */}
       <div className="flex items-start justify-between gap-3 mb-4">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 mb-2 flex-wrap">
             <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border ${typeStyle.badge}`}>
               {deal.type || deal.category}
             </span>
-            <span className="text-xs text-muted-foreground/70 flex items-center gap-1">
+            <span className="text-xs text-slate-400 flex items-center gap-1">
               <MapPin className="w-3 h-3" /> {locationText}
             </span>
           </div>
-          <h3 className="font-bold text-foreground text-base leading-snug">
+          <h3 className="font-bold text-slate-900 text-base leading-snug">
             {deal.company || deal.entity_name || deal.title}
           </h3>
-          <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground/70">
+          <div className="flex items-center gap-2 mt-1 text-xs text-slate-400">
             <Clock className="w-3 h-3" /> {detectedText}
             {deal.marketSize && (
               <>
-                <span className="text-muted-foreground/30">·</span>
-                <span className="font-medium text-muted-foreground">{deal.marketSize}</span>
+                <span className="text-slate-300">·</span>
+                <span className="font-medium text-slate-500">{deal.marketSize}</span>
               </>
             )}
           </div>
@@ -63,22 +65,24 @@ export default function DealCard({ deal }) {
         <ConfidenceBadge score={deal.confidence} size="md" />
       </div>
 
+      {/* AI Analysis */}
       {analysisText && (
-        <div className="rounded-xl bg-muted p-3 mb-3">
+        <div className="rounded-xl bg-slate-50 p-3 mb-3">
           <div className="flex items-center gap-1.5 mb-1.5">
-            <Brain className="w-3.5 h-3.5 text-primary" />
-            <span className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">AI Analysis</span>
+            <Brain className="w-3.5 h-3.5 text-blue-600" />
+            <span className="text-[10px] font-bold uppercase tracking-wide text-slate-500">AI Analysis</span>
           </div>
-          <p className="text-xs text-muted-foreground leading-relaxed line-clamp-4">{analysisText}</p>
+          <p className="text-xs text-slate-600 leading-relaxed line-clamp-4">{analysisText}</p>
         </div>
       )}
 
+      {/* Signal Intelligence */}
       {signals.length > 0 && (
         <div className="mb-3">
           <div className="flex items-center gap-1.5 mb-2">
-            <Radio className="w-3.5 h-3.5 text-muted-foreground/70" />
-            <span className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Signal Intelligence</span>
-            <span className="text-[10px] text-muted-foreground/40">{signals.length}</span>
+            <Radio className="w-3.5 h-3.5 text-slate-400" />
+            <span className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Signal Intelligence</span>
+            <span className="text-[10px] text-slate-300">{signals.length}</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {signals.map((tag) => (
@@ -90,38 +94,40 @@ export default function DealCard({ deal }) {
         </div>
       )}
 
-      <div className="rounded-xl bg-accent/5 p-3 mb-3">
+      {/* Why It Matters */}
+      <div className="rounded-xl bg-amber-50/50 p-3 mb-3">
         <div className="flex items-center gap-1.5 mb-1">
-          <Lightbulb className="w-3.5 h-3.5 text-accent" />
-          <span className="text-[10px] font-bold uppercase tracking-wide text-accent-foreground">Why It Matters</span>
+          <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
+          <span className="text-[10px] font-bold uppercase tracking-wide text-amber-600">Why It Matters</span>
         </div>
-        <p className="text-xs text-muted-foreground leading-relaxed">{whyItMatters(deal)}</p>
+        <p className="text-xs text-slate-600 leading-relaxed">{whyItMatters(deal)}</p>
       </div>
 
-      <div className="mt-auto pt-3 border-t border-border flex items-center justify-between gap-2">
-        <div className="flex items-center gap-3 text-xs text-muted-foreground min-w-0">
+      {/* Footer: timeline + market size + actions */}
+      <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-3 text-xs text-slate-500 min-w-0">
           {deal.timeline && (
             <span className="flex items-center gap-1">
-              <Zap className="w-3 h-3 text-accent" /> {deal.timeline}
+              <Zap className="w-3 h-3 text-amber-500" /> {deal.timeline}
             </span>
           )}
           {deal.marketSize && (
             <span className="flex items-center gap-1">
-              <BarChart3 className="w-3 h-3 text-primary" /> {deal.marketSize}
+              <BarChart3 className="w-3 h-3 text-blue-500" /> {deal.marketSize}
             </span>
           )}
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
           <button
             onClick={() => toggleSave(deal)}
-            className="p-2 rounded-lg border border-border hover:border-primary/30 transition-colors"
+            className="p-2 rounded-lg border border-slate-200 hover:border-slate-300 transition-colors"
             aria-label={saved ? "Remove from saved" : "Save opportunity"}
           >
-            {saved ? <BookmarkCheck className="w-4 h-4 text-primary" /> : <Bookmark className="w-4 h-4 text-muted-foreground/70" />}
+            {saved ? <BookmarkCheck className="w-4 h-4 text-blue-600" /> : <Bookmark className="w-4 h-4 text-slate-400" />}
           </button>
           <Link
             to={`/opportunities/${deal.id}`}
-            className="flex items-center gap-1 px-3 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary/90 transition-colors"
+            className="flex items-center gap-1 px-3 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors"
           >
             Full Brief <ArrowRight className="w-3 h-3" />
           </Link>

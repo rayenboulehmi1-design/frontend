@@ -29,6 +29,7 @@ export default function AccountOverview() {
   }, []);
 
   const handleCheckout = async () => {
+    // Block checkout if running inside an iframe (e.g. Base44 preview)
     if (window.self !== window.top) {
       setStatusMsg({ type: "error", text: "Checkout works only from a published app. Please open the app in a new tab to subscribe." });
       return;
@@ -72,7 +73,7 @@ export default function AccountOverview() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-primary animate-spin" />
+        <Loader2 className="w-6 h-6 text-blue-600 animate-spin" />
       </div>
     );
   }
@@ -85,62 +86,64 @@ export default function AccountOverview() {
 
   return (
     <div className="p-5 sm:p-8 max-w-4xl mx-auto">
-      <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-6 transition-colors">
+      <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-6 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
       </Link>
 
       <div className="flex items-center gap-3 mb-8">
-        <CreditCard className="w-5 h-5 text-primary" />
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">Account Overview</h1>
+        <CreditCard className="w-5 h-5 text-blue-600" />
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Account Overview</h1>
       </div>
 
       {statusMsg && (
         <div className={`mb-6 p-4 rounded-xl flex items-center gap-3 text-sm ${
-          statusMsg.type === "success" ? "bg-primary/5 text-primary border border-primary/20" : "bg-destructive/5 text-destructive border border-destructive/20"
+          statusMsg.type === "success" ? "bg-emerald-50 text-emerald-700 border border-emerald-100" : "bg-rose-50 text-rose-700 border border-rose-100"
         }`}>
           {statusMsg.type === "success" ? <Check className="w-4 h-4 shrink-0" /> : <AlertCircle className="w-4 h-4 shrink-0" />}
           {statusMsg.text}
         </div>
       )}
 
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-border bg-card p-6 mb-6">
+      {/* Profile summary */}
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-slate-100 bg-white p-6 mb-6">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-            <span className="text-xl font-bold text-primary">{initial}</span>
+          <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+            <span className="text-xl font-bold text-blue-600">{initial}</span>
           </div>
           <div className="min-w-0">
-            <p className="font-semibold text-foreground truncate">{user?.full_name || "—"}</p>
-            <p className="text-sm text-muted-foreground truncate">{user?.email}</p>
+            <p className="font-semibold text-slate-900 truncate">{user?.full_name || "—"}</p>
+            <p className="text-sm text-slate-500 truncate">{user?.email}</p>
             <div className="flex items-center gap-2 mt-1">
-              <span className="text-xs text-muted-foreground/70">Member since {memberSince}</span>
-              <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
-              <span className="text-xs text-muted-foreground/70 capitalize">{user?.role}</span>
+              <span className="text-xs text-slate-400">Member since {memberSince}</span>
+              <span className="w-1 h-1 rounded-full bg-slate-300" />
+              <span className="text-xs text-slate-400 capitalize">{user?.role}</span>
             </div>
           </div>
         </div>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="rounded-2xl border border-border bg-card p-6 mb-6">
+      {/* Subscription tier */}
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="rounded-2xl border border-slate-100 bg-white p-6 mb-6">
         <div className="flex items-center gap-2 mb-4">
-          <Crown className="w-4 h-4 text-muted-foreground/70" />
-          <h2 className="font-semibold text-foreground">Subscription</h2>
+          <Crown className="w-4 h-4 text-slate-400" />
+          <h2 className="font-semibold text-slate-900">Subscription</h2>
         </div>
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-lg font-bold text-foreground">{tier}</span>
+              <span className="text-lg font-bold text-slate-900">{tier}</span>
               <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
-                tier === "Pro" ? "bg-primary/10 text-primary" : "bg-primary/10 text-primary"
+                tier === "Pro" ? "bg-emerald-50 text-emerald-700" : "bg-blue-50 text-blue-700"
               }`}>{tier === "Pro" ? "Active" : "Current Plan"}</span>
             </div>
             <div className="mt-1">
-              <p className="text-sm text-muted-foreground/70">
+              <p className="text-sm text-slate-400">
                 {tier === "Free"
                   ? "Upgrade to Pro for $49/mo — unlimited signals, advanced filters, and CSV export."
                   : "You have access to all premium features."}
               </p>
               {tier === "Free" && (
-                <p className="text-xs text-muted-foreground/70 mt-2">
+                <p className="text-xs text-slate-400 mt-2">
                   $49/month · Billed monthly · Renews automatically · Cancel anytime
                 </p>
               )}
@@ -149,7 +152,7 @@ export default function AccountOverview() {
           <button
             onClick={tier === "Free" ? handleCheckout : handleBillingPortal}
             disabled={checkoutLoading}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
             {checkoutLoading && <Loader2 className="w-4 h-4 animate-spin" />}
             {tier === "Free" ? "Upgrade to Pro" : "Manage Plan"}
@@ -165,12 +168,12 @@ export default function AccountOverview() {
                 { label: "CSV Export", pro: true },
               ].map((feat) => (
                 <div key={feat.label} className="flex items-center gap-2 text-sm">
-                  <Check className={`w-4 h-4 ${feat.pro ? "text-primary" : "text-muted-foreground/30"}`} />
-                  <span className={feat.pro ? "text-foreground" : "text-muted-foreground/70"}>{feat.label}</span>
+                  <Check className={`w-4 h-4 ${feat.pro ? "text-emerald-500" : "text-slate-300"}`} />
+                  <span className={feat.pro ? "text-slate-700" : "text-slate-400"}>{feat.label}</span>
                 </div>
               ))}
             </div>
-            <p className="mt-4 text-xs text-muted-foreground/70 leading-relaxed">
+            <p className="mt-4 text-xs text-slate-400 leading-relaxed">
               ScoutyGo is a market intelligence and research tool. Confidence scores represent
               analytical assessments of public data and do not guarantee business outcomes. Conduct
               your own due diligence before making business or financial decisions.
@@ -179,42 +182,44 @@ export default function AccountOverview() {
         )}
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-2xl border border-border bg-card p-6 mb-6">
+      {/* Payment history */}
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-2xl border border-slate-100 bg-white p-6 mb-6">
         <div className="flex items-center gap-2 mb-4">
-          <Receipt className="w-4 h-4 text-muted-foreground/70" />
-          <h2 className="font-semibold text-foreground">Payment History</h2>
+          <Receipt className="w-4 h-4 text-slate-400" />
+          <h2 className="font-semibold text-slate-900">Payment History</h2>
         </div>
         <div className="text-center py-10">
-          <Receipt className="w-10 h-10 text-muted-foreground/20 mx-auto mb-3" />
-          <p className="text-sm text-muted-foreground/70">No payments yet.</p>
-          <p className="text-xs text-muted-foreground/40 mt-1">Your payment history will appear here once you subscribe.</p>
+          <Receipt className="w-10 h-10 text-slate-200 mx-auto mb-3" />
+          <p className="text-sm text-slate-400">No payments yet.</p>
+          <p className="text-xs text-slate-300 mt-1">Your payment history will appear here once you subscribe.</p>
         </div>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="rounded-2xl border border-border bg-card p-6">
+      {/* Billing details */}
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="rounded-2xl border border-slate-100 bg-white p-6">
         <div className="flex items-center gap-2 mb-4">
-          <CreditCard className="w-4 h-4 text-muted-foreground/70" />
-          <h2 className="font-semibold text-foreground">Billing Details</h2>
+          <CreditCard className="w-4 h-4 text-slate-400" />
+          <h2 className="font-semibold text-slate-900">Billing Details</h2>
         </div>
         {tier === "Pro" ? (
           <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">Manage your billing details, update payment method, or cancel your subscription via Stripe's secure portal.</p>
+            <p className="text-sm text-slate-500">Manage your billing details, update payment method, or cancel your subscription via Stripe's secure portal.</p>
             <button
               onClick={handleBillingPortal}
               disabled={checkoutLoading}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-border text-sm font-medium text-muted-foreground hover:border-primary/30 transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 text-sm font-medium text-slate-700 hover:border-slate-300 transition-colors"
             >
               <CreditCard className="w-4 h-4" /> Manage Billing
             </button>
           </div>
         ) : (
           <div className="text-center py-10">
-            <CreditCard className="w-10 h-10 text-muted-foreground/20 mx-auto mb-3" />
-            <p className="text-sm text-muted-foreground/70 mb-4">No billing details on file.</p>
+            <CreditCard className="w-10 h-10 text-slate-200 mx-auto mb-3" />
+            <p className="text-sm text-slate-400 mb-4">No billing details on file.</p>
             <button
               onClick={handleCheckout}
               disabled={checkoutLoading}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
             >
               {checkoutLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
               Add Billing Details

@@ -4,9 +4,9 @@ import { ArrowUpDown, MapPin, Building2, Bookmark, BookmarkCheck, Trash2 } from 
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 
 const CATEGORY_STYLES = {
-  "Real Estate": "bg-primary/10 text-primary border-primary/20",
-  "Investment": "bg-accent/15 text-accent-foreground border-accent/30",
-  "Business": "bg-teal-50 text-teal-700 border-teal-100",
+  "Real Estate": "bg-blue-50 text-blue-700 border-blue-100",
+  "Investment": "bg-emerald-50 text-emerald-700 border-emerald-100",
+  "Business": "bg-violet-50 text-violet-700 border-violet-100",
 };
 
 export default function SignalTable({ signals, loading }) {
@@ -32,6 +32,7 @@ export default function SignalTable({ signals, loading }) {
     return arr;
   }, [signals, sortBy, sortDir]);
 
+  // Keep selection in sync with currently displayed signals
   const validIds = useMemo(() => new Set(sorted.map((s) => s.id)), [sorted]);
   const cleanedSelected = useMemo(() => {
     const next = new Set();
@@ -81,9 +82,9 @@ export default function SignalTable({ signals, loading }) {
 
   if (loading) {
     return (
-      <div className="rounded-2xl border border-border bg-card overflow-hidden">
+      <div className="rounded-2xl border border-slate-100 bg-white overflow-hidden">
         {[...Array(8)].map((_, i) => (
-          <div key={i} className="h-14 border-b border-border/50 bg-muted animate-pulse" />
+          <div key={i} className="h-14 border-b border-slate-50 bg-slate-50 animate-pulse" />
         ))}
       </div>
     );
@@ -94,17 +95,18 @@ export default function SignalTable({ signals, loading }) {
   const selectedCount = cleanedSelected.size;
 
   return (
-    <div className="rounded-2xl border border-border bg-card overflow-hidden">
-      <div className="flex items-center justify-between px-5 py-2.5 border-b border-border bg-muted/50">
+    <div className="rounded-2xl border border-slate-100 bg-white overflow-hidden">
+      {/* Bulk action bar */}
+      <div className="flex items-center justify-between px-5 py-2.5 border-b border-slate-100 bg-slate-50/50">
         <label className="flex items-center gap-2.5 cursor-pointer select-none">
           <input
             type="checkbox"
             checked={allChecked}
             ref={(el) => { if (el) el.indeterminate = someChecked; }}
             onChange={toggleAll}
-            className="w-4 h-4 rounded border-border text-primary focus:ring-primary cursor-pointer"
+            className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
           />
-          <span className="text-sm font-medium text-muted-foreground">
+          <span className="text-sm font-medium text-slate-600">
             {selectedCount > 0 ? `${selectedCount} selected` : "Select all"}
           </span>
         </label>
@@ -112,14 +114,14 @@ export default function SignalTable({ signals, loading }) {
           <div className="flex items-center gap-2">
             <button
               onClick={handleBulkSave}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors"
             >
               <BookmarkCheck className="w-3.5 h-3.5" />
               Save Selected
             </button>
             <button
               onClick={handleBulkRemove}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-border bg-card text-muted-foreground hover:border-destructive/30 hover:text-destructive transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 bg-white text-slate-700 hover:border-red-200 hover:text-red-600 transition-colors"
             >
               <Trash2 className="w-3.5 h-3.5" />
               Remove Saved
@@ -131,31 +133,31 @@ export default function SignalTable({ signals, loading }) {
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border bg-muted/50">
+            <tr className="border-b border-slate-100 bg-slate-50/50">
               <th className="w-10 px-3 py-3">
                 <input
                   type="checkbox"
                   checked={allChecked}
                   ref={(el) => { if (el) el.indeterminate = someChecked; }}
                   onChange={toggleAll}
-                  className="w-4 h-4 rounded border-border text-primary focus:ring-primary cursor-pointer"
+                  className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
                 />
               </th>
-              <th className="text-left px-5 py-3 font-semibold text-muted-foreground">
-                <button onClick={() => toggleSort("title")} className="flex items-center gap-1 hover:text-foreground">
+              <th className="text-left px-5 py-3 font-semibold text-slate-500">
+                <button onClick={() => toggleSort("title")} className="flex items-center gap-1 hover:text-slate-700">
                   Signal <ArrowUpDown className="w-3 h-3" />
                 </button>
               </th>
-              <th className="text-left px-5 py-3 font-semibold text-muted-foreground">Category</th>
-              <th className="text-left px-5 py-3 font-semibold text-muted-foreground">Location</th>
-              <th className="text-left px-5 py-3 font-semibold text-muted-foreground">Entity</th>
-              <th className="text-left px-5 py-3 font-semibold text-muted-foreground">
-                <button onClick={() => toggleSort("confidence")} className="flex items-center gap-1 hover:text-foreground">
+              <th className="text-left px-5 py-3 font-semibold text-slate-500">Category</th>
+              <th className="text-left px-5 py-3 font-semibold text-slate-500">Location</th>
+              <th className="text-left px-5 py-3 font-semibold text-slate-500">Entity</th>
+              <th className="text-left px-5 py-3 font-semibold text-slate-500">
+                <button onClick={() => toggleSort("confidence")} className="flex items-center gap-1 hover:text-slate-700">
                   Confidence <ArrowUpDown className="w-3 h-3" />
                 </button>
               </th>
-              <th className="text-left px-5 py-3 font-semibold text-muted-foreground">
-                <button onClick={() => toggleSort("time_ago")} className="flex items-center gap-1 hover:text-foreground">
+              <th className="text-left px-5 py-3 font-semibold text-slate-500">
+                <button onClick={() => toggleSort("time_ago")} className="flex items-center gap-1 hover:text-slate-700">
                   Detected <ArrowUpDown className="w-3 h-3" />
                 </button>
               </th>
@@ -169,59 +171,59 @@ export default function SignalTable({ signals, loading }) {
                 <tr
                   key={signal.id}
                   onClick={() => navigate(`/opportunities/${signal.id}`)}
-                  className={`border-b border-border/50 hover:bg-primary/5 transition-colors cursor-pointer ${checked ? "bg-primary/5" : ""}`}
+                  className={`border-b border-slate-50 hover:bg-blue-50/40 transition-colors cursor-pointer ${checked ? "bg-blue-50/30" : ""}`}
                 >
                   <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>
                     <input
                       type="checkbox"
                       checked={checked}
                       onChange={() => toggleOne(signal.id)}
-                      className="w-4 h-4 rounded border-border text-primary focus:ring-primary cursor-pointer"
+                      className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
                     />
                   </td>
                   <td className="px-5 py-3 max-w-xs">
                     <div className="flex items-center gap-2">
-                      {saved && <Bookmark className="w-3.5 h-3.5 fill-primary text-primary shrink-0" />}
-                      <p className="font-medium text-foreground truncate">{signal.title}</p>
+                      {saved && <Bookmark className="w-3.5 h-3.5 fill-blue-600 text-blue-600 shrink-0" />}
+                      <p className="font-medium text-slate-900 truncate">{signal.title}</p>
                     </div>
                   </td>
                   <td className="px-5 py-3">
-                    <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-medium border ${CATEGORY_STYLES[signal.category] || "bg-muted text-muted-foreground border-border"}`}>
+                    <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-medium border ${CATEGORY_STYLES[signal.category] || "bg-slate-50 text-slate-600 border-slate-100"}`}>
                       {signal.category}
                     </span>
                   </td>
-                  <td className="px-5 py-3 text-muted-foreground whitespace-nowrap">
+                  <td className="px-5 py-3 text-slate-600 whitespace-nowrap">
                     <span className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-muted-foreground/70" />
+                      <MapPin className="w-3 h-3 text-slate-400" />
                       {signal.location}
                     </span>
                   </td>
-                  <td className="px-5 py-3 text-muted-foreground">
+                  <td className="px-5 py-3 text-slate-600">
                     {signal.entity_name ? (
                       <span className="flex items-center gap-1 truncate max-w-[160px]">
-                        <Building2 className="w-3 h-3 text-muted-foreground/70 shrink-0" />
+                        <Building2 className="w-3 h-3 text-slate-400 shrink-0" />
                         {signal.entity_name}
                       </span>
                     ) : (
-                      <span className="text-muted-foreground/30">—</span>
+                      <span className="text-slate-300">—</span>
                     )}
                   </td>
                   <td className="px-5 py-3">
                     {signal.confidence != null ? (
                       <div className="flex items-center gap-2">
-                        <div className="w-16 h-1.5 rounded-full bg-muted overflow-hidden">
+                        <div className="w-16 h-1.5 rounded-full bg-slate-100 overflow-hidden">
                           <div
-                            className="h-full rounded-full bg-primary"
+                            className="h-full rounded-full bg-blue-500"
                             style={{ width: `${signal.confidence}%` }}
                           />
                         </div>
-                        <span className="text-xs font-medium text-muted-foreground">{signal.confidence}%</span>
+                        <span className="text-xs font-medium text-slate-600">{signal.confidence}%</span>
                       </div>
                     ) : (
-                      <span className="text-muted-foreground/30">—</span>
+                      <span className="text-slate-300">—</span>
                     )}
                   </td>
-                  <td className="px-5 py-3 text-muted-foreground/70 whitespace-nowrap">{signal.time_ago}</td>
+                  <td className="px-5 py-3 text-slate-400 whitespace-nowrap">{signal.time_ago}</td>
                 </tr>
               );
             })}

@@ -43,14 +43,14 @@ const capabilities = [
 
 export default function PlatformCapabilities() {
   return (
-    <section className="py-20 sm:py-28 bg-card border-y border-border">
+    <section className="py-20 sm:py-28 bg-white border-y border-slate-100">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div className="text-center mb-14 max-w-2xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground"
+            className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900"
           >
             Built for research-driven professionals.
           </motion.h2>
@@ -59,7 +59,7 @@ export default function PlatformCapabilities() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.05 }}
-            className="mt-3 text-muted-foreground leading-relaxed"
+            className="mt-3 text-slate-500 leading-relaxed"
           >
             ScoutyGo is a market intelligence and signal detection platform. Here's what you get when you subscribe.
           </motion.p>
@@ -75,13 +75,13 @@ export default function PlatformCapabilities() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.08 }}
-                className="rounded-2xl border border-border bg-background p-7 hover:shadow-lg transition-all"
+                className="rounded-2xl border border-slate-100 bg-[#fcfcfc] p-7 hover:shadow-lg transition-all"
               >
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <Icon className="w-5 h-5 text-primary" />
+                <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-4">
+                  <Icon className="w-5 h-5 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-bold text-foreground mb-2">{cap.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{cap.description}</p>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">{cap.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{cap.description}</p>
               </motion.div>
             );
           })}

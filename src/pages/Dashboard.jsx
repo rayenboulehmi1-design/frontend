@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Loader2, Bookmark, Bell, AlertCircle } from "lucide-react";
+import { Loader2, Bookmark, Bell, ArrowRight, AlertCircle } from "lucide-react";
 import { fetchSignalsWithMeta } from "@/lib/scoutyClient";
 import { base44 } from "@/api/base44Client";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 import { useNotifications } from "@/hooks/useNotifications";
 import { getStoredMarket, setStoredMarket } from "@/components/dashboard/MarketSelector";
-
 import DailyIntelligenceBriefing from "@/components/dashboard/DailyIntelligenceBriefing";
 import WatchlistModule from "@/components/dashboard/WatchlistModule";
 import MissionsModule from "@/components/dashboard/MissionsModule";
@@ -48,6 +47,7 @@ export default function Dashboard() {
   const { savedCount } = useSavedOpportunities();
   const { addNotification } = useNotifications();
 
+  // Read URL params on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setFilters((prev) => ({
@@ -59,6 +59,7 @@ export default function Dashboard() {
     }));
   }, []);
 
+  // Write URL params on filter change
   useEffect(() => {
     const params = new URLSearchParams();
     if (filters.search) params.set("q", filters.search);
@@ -68,6 +69,7 @@ export default function Dashboard() {
     window.history.replaceState({}, "", `/dashboard${params.toString() ? `?${params}` : ""}`);
   }, [filters]);
 
+  // Fetch data
   useEffect(() => {
     base44.auth.me().then(setUser).catch(() => {});
     setLoading(true);
@@ -75,6 +77,7 @@ export default function Dashboard() {
     fetchSignalsWithMeta(200)
       .then((data) => {
         const newSignals = data.signals || [];
+        // isNew detection via sessionStorage
         const seenKey = "scouty_seen_deals";
         let seen = new Set();
         try { seen = new Set(JSON.parse(sessionStorage.getItem(seenKey) || "[]")); } catch {}
@@ -95,9 +98,11 @@ export default function Dashboard() {
       .finally(() => setLoading(false));
   }, [addNotification, retryCount]);
 
+  // Filtering logic
   const filtered = useMemo(() => {
     let result = signals;
 
+    // Market filter (global scope)
     if (filters.market !== "Global") {
       result = result.filter((s) => {
         const c = s.country || (s.location ? s.location.split(",").pop().trim() : "");
@@ -105,10 +110,12 @@ export default function Dashboard() {
       });
     }
 
+    // Type filter
     if (filters.type !== "All") {
       result = result.filter((s) => (s.type || s.category) === filters.type);
     }
 
+    // Country filter
     if (filters.country !== "All") {
       result = result.filter((s) => {
         const c = s.country || (s.location ? s.location.split(",").pop().trim() : "");
@@ -116,6 +123,7 @@ export default function Dashboard() {
       });
     }
 
+    // Real estate sub-filters
     if (filters.assetType !== "All") {
       result = result.filter((s) => s.realEstateDetails?.assetType === filters.assetType);
     }
@@ -126,6 +134,7 @@ export default function Dashboard() {
       result = result.filter((s) => s.realEstateDetails?.developmentStage === filters.developmentStage);
     }
 
+    // Search query
     if (filters.search) {
       const q = filters.search.toLowerCase();
       result = result.filter((s) =>
@@ -140,6 +149,7 @@ export default function Dashboard() {
       );
     }
 
+    // Search mode (category bucket)
     if (["Real Estate", "Business", "Investment"].includes(filters.searchMode)) {
       result = result.filter((s) => s.category === filters.searchMode);
     }
@@ -147,6 +157,7 @@ export default function Dashboard() {
     return result;
   }, [signals, filters]);
 
+  // Companies grouping
   const companies = useMemo(() => {
     if (filters.searchMode !== "Companies") return [];
     const map = {};
@@ -158,6 +169,7 @@ export default function Dashboard() {
     return Object.values(map).sort((a, b) => b.signals.length - a.signals.length);
   }, [filtered, filters.searchMode]);
 
+  // Markets grouping
   const markets = useMemo(() => {
     if (filters.searchMode !== "Markets") return [];
     const map = {};
@@ -189,52 +201,58 @@ export default function Dashboard() {
 
   return (
     <div className="p-5 md:p-8 lg:p-10 max-w-7xl mx-auto space-y-6">
+      {/* 1. Daily Intelligence Briefing */}
       <DailyIntelligenceBriefing signals={signals} user={user} loading={loading} />
 
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <Loader2 className="w-6 h-6 text-primary animate-spin" />
+          <Loader2 className="w-6 h-6 text-blue-600 animate-spin" />
         </div>
       ) : error ? (
-        <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-6 text-center">
-          <AlertCircle className="w-8 h-8 text-destructive/60 mx-auto mb-3" />
-          <p className="text-sm font-medium text-foreground mb-1">Couldn't load live intelligence</p>
-          <p className="text-xs text-muted-foreground/70 mb-4">The ScoutyGo API may be temporarily unavailable.</p>
+        <div className="rounded-2xl border border-rose-100 bg-rose-50/50 p-6 text-center">
+          <AlertCircle className="w-8 h-8 text-rose-400 mx-auto mb-3" />
+          <p className="text-sm font-medium text-slate-700 mb-1">Couldn't load live intelligence</p>
+          <p className="text-xs text-slate-400 mb-4">The ScoutyGo API may be temporarily unavailable.</p>
           <button
             onClick={() => setRetryCount((c) => c + 1)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors"
           >
             <Loader2 className="w-4 h-4" /> Retry
           </button>
         </div>
       ) : (
         <>
+          {/* 2. Watchlist Module (hidden when no saved deals) */}
           <WatchlistModule />
 
+          {/* 3. Missions Module (coming soon state) */}
           <MissionsModule />
 
+          {/* 4. Live Activity Bar */}
           <LiveActivityBar liveCount={signals.length} />
 
+          {/* 5. Page Title */}
           <div className="flex items-center justify-between flex-wrap gap-3 pt-2">
             <div>
-              <h2 className="text-xl font-bold tracking-tight text-foreground">Opportunity Feed</h2>
-              <p className="text-sm text-muted-foreground mt-0.5">
+              <h2 className="text-xl font-bold tracking-tight text-slate-900">Opportunity Feed</h2>
+              <p className="text-sm text-slate-500 mt-0.5">
                 {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <Link to="/saved" className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-border bg-card text-sm font-medium text-muted-foreground hover:border-primary/30 transition-colors">
-                <Bookmark className="w-4 h-4 text-muted-foreground/70" />
+              <Link to="/saved" className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-700 hover:border-slate-300 transition-colors">
+                <Bookmark className="w-4 h-4 text-slate-400" />
                 Saved
-                {savedCount > 0 && <span className="px-1.5 py-0.5 rounded-full bg-primary/15 text-primary text-xs font-semibold">{savedCount}</span>}
+                {savedCount > 0 && <span className="px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">{savedCount}</span>}
               </Link>
-              <Link to="/alerts" className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-border bg-card text-sm font-medium text-muted-foreground hover:border-primary/30 transition-colors">
-                <Bell className="w-4 h-4 text-muted-foreground/70" />
+              <Link to="/alerts" className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-700 hover:border-slate-300 transition-colors">
+                <Bell className="w-4 h-4 text-slate-400" />
                 Alerts
               </Link>
             </div>
           </div>
 
+          {/* 6-9. Unified Search + Mode Tabs + Result Summary + Filter Row */}
           <EnhancedFilterBar
             signals={signals}
             filters={filters}
@@ -243,6 +261,7 @@ export default function Dashboard() {
             onClear={clearFilters}
           />
 
+          {/* 10. Results Grid / 11. Empty State */}
           {filters.searchMode === "Companies" ? (
             companies.length > 0 ? (
               <CompaniesView companies={companies} onSelect={handleSelectCompany} />
@@ -265,6 +284,7 @@ export default function Dashboard() {
             <EmptyState onClearFilters={clearFilters} />
           )}
 
+          {/* Preserved: Charts */}
           <div className="grid lg:grid-cols-2 gap-6 pt-4">
             <ConfidenceChart signals={filtered} loading={false} />
             <CategoryRadial signals={filtered} loading={false} />
@@ -272,10 +292,11 @@ export default function Dashboard() {
 
           <TopLocations signals={filtered} />
 
+          {/* Preserved: Signal Table with bulk actions */}
           <div className="pt-4">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-foreground">Signal Registry</h2>
-              <span className="text-sm text-muted-foreground/70">{filtered.length} records</span>
+              <h2 className="text-lg font-bold text-slate-900">Signal Registry</h2>
+              <span className="text-sm text-slate-400">{filtered.length} records</span>
             </div>
             <SignalTable signals={filtered} loading={false} />
           </div>

@@ -32,21 +32,21 @@ export default function Alerts() {
 
   return (
     <div className="p-5 sm:p-8 max-w-4xl mx-auto">
-      <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-6 transition-colors">
+      <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-6 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
       </Link>
 
       <div className="flex items-center justify-between mb-8">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <Bell className="w-5 h-5 text-primary" />
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">Alerts</h1>
+            <Bell className="w-5 h-5 text-blue-600" />
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Alerts</h1>
           </div>
-          <p className="text-muted-foreground text-sm">Get notified when new signals match your criteria.</p>
+          <p className="text-slate-500 text-sm">Get notified when new signals match your criteria.</p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors"
         >
           <Plus className="w-4 h-4" /> New Alert
         </button>
@@ -57,52 +57,52 @@ export default function Alerts() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           onSubmit={handleCreate}
-          className="rounded-2xl border border-border bg-card p-6 mb-6 space-y-4"
+          className="rounded-2xl border border-slate-100 bg-white p-6 mb-6 space-y-4"
         >
           <div>
-            <label className="text-sm font-medium text-foreground">Alert Name</label>
+            <label className="text-sm font-medium text-slate-700">Alert Name</label>
             <input
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="e.g. Dubai Real Estate"
-              className="mt-1 w-full px-3 py-2.5 rounded-xl border border-border text-sm outline-none focus:border-primary/50"
+              className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-blue-400"
               required
             />
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-foreground">Category</label>
+              <label className="text-sm font-medium text-slate-700">Category</label>
               <select
                 value={form.category}
                 onChange={(e) => setForm({ ...form, category: e.target.value })}
-                className="mt-1 w-full px-3 py-2.5 rounded-xl border border-border text-sm outline-none focus:border-primary/50 bg-card"
+                className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-blue-400 bg-white"
               >
                 <option value="">Any</option>
                 {categories.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Location</label>
+              <label className="text-sm font-medium text-slate-700">Location</label>
               <input
                 value={form.location}
                 onChange={(e) => setForm({ ...form, location: e.target.value })}
                 placeholder="e.g. Dubai, UAE"
-                className="mt-1 w-full px-3 py-2.5 rounded-xl border border-border text-sm outline-none focus:border-primary/50"
+                className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-blue-400"
               />
             </div>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-foreground">Keywords</label>
+              <label className="text-sm font-medium text-slate-700">Keywords</label>
               <input
                 value={form.keywords}
                 onChange={(e) => setForm({ ...form, keywords: e.target.value })}
                 placeholder="e.g. off-plan, launch"
-                className="mt-1 w-full px-3 py-2.5 rounded-xl border border-border text-sm outline-none focus:border-primary/50"
+                className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-blue-400"
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-foreground">Min Confidence: {form.minConfidence}%</label>
+              <label className="text-sm font-medium text-slate-700">Min Confidence: {form.minConfidence}%</label>
               <input
                 type="range"
                 min="0"
@@ -110,15 +110,15 @@ export default function Alerts() {
                 step="10"
                 value={form.minConfidence}
                 onChange={(e) => setForm({ ...form, minConfidence: Number(e.target.value) })}
-                className="mt-3 w-full accent-primary"
+                className="mt-3 w-full accent-blue-600"
               />
             </div>
           </div>
           <div className="flex gap-3">
-            <button type="submit" className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors">
+            <button type="submit" className="px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
               Create Alert
             </button>
-            <button type="button" onClick={() => setShowForm(false)} className="px-5 py-2.5 rounded-xl border border-border text-sm font-medium text-muted-foreground hover:bg-muted transition-colors">
+            <button type="button" onClick={() => setShowForm(false)} className="px-5 py-2.5 rounded-xl border border-slate-200 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors">
               Cancel
             </button>
           </div>
@@ -126,10 +126,10 @@ export default function Alerts() {
       )}
 
       {alerts.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-border bg-card p-12 text-center">
-          <Bell className="w-10 h-10 text-muted-foreground/30 mx-auto mb-4" />
-          <p className="text-muted-foreground/70 mb-4">No alerts configured yet.</p>
-          <button onClick={() => setShowForm(true)} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors">
+        <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-12 text-center">
+          <Bell className="w-10 h-10 text-slate-300 mx-auto mb-4" />
+          <p className="text-slate-400 mb-4">No alerts configured yet.</p>
+          <button onClick={() => setShowForm(true)} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors">
             <Plus className="w-4 h-4" /> Create Alert
           </button>
         </div>
@@ -146,11 +146,11 @@ export default function Alerts() {
                 <motion.div
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="rounded-2xl border border-border bg-card p-5 flex items-center justify-between gap-4 hover:border-primary/30 hover:shadow-sm transition-all"
+                  className="rounded-2xl border border-slate-100 bg-white p-5 flex items-center justify-between gap-4 hover:border-blue-200 hover:shadow-sm transition-all"
                 >
                   <div className="min-w-0">
-                    <h3 className="font-semibold text-foreground">{alert.name}</h3>
-                    <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-muted-foreground">
+                    <h3 className="font-semibold text-slate-900">{alert.name}</h3>
+                    <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-slate-500">
                       {alert.category && <span className="flex items-center gap-1"><Tag className="w-3 h-3" /> {alert.category}</span>}
                       {alert.location && <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {alert.location}</span>}
                       {alert.keywords && <span>Keywords: {alert.keywords}</span>}
@@ -159,7 +159,7 @@ export default function Alerts() {
                   </div>
                   <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(alert.id); }}
-                    className="p-2 rounded-lg text-muted-foreground/70 hover:text-destructive hover:bg-destructive/5 transition-colors shrink-0"
+                    className="p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -169,6 +169,7 @@ export default function Alerts() {
           })}
         </div>
       )}
+
     </div>
   );
 }

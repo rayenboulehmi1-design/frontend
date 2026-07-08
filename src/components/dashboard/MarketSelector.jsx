@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Globe, Search, ChevronDown, Check } from "lucide-react";
 
@@ -24,7 +24,8 @@ export default function MarketSelector({ value, onChange, signals }) {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const signalCountries = useMemo(() => {
+  // Derive all countries from signals
+  const signalCountries = React.useMemo(() => {
     const set = new Set();
     (signals || []).forEach((s) => {
       if (s.country) set.add(s.country);
@@ -47,7 +48,7 @@ export default function MarketSelector({ value, onChange, signals }) {
       <button
         onClick={() => setOpen(!open)}
         className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border whitespace-nowrap transition-colors ${
-          value !== "Global" ? "bg-primary/10 border-primary/20 text-primary" : "bg-card border-border text-muted-foreground hover:border-primary/30"
+          value !== "Global" ? "bg-blue-50 border-blue-200 text-blue-600" : "bg-white border-slate-200 text-slate-500 hover:border-slate-300"
         }`}
       >
         <Globe className="w-3.5 h-3.5 shrink-0" />
@@ -61,16 +62,16 @@ export default function MarketSelector({ value, onChange, signals }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.15 }}
-            className="absolute top-full mt-1 left-0 w-64 rounded-xl bg-popover border border-border shadow-2xl z-30 overflow-hidden"
+            className="absolute top-full mt-1 left-0 w-64 rounded-xl bg-white border border-slate-200 shadow-2xl z-30 overflow-hidden"
           >
-            <div className="p-2 border-b border-border">
-              <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-muted">
-                <Search className="w-3.5 h-3.5 text-muted-foreground/70" />
+            <div className="p-2 border-b border-slate-100">
+              <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-slate-50">
+                <Search className="w-3.5 h-3.5 text-slate-400" />
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search markets..."
-                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/50"
+                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400"
                   autoFocus
                 />
               </div>
@@ -82,7 +83,7 @@ export default function MarketSelector({ value, onChange, signals }) {
               {filtered(others).length > 0 && <GroupLabel label="All Countries" />}
               {filtered(others).map((c) => <MarketItem key={c} label={c} value={value} onSelect={(v) => { onChange(v); setOpen(false); }} />)}
               {filtered(gcc).length === 0 && filtered(others).length === 0 && (
-                <p className="px-3 py-4 text-sm text-muted-foreground/70 text-center">No markets found</p>
+                <p className="px-3 py-4 text-sm text-slate-400 text-center">No markets found</p>
               )}
             </div>
           </motion.div>
@@ -93,15 +94,15 @@ export default function MarketSelector({ value, onChange, signals }) {
 }
 
 function GroupLabel({ label }) {
-  return <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-muted-foreground/40">{label}</p>;
+  return <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-slate-300">{label}</p>;
 }
 
 function MarketItem({ label, value, onSelect }) {
   return (
     <button
       onClick={() => onSelect(label)}
-      className={`w-full flex items-center justify-between px-3 py-2 text-sm hover:bg-muted transition-colors ${
-        value === label ? "text-primary font-medium bg-primary/5" : "text-muted-foreground"
+      className={`w-full flex items-center justify-between px-3 py-2 text-sm hover:bg-slate-50 transition-colors ${
+        value === label ? "text-blue-600 font-medium bg-blue-50/50" : "text-slate-600"
       }`}
     >
       {label}

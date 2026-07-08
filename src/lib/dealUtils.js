@@ -1,28 +1,28 @@
 export const TYPE_STYLES = {
-  "Real Estate": { badge: "bg-primary/10 text-primary border-primary/20", dot: "bg-primary" },
-  "Expansion": { badge: "bg-teal-50 text-teal-700 border-teal-100", dot: "bg-teal-500" },
-  "Franchise": { badge: "bg-accent/15 text-accent-foreground border-accent/30", dot: "bg-accent" },
-  "Industrial": { badge: "bg-muted text-muted-foreground border-border", dot: "bg-muted-foreground" },
+  "Real Estate": { badge: "bg-blue-50 text-blue-700 border-blue-100", dot: "bg-blue-500" },
+  "Expansion": { badge: "bg-violet-50 text-violet-700 border-violet-100", dot: "bg-violet-500" },
+  "Franchise": { badge: "bg-amber-50 text-amber-700 border-amber-100", dot: "bg-amber-500" },
+  "Industrial": { badge: "bg-slate-100 text-slate-700 border-slate-200", dot: "bg-slate-500" },
   "Hospitality": { badge: "bg-rose-50 text-rose-700 border-rose-100", dot: "bg-rose-500" },
   "Mixed-Use": { badge: "bg-indigo-50 text-indigo-700 border-indigo-100", dot: "bg-indigo-500" },
-  "Public Sector & Procurement": { badge: "bg-primary/10 text-primary border-primary/20", dot: "bg-primary" },
-  "Investment": { badge: "bg-accent/15 text-accent-foreground border-accent/30", dot: "bg-accent" },
-  "Business": { badge: "bg-teal-50 text-teal-700 border-teal-100", dot: "bg-teal-500" },
+  "Public Sector & Procurement": { badge: "bg-emerald-50 text-emerald-700 border-emerald-100", dot: "bg-emerald-500" },
+  "Investment": { badge: "bg-emerald-50 text-emerald-700 border-emerald-100", dot: "bg-emerald-500" },
+  "Business": { badge: "bg-violet-50 text-violet-700 border-violet-100", dot: "bg-violet-500" },
 };
 
 export const SIGNAL_TAG_STYLES = {
-  "Hiring Expansion": "bg-primary/10 text-primary",
-  "Trade Show Presence": "bg-teal-50 text-teal-600",
-  "New Market Entry": "bg-accent/15 text-accent-foreground",
-  "Infrastructure Project": "bg-accent/15 text-accent-foreground",
-  "Funding Activity": "bg-accent/15 text-accent-foreground",
-  "Regulatory Filing": "bg-muted text-muted-foreground",
-  "Lease Acquisition": "bg-primary/10 text-primary",
+  "Hiring Expansion": "bg-blue-50 text-blue-600",
+  "Trade Show Presence": "bg-violet-50 text-violet-600",
+  "New Market Entry": "bg-emerald-50 text-emerald-600",
+  "Infrastructure Project": "bg-amber-50 text-amber-600",
+  "Funding Activity": "bg-emerald-50 text-emerald-600",
+  "Regulatory Filing": "bg-slate-100 text-slate-600",
+  "Lease Acquisition": "bg-blue-50 text-blue-600",
   "Executive Movement": "bg-rose-50 text-rose-600",
   "Supply Chain Signal": "bg-indigo-50 text-indigo-600",
-  "Partnership Announced": "bg-accent/15 text-accent-foreground",
-  "License Application": "bg-accent/15 text-accent-foreground",
-  "Market Reconnaissance": "bg-teal-50 text-teal-600",
+  "Partnership Announced": "bg-emerald-50 text-emerald-600",
+  "License Application": "bg-amber-50 text-amber-600",
+  "Market Reconnaissance": "bg-violet-50 text-violet-600",
 };
 
 export const PERSONA_PRESETS = {
@@ -40,7 +40,7 @@ export function getTypeStyle(type) {
 }
 
 export function getSignalTagStyle(tag) {
-  return SIGNAL_TAG_STYLES[tag] || "bg-muted text-muted-foreground";
+  return SIGNAL_TAG_STYLES[tag] || "bg-slate-100 text-slate-600";
 }
 
 export function whyItMatters(signal) {

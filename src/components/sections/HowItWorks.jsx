@@ -42,7 +42,7 @@ export default function HowItWorks() {
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground"
+            className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900"
           >
             How it works.
           </motion.h2>
@@ -51,7 +51,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.05 }}
-            className="mt-3 text-muted-foreground leading-relaxed"
+            className="mt-3 text-slate-500 leading-relaxed"
           >
             Stop relying on stale databases. Scouty turns scattered public data into structured,
             searchable intelligence — updated regularly.
@@ -70,17 +70,17 @@ export default function HowItWorks() {
                 transition={{ duration: 0.4, delay: i * 0.1 }}
                 className="relative group"
               >
-                <div className="rounded-2xl border border-border bg-card p-6 h-full hover:border-primary/30 hover:shadow-lg transition-all">
+                <div className="rounded-2xl border border-slate-100 bg-white p-6 h-full hover:border-blue-200 hover:shadow-lg transition-all">
                   <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary transition-colors">
-                      <Icon className="w-5 h-5 text-primary group-hover:text-primary-foreground transition-colors" />
+                    <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                      <Icon className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors" />
                     </div>
-                    <span className="text-2xl font-bold text-muted/50 group-hover:text-primary/20 transition-colors">
+                    <span className="text-2xl font-bold text-slate-100 group-hover:text-blue-100 transition-colors">
                       {step.number}
                     </span>
                   </div>
-                  <h3 className="text-lg font-bold text-foreground mb-2">{step.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{step.title}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">{step.description}</p>
                 </div>
               </motion.div>
             );

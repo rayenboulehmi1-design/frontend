@@ -23,19 +23,19 @@ const faqs = [
 
 function FAQItem({ faq, isOpen, onToggle }) {
   return (
-    <div className="border-b border-border">
+    <div className="border-b border-slate-100">
       <button
         onClick={onToggle}
         className="w-full flex items-center justify-between py-5 text-left group"
       >
-        <span className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">
+        <span className="text-base font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">
           {faq.q}
         </span>
-        <div className="shrink-0 ml-4 w-8 h-8 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+        <div className="shrink-0 ml-4 w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-blue-50 transition-colors">
           {isOpen ? (
-            <Minus className="w-4 h-4 text-muted-foreground" />
+            <Minus className="w-4 h-4 text-slate-500" />
           ) : (
-            <Plus className="w-4 h-4 text-muted-foreground" />
+            <Plus className="w-4 h-4 text-slate-500" />
           )}
         </div>
       </button>
@@ -48,7 +48,7 @@ function FAQItem({ faq, isOpen, onToggle }) {
             transition={{ duration: 0.25 }}
             className="overflow-hidden"
           >
-            <p className="pb-5 pr-12 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
+            <p className="pb-5 pr-12 text-sm text-slate-500 leading-relaxed">{faq.a}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -60,17 +60,17 @@ export default function FAQ() {
   const [open, setOpen] = useState(0);
 
   return (
-    <section id="faq" className="py-20 sm:py-28 bg-card border-y border-border">
+    <section id="faq" className="py-20 sm:py-28 bg-white border-y border-slate-100">
       <div className="max-w-3xl mx-auto px-5 sm:px-8">
         <motion.h2
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground text-center mb-12"
+          className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 text-center mb-12"
         >
           Frequently Asked Questions
         </motion.h2>
-        <div className="border-t border-border">
+        <div className="border-t border-slate-100">
           {faqs.map((faq, i) => (
             <FAQItem
               key={i}

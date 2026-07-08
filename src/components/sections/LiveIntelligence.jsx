@@ -25,7 +25,7 @@ export default function LiveIntelligence() {
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground"
+              className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900"
             >
               Live Intelligence
             </motion.h2>
@@ -34,14 +34,14 @@ export default function LiveIntelligence() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.05 }}
-              className="mt-2 text-muted-foreground"
+              className="mt-2 text-slate-500"
             >
               Signals detected across global markets.
             </motion.p>
           </div>
           <Link
             to="/intelligence-feed"
-            className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:gap-2.5 transition-all"
+            className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:gap-2.5 transition-all"
           >
             View All Live Intelligence <ArrowRight className="w-4 h-4" />
           </Link>
@@ -50,7 +50,7 @@ export default function LiveIntelligence() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {loading
             ? [0, 1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="h-48 rounded-2xl bg-muted animate-pulse" />
+                <div key={i} className="h-48 rounded-2xl bg-slate-100 animate-pulse" />
               ))
             : signals.map((signal, i) => (
                 <motion.div
@@ -68,7 +68,7 @@ export default function LiveIntelligence() {
         <div className="mt-8 text-center sm:hidden">
           <Link
             to="/intelligence-feed"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-blue-600"
           >
             View All Live Intelligence <ArrowRight className="w-4 h-4" />
           </Link>

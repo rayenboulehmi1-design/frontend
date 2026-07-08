@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, X, SlidersHorizontal, RotateCcw } from "lucide-react";
 import FilterDropdown from "./FilterDropdown";
@@ -16,7 +16,7 @@ export default function EnhancedFilterBar({
   const [focused, setFocused] = useState(false);
   const searchRef = useRef(null);
 
-  const countries = useMemo(() => {
+  const countries = React.useMemo(() => {
     const set = new Set();
     signals.forEach((s) => {
       const c = s.country || (s.location ? s.location.split(",").pop().trim() : null);
@@ -25,7 +25,7 @@ export default function EnhancedFilterBar({
     return ["All", ...Array.from(set).sort()];
   }, [signals]);
 
-  const assetTypes = useMemo(() => {
+  const assetTypes = React.useMemo(() => {
     const set = new Set();
     signals.forEach((s) => {
       if (s.realEstateDetails?.assetType) set.add(s.realEstateDetails.assetType);
@@ -33,7 +33,7 @@ export default function EnhancedFilterBar({
     return ["All", ...Array.from(set).sort()];
   }, [signals]);
 
-  const transactionTypes = useMemo(() => {
+  const transactionTypes = React.useMemo(() => {
     const set = new Set();
     signals.forEach((s) => {
       if (s.realEstateDetails?.transactionType) set.add(s.realEstateDetails.transactionType);
@@ -41,7 +41,7 @@ export default function EnhancedFilterBar({
     return ["All", ...Array.from(set).sort()];
   }, [signals]);
 
-  const devStages = useMemo(() => {
+  const devStages = React.useMemo(() => {
     const set = new Set();
     signals.forEach((s) => {
       if (s.realEstateDetails?.developmentStage) set.add(s.realEstateDetails.developmentStage);
@@ -79,9 +79,10 @@ export default function EnhancedFilterBar({
 
   return (
     <div className="space-y-4">
+      {/* Search bar with suggestions */}
       <div className="relative">
-        <div className="flex items-center gap-2 px-4 py-3 rounded-xl border border-border bg-card">
-          <Search className="w-4 h-4 text-muted-foreground/70" />
+        <div className="flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-200 bg-white">
+          <Search className="w-4 h-4 text-slate-400" />
           <input
             ref={searchRef}
             value={filters.search}
@@ -89,11 +90,11 @@ export default function EnhancedFilterBar({
             onFocus={() => setFocused(true)}
             onBlur={() => setTimeout(() => setFocused(false), 150)}
             placeholder="Search companies, markets, signals..."
-            className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/50"
+            className="flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400"
           />
           {filters.search && (
-            <button onClick={() => update("search", "")} className="p-1 rounded hover:bg-muted">
-              <X className="w-3.5 h-3.5 text-muted-foreground/70" />
+            <button onClick={() => update("search", "")} className="p-1 rounded hover:bg-slate-100">
+              <X className="w-3.5 h-3.5 text-slate-400" />
             </button>
           )}
         </div>
@@ -104,7 +105,7 @@ export default function EnhancedFilterBar({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
               transition={{ duration: 0.15 }}
-              className="absolute top-full mt-1 left-0 right-0 rounded-xl border border-border bg-popover shadow-2xl z-40 max-h-80 overflow-y-auto"
+              className="absolute top-full mt-1 left-0 right-0 rounded-xl border border-slate-200 bg-white shadow-2xl z-40 max-h-80 overflow-y-auto"
             >
               <SearchSuggestionsPanel
                 signals={signals}
@@ -118,6 +119,7 @@ export default function EnhancedFilterBar({
         </AnimatePresence>
       </div>
 
+      {/* Mode tabs */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1">
         {MODE_TABS.map((tab) => (
           <button
@@ -125,8 +127,8 @@ export default function EnhancedFilterBar({
             onClick={() => update("searchMode", tab)}
             className={`px-3.5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
               filters.searchMode === tab
-                ? "bg-foreground text-background"
-                : "bg-card text-muted-foreground border border-border hover:border-primary/30"
+                ? "bg-slate-900 text-white"
+                : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
             }`}
           >
             {tab}
@@ -134,30 +136,31 @@ export default function EnhancedFilterBar({
         ))}
       </div>
 
+      {/* Result summary + avg confidence */}
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-slate-500">
           {filters.searchMode === "Companies"
             ? `${resultCount} companies matching "${filters.search || "all"}"`
             : filters.searchMode === "Markets"
             ? `${resultCount} markets matching "${filters.search || "all"}"`
             : <>
                 {resultCount} results across intelligence categories —{" "}
-                <span className="text-primary">Real Estate: {counts["Real Estate"]}</span> ·{" "}
-                <span className="text-teal-600">Business: {counts["Business"]}</span> ·{" "}
-                <span className="text-accent-foreground">Investment: {counts["Investment"]}</span>
+                <span className="text-blue-600">Real Estate: {counts["Real Estate"]}</span> ·{" "}
+                <span className="text-violet-600">Business: {counts["Business"]}</span> ·{" "}
+                <span className="text-emerald-600">Investment: {counts["Investment"]}</span>
               </>
           }
         </p>
         <div className="flex items-center gap-2">
           {avg > 0 && (
-            <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+            <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-semibold">
               Avg Confidence: {avg}%
             </span>
           )}
           {hasActiveFilters && (
             <button
               onClick={onClear}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors"
             >
               <RotateCcw className="w-3 h-3" /> Clear filters
             </button>
@@ -165,8 +168,9 @@ export default function EnhancedFilterBar({
         </div>
       </div>
 
+      {/* Filter row */}
       <div className="flex items-center gap-2 flex-wrap">
-        <SlidersHorizontal className="w-4 h-4 text-muted-foreground/70 shrink-0" />
+        <SlidersHorizontal className="w-4 h-4 text-slate-400 shrink-0" />
         <MarketSelector
           value={filters.market}
           onChange={(v) => { update("market", v); setStoredMarket(v); }}

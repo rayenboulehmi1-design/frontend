@@ -42,5 +42,24 @@ export function useSavedOpportunities() {
     setSaved(next);
   }, []);
 
-  return { saved, isSaved, toggleSave, removeSaved, savedCount: saved.length };
+  const bulkSave = useCallback((signals) => {
+    const current = readSaved();
+    const existingIds = new Set(current.map((s) => s.id));
+    const toAdd = signals.filter((s) => !existingIds.has(s.id));
+    if (toAdd.length === 0) return;
+    const next = [...toAdd, ...current];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    window.dispatchEvent(new Event(EVENT));
+    setSaved(next);
+  }, []);
+
+  const bulkRemove = useCallback((ids) => {
+    const idSet = new Set(ids);
+    const next = readSaved().filter((s) => !idSet.has(s.id));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    window.dispatchEvent(new Event(EVENT));
+    setSaved(next);
+  }, []);
+
+  return { saved, isSaved, toggleSave, removeSaved, bulkSave, bulkRemove, savedCount: saved.length };
 }

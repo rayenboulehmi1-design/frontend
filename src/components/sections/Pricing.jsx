@@ -9,13 +9,13 @@ const tiers = [
     tagline: "For individual dealmakers testing the waters",
     price: 49,
     features: [
-      "Full AI deal analysis & confidence scoring",
-      "Public business contacts & decision makers",
-      "Deal timelines & procurement insights",
-      "Up to 2 active missions",
+      "AI-assisted confidence scoring",
+      "Company & entity tracking",
+      "Signal summaries & market context",
+      "Up to 2 active alerts",
       "Email support",
     ],
-    popular: false,
+    popular: true,
   },
   {
     name: "Professional",
@@ -23,13 +23,14 @@ const tiers = [
     price: 149,
     features: [
       "Everything in Scout",
-      "AI-generated outreach drafts",
-      "Unlimited active missions",
+      "AI-generated outreach drafts (Coming Soon)",
+      "Unlimited active alerts",
       "Priority instant alerts",
       "CRM export & integrations",
       "Priority support",
     ],
-    popular: true,
+    popular: false,
+    status: "coming_soon",
   },
   {
     name: "Enterprise",
@@ -44,6 +45,7 @@ const tiers = [
       "SLA-backed support",
     ],
     popular: false,
+    status: "contact_us",
   },
 ];
 
@@ -125,16 +127,26 @@ export default function Pricing() {
                   /month
                 </span>
               </div>
-              <Link
-                to="/register"
-                className={`block w-full text-center py-3 rounded-full text-sm font-semibold transition-colors mb-8 ${
-                  tier.popular
-                    ? "bg-blue-600 text-white hover:bg-blue-700"
-                    : "bg-slate-900 text-white hover:bg-slate-800"
-                }`}
-              >
-                Get Started
-              </Link>
+              {tier.status === "coming_soon" ? (
+                <div className="block w-full text-center py-3 rounded-full text-sm font-semibold mb-8 border border-slate-200 text-slate-400 bg-slate-50 cursor-not-allowed">
+                  Coming Soon
+                </div>
+              ) : tier.status === "contact_us" ? (
+                <div className="block w-full text-center py-3 rounded-full text-sm font-semibold mb-8 border border-slate-300 text-slate-600 bg-white">
+                  Contact Us
+                </div>
+              ) : (
+                <Link
+                  to="/register"
+                  className={`block w-full text-center py-3 rounded-full text-sm font-semibold transition-colors mb-8 ${
+                    tier.popular
+                      ? "bg-blue-600 text-white hover:bg-blue-700"
+                      : "bg-slate-900 text-white hover:bg-slate-800"
+                  }`}
+                >
+                  Get Started
+                </Link>
+              )}
               <ul className="space-y-3">
                 {tier.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2.5">

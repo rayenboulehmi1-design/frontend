@@ -44,17 +44,17 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-white/80 backdrop-blur-lg border-b border-slate-200/60 shadow-sm"
+          ? "bg-card/80 backdrop-blur-lg border-b border-border/60 shadow-sm"
           : "bg-transparent"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-            <Radar className="w-4 h-4 text-white" strokeWidth={2.5} />
+          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+            <Radar className="w-4 h-4 text-primary-foreground" strokeWidth={2.5} />
           </div>
-          <span className="text-lg font-bold tracking-tight text-slate-900">
-            Scouty<span className="text-blue-600">Go</span>
+          <span className="text-lg font-bold tracking-tight text-foreground">
+            Scouty<span className="text-primary">Go</span>
           </span>
         </Link>
 
@@ -63,7 +63,7 @@ export default function Navbar() {
             <button
               key={link.label}
               onClick={() => handleNav(link.href)}
-              className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               {link.label}
             </button>
@@ -74,17 +74,17 @@ export default function Navbar() {
           {authed ? (
             <Link
               to="/dashboard"
-              className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+              className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               <LayoutDashboard className="w-4 h-4" />
               Dashboard
             </Link>
           ) : (
             <>
-              <Link to="/login" className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+              <Link to="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                 Sign In
               </Link>
-              <Link to="/register" className="px-5 py-2 rounded-full bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm shadow-blue-600/20">
+              <Link to="/register" className="px-5 py-2 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors shadow-sm shadow-primary/20">
                 Get Access
               </Link>
             </>
@@ -92,7 +92,7 @@ export default function Navbar() {
         </div>
 
         <button
-          className="md:hidden p-2 -mr-2 text-slate-700"
+          className="md:hidden p-2 -mr-2 text-foreground"
           onClick={() => setOpen(!open)}
           aria-label="Menu"
         >
@@ -101,25 +101,25 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <div className="md:hidden bg-white border-t border-slate-100 px-5 py-4 space-y-3">
+        <div className="md:hidden bg-card border-t border-border px-5 py-4 space-y-3">
           {navLinks.map((link) => (
             <button
               key={link.label}
               onClick={() => handleNav(link.href)}
-              className="block w-full text-left text-sm font-medium text-slate-700 py-1"
+              className="block w-full text-left text-sm font-medium text-foreground py-1"
             >
               {link.label}
             </button>
           ))}
-          <div className="pt-3 border-t border-slate-100 flex flex-col gap-3">
+          <div className="pt-3 border-t border-border flex flex-col gap-3">
             {authed ? (
-              <Link to="/dashboard" className="flex items-center gap-1.5 text-left text-sm font-medium text-slate-600">
+              <Link to="/dashboard" className="flex items-center gap-1.5 text-left text-sm font-medium text-muted-foreground">
                 <LayoutDashboard className="w-4 h-4" /> Dashboard
               </Link>
             ) : (
               <>
-                <Link to="/login" className="text-left text-sm font-medium text-slate-600">Sign In</Link>
-                <Link to="/register" className="px-5 py-2.5 rounded-full bg-blue-600 text-white text-sm font-semibold text-center">
+                <Link to="/login" className="text-left text-sm font-medium text-muted-foreground">Sign In</Link>
+                <Link to="/register" className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold text-center">
                   Get Access
                 </Link>
               </>

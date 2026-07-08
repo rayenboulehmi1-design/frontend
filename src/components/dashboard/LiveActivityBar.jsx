@@ -16,21 +16,21 @@ export default function LiveActivityBar({ liveCount }) {
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl border border-slate-200 bg-white px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+      className="rounded-2xl border border-border bg-card px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
     >
       <div className="flex items-center gap-3">
         <div className="relative flex h-2.5 w-2.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-600" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary/60 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
         </div>
         <div>
-          <p className="text-sm font-semibold text-slate-900">Scouty is actively scanning global markets</p>
-          <p className="text-xs text-slate-400">
+          <p className="text-sm font-semibold text-foreground">Scouty is actively scanning global markets</p>
+          <p className="text-xs text-muted-foreground/70">
             AI engine online · {liveCount} live opportunities tracked · {counter.toLocaleString()} signals processed
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 text-blue-600 self-start sm:self-auto">
+      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary self-start sm:self-auto">
         <Cpu className="w-3.5 h-3.5" />
         <span className="text-xs font-bold">Online</span>
       </div>

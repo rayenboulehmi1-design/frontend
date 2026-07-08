@@ -26,7 +26,7 @@ const products = [
       { value: "4", label: "Developers Observed" },
     ],
     icon: Building2,
-    accent: "blue",
+    accent: "primary",
     category: "Real Estate",
   },
   {
@@ -48,7 +48,7 @@ const products = [
       { value: "3", label: "Markets Monitored" },
     ],
     icon: Briefcase,
-    accent: "violet",
+    accent: "teal",
     category: "Business",
   },
   {
@@ -70,15 +70,15 @@ const products = [
       { value: "0", label: "Entities Monitored" },
     ],
     icon: TrendingUp,
-    accent: "emerald",
+    accent: "accent",
     category: "Investment",
   },
 ];
 
 const accentMap = {
-  blue: { text: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100", dot: "bg-blue-600" },
-  violet: { text: "text-violet-600", bg: "bg-violet-50", border: "border-violet-100", dot: "bg-violet-600" },
-  emerald: { text: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100", dot: "bg-emerald-600" },
+  primary: { text: "text-primary", bg: "bg-primary/5", border: "border-primary/20", dot: "bg-primary" },
+  teal: { text: "text-teal-600", bg: "bg-teal-50", border: "border-teal-100", dot: "bg-teal-600" },
+  accent: { text: "text-accent-foreground", bg: "bg-accent/5", border: "border-accent/20", dot: "bg-accent" },
 };
 
 export default function FlagshipProducts() {
@@ -112,7 +112,7 @@ export default function FlagshipProducts() {
   };
 
   return (
-    <section id="products" className="py-20 sm:py-28 bg-white border-y border-slate-100">
+    <section id="products" className="py-20 sm:py-28 bg-card border-y border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 space-y-20">
         {products.map((product, idx) => {
           const a = accentMap[product.accent];
@@ -133,21 +133,21 @@ export default function FlagshipProducts() {
             >
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="text-sm font-bold text-slate-300">{product.number}</span>
+                  <span className="text-sm font-bold text-muted-foreground/40">{product.number}</span>
                   <span className={`text-xs font-semibold uppercase tracking-wide ${a.text}`}>
                     {product.tag}
                   </span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 mb-4">
+                <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-4">
                   {product.title}
                 </h2>
-                <p className="text-slate-500 leading-relaxed mb-6">{product.description}</p>
+                <p className="text-muted-foreground leading-relaxed mb-6">{product.description}</p>
 
                 <div className="flex flex-wrap gap-2 mb-8">
                   {product.features.map((feature) => (
                     <span
                       key={feature}
-                      className="px-3 py-1.5 rounded-full text-xs font-medium bg-slate-50 text-slate-600 border border-slate-100"
+                      className="px-3 py-1.5 rounded-full text-xs font-medium bg-muted text-muted-foreground border border-border"
                     >
                       {feature}
                     </span>
@@ -157,41 +157,41 @@ export default function FlagshipProducts() {
                 <div className="flex gap-8">
                   {getStats(product.category).map((stat) => (
                     <div key={stat.label}>
-                      <div className="text-2xl font-bold text-slate-900">{stat.value}</div>
-                      <div className="text-xs text-slate-400 uppercase tracking-wide mt-0.5">
+                      <div className="text-2xl font-bold text-foreground">{stat.value}</div>
+                      <div className="text-xs text-muted-foreground/70 uppercase tracking-wide mt-0.5">
                         {stat.label}
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <Link to={`/intelligence-feed?category=${encodeURIComponent(product.category)}`} className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-slate-900 hover:gap-2.5 transition-all">
+                <Link to={`/intelligence-feed?category=${encodeURIComponent(product.category)}`} className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground hover:gap-2.5 transition-all">
                   Explore {product.title.replace(".", "")} <ArrowUpRight className="w-4 h-4" />
                 </Link>
               </div>
 
               <div className={`rounded-3xl ${a.bg} ${a.border} border p-8 lg:p-10`}>
-                <div className={`w-14 h-14 rounded-2xl bg-white flex items-center justify-center mb-6 shadow-sm`}>
+                <div className={`w-14 h-14 rounded-2xl bg-card flex items-center justify-center mb-6 shadow-sm`}>
                   <Icon className={`w-7 h-7 ${a.text}`} />
                 </div>
                 <div className="space-y-3">
                   {loading
                     ? [0, 1, 2, 3].map((i) => (
-                        <div key={i} className="h-16 rounded-xl bg-white/70 animate-pulse" />
+                        <div key={i} className="h-16 rounded-xl bg-card/70 animate-pulse" />
                       ))
                     : productSignals.length === 0
-                    ? <p className="text-sm text-slate-400 py-8 text-center">No active signals in this market right now — check back soon.</p>
+                    ? <p className="text-sm text-muted-foreground/70 py-8 text-center">No active signals in this market right now — check back soon.</p>
                     : productSignals.map((signal, i) => (
-                        <div key={signal.id} className="flex items-center gap-3 p-4 rounded-xl bg-white/70 backdrop-blur-sm">
+                        <div key={signal.id} className="flex items-center gap-3 p-4 rounded-xl bg-card/70 backdrop-blur-sm">
                           <span className={`w-2 h-2 rounded-full ${a.dot} shrink-0 ${i === 0 ? "animate-pulse" : ""}`} />
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-slate-800 truncate">{signal.title}</p>
-                            <div className="flex items-center gap-1 mt-1 text-xs text-slate-400">
+                            <p className="text-sm font-medium text-foreground truncate">{signal.title}</p>
+                            <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground/70">
                               <MapPin className="w-3 h-3" />
                               <span className="truncate">{signal.location}{signal.entity_name ? ` • ${signal.entity_name}` : ""}</span>
                             </div>
                           </div>
-                          <span className="text-xs text-slate-400 font-medium shrink-0">{signal.time_ago}</span>
+                          <span className="text-xs text-muted-foreground/70 font-medium shrink-0">{signal.time_ago}</span>
                         </div>
                       ))}
                 </div>

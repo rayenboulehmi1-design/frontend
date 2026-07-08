@@ -26,7 +26,7 @@ export default function StatsBar() {
   ];
 
   return (
-    <section className="border-y border-slate-100 bg-white">
+    <section className="border-y border-border bg-card">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 py-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {statsList.map((stat, i) => (
@@ -38,10 +38,10 @@ export default function StatsBar() {
               transition={{ duration: 0.4, delay: i * 0.06 }}
               className="text-center"
             >
-              <div className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
+              <div className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
                 {loading ? "—" : (typeof stat.value === "number" ? stat.value.toLocaleString() : stat.value)}
               </div>
-              <div className="mt-1 text-xs font-medium text-slate-400 uppercase tracking-wide">
+              <div className="mt-1 text-xs font-medium text-muted-foreground/70 uppercase tracking-wide">
                 {stat.label}
               </div>
             </motion.div>

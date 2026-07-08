@@ -32,7 +32,7 @@ export default function Profile() {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-blue-600 animate-spin" />
+        <Loader2 className="w-6 h-6 text-primary animate-spin" />
       </div>
     );
   }
@@ -41,54 +41,54 @@ export default function Profile() {
 
   return (
     <div className="p-5 sm:p-8 max-w-2xl mx-auto">
-      <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-6 transition-colors">
+      <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground mb-6 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
       </Link>
 
       <div className="flex items-center gap-3 mb-8">
-        <User className="w-5 h-5 text-blue-600" />
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Profile</h1>
+        <User className="w-5 h-5 text-primary" />
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">Profile</h1>
       </div>
 
-      <div className="rounded-2xl border border-slate-100 bg-white p-6">
+      <div className="rounded-2xl border border-border bg-card p-6">
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center">
-            <span className="text-xl font-bold text-blue-600">{initial}</span>
+          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+            <span className="text-xl font-bold text-primary">{initial}</span>
           </div>
           <div>
-            <p className="font-semibold text-slate-900">{user.full_name || "—"}</p>
-            <p className="text-sm text-slate-500">{user.email}</p>
+            <p className="font-semibold text-foreground">{user.full_name || "—"}</p>
+            <p className="text-sm text-muted-foreground">{user.email}</p>
           </div>
         </div>
 
         <form onSubmit={handleSave} className="space-y-4">
           <div>
-            <label className="text-sm font-medium text-slate-700">Full Name</label>
+            <label className="text-sm font-medium text-foreground">Full Name</label>
             <input
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="mt-1 w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-blue-400"
+              className="mt-1 w-full px-3 py-2.5 rounded-xl border border-border text-sm outline-none focus:border-primary/50"
             />
           </div>
           <div>
-            <label className="text-sm font-medium text-slate-700">Email</label>
-            <div className="mt-1 flex items-center gap-2 px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50">
-              <Mail className="w-4 h-4 text-slate-400" />
-              <span className="text-sm text-slate-500">{user.email}</span>
+            <label className="text-sm font-medium text-foreground">Email</label>
+            <div className="mt-1 flex items-center gap-2 px-3 py-2.5 rounded-xl border border-border bg-muted/50">
+              <Mail className="w-4 h-4 text-muted-foreground/70" />
+              <span className="text-sm text-muted-foreground">{user.email}</span>
             </div>
           </div>
           <div>
-            <label className="text-sm font-medium text-slate-700">Role</label>
-            <div className="mt-1 px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50">
-              <span className="text-sm text-slate-500 capitalize">{user.role}</span>
+            <label className="text-sm font-medium text-foreground">Role</label>
+            <div className="mt-1 px-3 py-2.5 rounded-xl border border-border bg-muted/50">
+              <span className="text-sm text-muted-foreground capitalize">{user.role}</span>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <button type="submit" disabled={saving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50">
+            <button type="submit" disabled={saving} className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50">
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               Save Changes
             </button>
-            {savedMsg && <span className="text-sm text-emerald-600 font-medium">Saved!</span>}
+            {savedMsg && <span className="text-sm text-primary font-medium">Saved!</span>}
           </div>
         </form>
       </div>

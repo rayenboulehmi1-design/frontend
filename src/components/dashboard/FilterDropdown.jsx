@@ -19,7 +19,7 @@ export default function FilterDropdown({ label, icon: Icon, options, value, onCh
       <button
         onClick={() => setOpen(!open)}
         className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border whitespace-nowrap transition-colors ${
-          active ? "bg-blue-50 border-blue-200 text-blue-600" : "bg-white border-slate-200 text-slate-500 hover:border-slate-300"
+          active ? "bg-primary/10 border-primary/20 text-primary" : "bg-card border-border text-muted-foreground hover:border-primary/30"
         }`}
       >
         {Icon && <Icon className="w-3.5 h-3.5 shrink-0" />}
@@ -34,14 +34,14 @@ export default function FilterDropdown({ label, icon: Icon, options, value, onCh
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.15 }}
-            className="absolute top-full mt-1 left-0 w-52 rounded-xl bg-white border border-slate-200 shadow-2xl z-30 py-1 max-h-64 overflow-y-auto"
+            className="absolute top-full mt-1 left-0 w-52 rounded-xl bg-popover border border-border shadow-2xl z-30 py-1 max-h-64 overflow-y-auto"
           >
             {options.map((opt) => (
               <button
                 key={opt}
                 onClick={() => { onChange(opt); setOpen(false); }}
-                className={`w-full text-left px-3 py-2 text-sm hover:bg-slate-50 transition-colors ${
-                  value === opt ? "text-blue-600 font-medium bg-blue-50/50" : "text-slate-600"
+                className={`w-full text-left px-3 py-2 text-sm hover:bg-muted transition-colors ${
+                  value === opt ? "text-primary font-medium bg-primary/5" : "text-muted-foreground"
                 }`}
               >
                 {opt}

@@ -20,25 +20,25 @@ export default function ConfidenceChart({ signals, loading }) {
   }, [signals]);
 
   if (loading) {
-    return <div className="h-64 rounded-2xl bg-slate-100 animate-pulse" />;
+    return <div className="h-64 rounded-2xl bg-muted animate-pulse" />;
   }
 
-  const colors = ["#f87171", "#fbbf24", "#facc15", "#34d399", "#10b981"];
+  const colors = ["#f87171", "#FFB703", "#fbbf24", "#34d399", "#2D6A4F"];
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl border border-slate-100 bg-white p-6"
+      className="rounded-2xl border border-border bg-card p-6"
     >
-      <h2 className="text-lg font-bold text-slate-900 mb-1">Confidence Distribution</h2>
-      <p className="text-sm text-slate-400 mb-6">Signal count by confidence score range</p>
+      <h2 className="text-lg font-bold text-foreground mb-1">Confidence Distribution</h2>
+      <p className="text-sm text-muted-foreground/70 mb-6">Signal count by confidence score range</p>
       <ResponsiveContainer width="100%" height={260}>
         <BarChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-          <XAxis dataKey="range" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-          <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} allowDecimals={false} />
-          <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid #e2e8f0", fontSize: 13 }} cursor={{ fill: "#f8fafc" }} />
+          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+          <XAxis dataKey="range" stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
+          <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} allowDecimals={false} />
+          <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid hsl(var(--border))", fontSize: 13 }} cursor={{ fill: "hsl(var(--muted))" }} />
           <Bar dataKey="count" radius={[8, 8, 0, 0]} barSize={48}>
             {data.map((_, i) => (
               <Cell key={i} fill={colors[i]} />

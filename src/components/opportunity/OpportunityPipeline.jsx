@@ -45,26 +45,6 @@ function getConfidenceReasoning(signal) {
   return reasons;
 }
 
-// ─── Engine evidence items (derived from engine data, NOT AI) ───
-function getEvidenceItems(signal) {
-  const items = [];
-  if (signal.sourceType) {
-    items.push({ type: signal.sourceType, description: signal.explanation || signal.summary || "Source detected by the Intelligence Engine", url: signal.sourceUrl });
-  }
-  if (signal.signals && signal.signals.length > 0) {
-    signal.signals.forEach((tag) => {
-      items.push({ type: "Signal Indicator", description: tag, url: null });
-    });
-  }
-  if (signal.verificationStatus) {
-    items.push({ type: "Verification", description: `Verification status: ${signal.verificationStatus}`, url: null });
-  }
-  if (signal.corroborationState) {
-    items.push({ type: "Corroboration", description: `Corroboration: ${signal.corroborationState}`, url: null });
-  }
-  return items;
-}
-
 export default function OpportunityPipeline({ signal }) {
   const demoLink = useDemoLink();
   const { isSaved, toggleSave } = useSavedOpportunities();
@@ -90,7 +70,9 @@ export default function OpportunityPipeline({ signal }) {
 
   const confidenceScore = signal.confidence;
   const confidenceReasons = getConfidenceReasoning(signal);
-  const evidenceItems = getEvidenceItems(signal);
+  // Evidence comes directly from the Intelligence Engine as a structured array.
+  // The frontend does NOT construct or fabricate evidence.
+  const evidenceItems = Array.isArray(signal.evidence) ? signal.evidence : [];
 
   // ─── AI Assistant: Executive Brief + Why It Matters ───
   // The AI ONLY explains verified engine output. It NEVER invents facts.
@@ -311,30 +293,21 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
           <LockedFeature featureKey="confidenceScores" title="Opportunity Score" description="Opportunity scores are available on Pro and higher plans.">
             <div className="h-8" />
           </LockedFeature>
-        ) : confidenceScore != null ? (
+        ) : signal.opportunityScore != null ? (
           <div className="rounded-2xl border border-slate-100 bg-white p-5 flex items-center gap-5">
-            <ConfidenceBadge score={confidenceScore} size="lg" />
+            <ConfidenceBadge score={signal.opportunityScore} size="lg" />
             <div className="flex-1">
-              <p className="text-2xl font-bold text-slate-900">{confidenceScore}%</p>
+              <p className="text-2xl font-bold text-slate-900">{signal.opportunityScore}%</p>
               <p className="text-xs text-slate-500 mt-0.5">Business Attractiveness Score</p>
-              {/* Contributing factors from engine data */}
-              <div className="flex flex-wrap gap-1.5 mt-3">
-                {signal.marketSize && (
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
-                    Market: {signal.marketSize}
-                  </span>
-                )}
-                {signal.timeline && (
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-50 text-blue-700 border border-blue-100">
-                    Timeline: {signal.timeline}
-                  </span>
-                )}
-                {signal.category && (
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-violet-50 text-violet-700 border border-violet-100">
-                    {signal.category}
-                  </span>
-                )}
-              </div>
+              {signal.opportunityScoreFactors?.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 mt-3">
+                  {signal.opportunityScoreFactors.map((factor, i) => (
+                    <span key={i} className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-50 text-slate-600 border border-slate-100">
+                      {factor}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         ) : (
@@ -387,24 +360,27 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
         ) : evidenceItems.length > 0 ? (
           <div className="rounded-2xl border border-slate-100 bg-white p-5">
             <div className="space-y-3">
-              {evidenceItems.map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
-                    <FileSearch className="w-3.5 h-3.5 text-slate-500" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium text-slate-900">{item.type}</p>
-                      {item.url && (
-                        <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-                      )}
+              {evidenceItems.map((item, i) => {
+                const sourceUrl = item.url || item.sourceUrl || null;
+                return (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
+                      <FileSearch className="w-3.5 h-3.5 text-slate-500" />
                     </div>
-                    <p className="text-xs text-slate-500 mt-0.5">{item.description}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-medium text-slate-900">{item.type}</p>
+                        {sourceUrl && (
+                          <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        )}
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">{item.description}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         ) : (

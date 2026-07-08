@@ -27,6 +27,7 @@ import MissionTimeline from "@/components/missions/MissionTimeline";
 import MissionFiltersDisplay from "@/components/missions/MissionFiltersDisplay";
 import MissionMatchingOpportunities from "@/components/missions/MissionMatchingOpportunities";
 import MissionFutureModules from "@/components/missions/MissionFutureModules";
+import MissionLeadsSection from "@/components/leads/MissionLeadsSection";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -190,6 +191,11 @@ export default function MissionDetail() {
             <MissionFutureModules mission={mission} />
           </div>
         </div>
+      </div>
+
+      {/* Mission Leads Section */}
+      <div className="mt-6">
+        <MissionLeadsSection mission={mission} matchingSignals={matchingSignals} />
       </div>
 
       {/* Delete confirmation */}

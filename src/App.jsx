@@ -30,6 +30,7 @@ import ComingSoon from '@/pages/ComingSoon';
 import Missions from '@/pages/Missions';
 import MissionDetail from '@/pages/MissionDetail';
 import Leads from '@/pages/Leads';
+import LeadDetail from '@/pages/LeadDetail';
 import CRM from '@/pages/CRM';
 import DemoLayout from '@/components/dashboard/DemoLayout';
 import DemoDashboard from '@/pages/demo/DemoDashboard';
@@ -96,6 +97,7 @@ const AuthenticatedApp = () => {
         <Route path="/geo-intelligence" element={<ComingSoon title="Country & City Intelligence" description="Geographic intelligence breakdown — activity patterns, market trends, and opportunity density by region." />} />
         <Route path="/watchlist" element={<ComingSoon title="Watchlist" description="Real-estate-specific watch targets — monitor properties, developments, and areas of interest." />} />
         <Route path="/leads" element={<Leads />} />
+        <Route path="/leads/:leadId" element={<LeadDetail />} />
         <Route path="/crm" element={<CRM />} />
         <Route path="/admin" element={<ComingSoon title="Admin Panel" description="Pipeline administration panel — manage data sources, monitor ingestion, and configure system settings." />} />
       </Route>
@@ -117,6 +119,7 @@ const AuthenticatedApp = () => {
         <Route path="/demo-geo-intelligence" element={<ComingSoon title="Country & City Intelligence" description="Geographic intelligence breakdown by region." />} />
         <Route path="/demo-watchlist" element={<ComingSoon title="Watchlist" description="Real-estate-specific watch targets." />} />
         <Route path="/demo-leads" element={<Leads />} />
+        <Route path="/demo-leads/:leadId" element={<LeadDetail />} />
         <Route path="/demo-crm" element={<CRM />} />
       </Route>
       <Route path="/command-center" element={<Navigate to="/dashboard" replace />} />

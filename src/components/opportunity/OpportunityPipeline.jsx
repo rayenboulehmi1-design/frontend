@@ -15,6 +15,7 @@ import ConfidenceBadge from "@/components/dashboard/ConfidenceBadge";
 import LockedFeature from "@/components/entitlement/LockedFeature";
 import PipelineStep from "@/components/opportunity/PipelineStep";
 import EnginePlaceholder from "@/components/opportunity/EnginePlaceholder";
+import LeadsWorkflow from "@/components/leads/LeadsWorkflow";
 
 const categoryStyles = {
   "Real Estate": { badge: "bg-blue-50 text-blue-700 border-blue-100" },
@@ -408,41 +409,13 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
         )}
       </PipelineStep>
 
-      {/* ───────── Step 7: Potential Buyers (Future Leads Engine) ───────── */}
-      <PipelineStep number={7} title="Potential Buyers" icon={Users} owner="future">
-        {leadsAccess === "LOCKED" ? (
-          <LockedFeature featureKey="leadsProvider" title="Potential Buyers" description="Buyer identification is available on Pro+ and higher plans.">
-            <div className="h-8" />
-          </LockedFeature>
-        ) : (
-          <FutureModulePlaceholder icon={Users} description="AI-powered buyer identification will automatically match this opportunity to likely investor and buyer profiles." />
-        )}
+      {/* ───────── Step 7: Leads Provider Agent (Future Leads Engine) ───────── */}
+      <PipelineStep number={7} title="Leads Provider Agent" icon={Users} owner="future">
+        <LeadsWorkflow opportunity={signal} />
       </PipelineStep>
 
-      {/* ───────── Step 8: Decision Makers (Future Leads Engine) ───────── */}
-      <PipelineStep number={8} title="Decision Makers" icon={UserCheck} owner="future">
-        {leadsAccess === "LOCKED" ? (
-          <LockedFeature featureKey="leadsProvider" title="Decision Makers" description="Decision maker discovery is available on Pro+ and higher plans.">
-            <div className="h-8" />
-          </LockedFeature>
-        ) : (
-          <FutureModulePlaceholder icon={UserCheck} description="The Leads Intelligence Engine will discover and verify key decision makers associated with this opportunity." />
-        )}
-      </PipelineStep>
-
-      {/* ───────── Step 9: Suggested Outreach (Future AI Assistant) ───────── */}
-      <PipelineStep number={9} title="Suggested Outreach" icon={Mail} owner="future">
-        {outreachAccess === "LOCKED" ? (
-          <LockedFeature featureKey="aiOutreachAssistance" title="Suggested Outreach" description="AI outreach assistance is available on Pro+ and higher plans.">
-            <div className="h-8" />
-          </LockedFeature>
-        ) : (
-          <FutureModulePlaceholder icon={Mail} description="AI outreach assistance will generate personalized outreach strategies after verified leads and decision makers are identified." />
-        )}
-      </PipelineStep>
-
-      {/* ───────── Step 10: Save (Frontend + Backend) ───────── */}
-      <PipelineStep number={10} title="Save" icon={Bookmark} owner="action" compact>
+      {/* ───────── Step 8: Save (Frontend + Backend) ───────── */}
+      <PipelineStep number={8} title="Save" icon={Bookmark} owner="action" compact>
         <div className="flex items-center gap-2">
           {saved && <span className="text-xs text-blue-600 font-medium">Saved</span>}
           <button
@@ -457,8 +430,8 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
         </div>
       </PipelineStep>
 
-      {/* ───────── Step 11: Create AI Mission (Frontend + Backend) ───────── */}
-      <PipelineStep number={11} title="Create AI Mission" icon={Radar} owner="action" compact>
+      {/* ───────── Step 9: Create AI Mission (Frontend + Backend) ───────── */}
+      <PipelineStep number={9} title="Create AI Mission" icon={Radar} owner="action" compact>
         <div className="flex items-center gap-2">
           {missionCreated && (
             <Link to={demoLink("/missions")} className="text-xs text-blue-600 font-medium hover:underline">View Missions</Link>
@@ -475,8 +448,8 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
         </div>
       </PipelineStep>
 
-      {/* ───────── Step 12: Track (Frontend + Backend) ───────── */}
-      <PipelineStep number={12} title="Track" icon={Bell} owner="action" compact>
+      {/* ───────── Step 10: Track (Frontend + Backend) ───────── */}
+      <PipelineStep number={10} title="Track" icon={Bell} owner="action" compact>
         <div className="flex items-center gap-2">
           {tracked && (
             <Link to={demoLink("/alerts")} className="text-xs text-blue-600 font-medium hover:underline">View Alerts</Link>
@@ -493,8 +466,8 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
         </div>
       </PipelineStep>
 
-      {/* ───────── Step 13: Add to CRM (Future Backend) ───────── */}
-      <PipelineStep number={13} title="Add to CRM" icon={PieChart} owner="action" compact isLast>
+      {/* ───────── Step 11: Add to CRM (Future Backend) ───────── */}
+      <PipelineStep number={11} title="Add to CRM" icon={PieChart} owner="action" compact isLast>
         {crmAccess === "LOCKED" ? (
           <Link
             to={demoLink("/account-overview")}

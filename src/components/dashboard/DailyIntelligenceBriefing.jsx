@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import { AlertTriangle, Star, Globe, Coins, TrendingUp, ArrowRight } from "lucide-react";
 import ConfidenceBadge from "@/components/dashboard/ConfidenceBadge";
 import { getTypeStyle, getGreeting, uniqueCountries } from "@/lib/dealUtils";
+import { useDemoLink } from "@/lib/demoMode";
 
 export default function DailyIntelligenceBriefing({ signals, user, loading }) {
   const firstName = user?.full_name?.split(" ")[0] || user?.email?.split("@")[0] || "there";
+  const demoLink = useDemoLink();
 
   const insights = useMemo(() => {
     if (!signals.length) return { urgent: 0, top: 0, markets: 0, highValue: 0, priorities: [], focus: null, snapshot: [] };
@@ -121,7 +123,7 @@ export default function DailyIntelligenceBriefing({ signals, user, loading }) {
                 return (
                   <Link
                     key={deal.id}
-                    to={`/opportunities/${deal.id}`}
+                    to={demoLink(`/opportunities/${deal.id}`)}
                     className="flex items-center gap-3 p-2.5 rounded-xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50/30 transition-all group"
                   >
                     <span className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-500 shrink-0">
@@ -152,7 +154,7 @@ export default function DailyIntelligenceBriefing({ signals, user, loading }) {
             <div>
               <h3 className="text-sm font-bold text-slate-900 mb-3">Recommended Focus Today</h3>
               <Link
-                to={`/opportunities/${insights.focus.id}`}
+                to={demoLink(`/opportunities/${insights.focus.id}`)}
                 className="block rounded-xl border-2 border-amber-200 bg-amber-50/30 p-4 hover:border-amber-300 transition-colors group"
               >
                 <div className="flex items-start justify-between gap-3 mb-2">

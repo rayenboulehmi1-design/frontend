@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, X, Settings, Trash2 } from "lucide-react";
 import { useNotifications } from "@/hooks/useNotifications";
+import { useDemoLink } from "@/lib/demoMode";
 import ConfidenceBadge from "@/components/dashboard/ConfidenceBadge";
 
 function formatNotifTime(iso) {
@@ -19,6 +20,7 @@ export default function NotificationBell() {
   const ref = useRef(null);
   const navigate = useNavigate();
   const { notifications, dismiss, clearAll, markAllRead, unreadCount } = useNotifications();
+  const demoLink = useDemoLink();
 
   useEffect(() => {
     const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
@@ -28,7 +30,7 @@ export default function NotificationBell() {
 
   const handleClick = (notif) => {
     setOpen(false);
-    navigate(`/opportunities/${notif.dealId}`);
+    navigate(demoLink(`/opportunities/${notif.dealId}`));
   };
 
   return (
@@ -58,7 +60,7 @@ export default function NotificationBell() {
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
               <span className="text-sm font-bold text-slate-900">Notifications</span>
-              <Link to="/settings" onClick={() => setOpen(false)} className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600">
+              <Link to={demoLink("/settings")} onClick={() => setOpen(false)} className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600">
                 <Settings className="w-3.5 h-3.5" /> Settings
               </Link>
             </div>

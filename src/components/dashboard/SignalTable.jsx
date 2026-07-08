@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowUpDown, MapPin, Building2, Bookmark, BookmarkCheck, Trash2 } from "lucide-react";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
+import { useDemoLink } from "@/lib/demoMode";
 
 const CATEGORY_STYLES = {
   "Real Estate": "bg-blue-50 text-blue-700 border-blue-100",
@@ -11,6 +12,7 @@ const CATEGORY_STYLES = {
 
 export default function SignalTable({ signals, loading }) {
   const navigate = useNavigate();
+  const demoLink = useDemoLink();
   const [sortBy, setSortBy] = useState("time_ago");
   const [sortDir, setSortDir] = useState("desc");
   const [selected, setSelected] = useState(new Set());
@@ -170,7 +172,7 @@ export default function SignalTable({ signals, loading }) {
               return (
                 <tr
                   key={signal.id}
-                  onClick={() => navigate(`/opportunities/${signal.id}`)}
+                  onClick={() => navigate(demoLink(`/opportunities/${signal.id}`))}
                   className={`border-b border-slate-50 hover:bg-blue-50/40 transition-colors cursor-pointer ${checked ? "bg-blue-50/30" : ""}`}
                 >
                   <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { MapPin, Clock, Bookmark, Building2, TrendingUp } from "lucide-react";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
+import { useDemoLink } from "@/lib/demoMode";
 import ConfidenceBadge from "@/components/dashboard/ConfidenceBadge";
 
 const categoryStyles = {
@@ -27,10 +28,11 @@ export default function SignalCard({ signal, compact = false }) {
   const Icon = style.icon;
   const { isSaved, toggleSave } = useSavedOpportunities();
   const saved = isSaved(signal.id);
+  const demoLink = useDemoLink();
 
   if (compact) {
     return (
-      <Link to={`/opportunities/${signal.id}`} className="block group">
+      <Link to={demoLink(`/opportunities/${signal.id}`)} className="block group">
         <div className="flex items-start gap-3 p-4 rounded-xl border border-slate-100 bg-white hover:border-blue-200 hover:shadow-md transition-all">
           <div className={`shrink-0 w-9 h-9 rounded-lg ${style.bg} flex items-center justify-center`}>
             <Icon className={`w-4 h-4 ${style.color}`} />
@@ -72,7 +74,7 @@ export default function SignalCard({ signal, compact = false }) {
         </div>
         <SaveButton signal={signal} saved={saved} onToggle={toggleSave} />
       </div>
-      <Link to={`/opportunities/${signal.id}`} className="group flex-1">
+      <Link to={demoLink(`/opportunities/${signal.id}`)} className="group flex-1">
         <h3 className="font-semibold text-slate-900 leading-snug mb-3 group-hover:text-blue-600 transition-colors">
           {signal.title}
         </h3>

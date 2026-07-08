@@ -27,6 +27,15 @@ import Settings from '@/pages/Settings';
 import AccountOverview from '@/pages/AccountOverview';
 import DataExport from '@/pages/DataExport';
 import ComingSoon from '@/pages/ComingSoon';
+import DemoLayout from '@/components/dashboard/DemoLayout';
+import DemoDashboard from '@/pages/demo/DemoDashboard';
+import DemoIntelligenceFeed from '@/pages/demo/DemoIntelligenceFeed';
+import DemoOpportunityDetail from '@/pages/demo/DemoOpportunityDetail';
+import DemoSaved from '@/pages/demo/DemoSaved';
+import DemoAlerts from '@/pages/demo/DemoAlerts';
+import DemoProfile from '@/pages/demo/DemoProfile';
+import DemoSettings from '@/pages/demo/DemoSettings';
+import DemoAccountOverview from '@/pages/demo/DemoAccountOverview';
 import { Navigate } from 'react-router-dom';
 
 const AuthenticatedApp = () => {
@@ -82,6 +91,23 @@ const AuthenticatedApp = () => {
         <Route path="/geo-intelligence" element={<ComingSoon title="Country & City Intelligence" description="Geographic intelligence breakdown — activity patterns, market trends, and opportunity density by region." />} />
         <Route path="/watchlist" element={<ComingSoon title="Watchlist" description="Real-estate-specific watch targets — monitor properties, developments, and areas of interest." />} />
         <Route path="/admin" element={<ComingSoon title="Admin Panel" description="Pipeline administration panel — manage data sources, monitor ingestion, and configure system settings." />} />
+      </Route>
+      {/* Public demo routes — no auth required, isolated state */}
+      <Route element={<DemoLayout />}>
+        <Route path="/demo-dashboard" element={<DemoDashboard />} />
+        <Route path="/demo-intelligence-feed" element={<DemoIntelligenceFeed />} />
+        <Route path="/demo-opportunities/:id" element={<DemoOpportunityDetail />} />
+        <Route path="/demo-saved" element={<DemoSaved />} />
+        <Route path="/demo-alerts" element={<DemoAlerts />} />
+        <Route path="/demo-profile" element={<DemoProfile />} />
+        <Route path="/demo-settings" element={<DemoSettings />} />
+        <Route path="/demo-account" element={<DemoAccountOverview />} />
+        <Route path="/demo-missions" element={<ComingSoon title="Missions" description="Persistent saved searches that continuously scan for new opportunities matching your criteria." />} />
+        <Route path="/demo-off-plan" element={<ComingSoon title="Off-Plan Intel" description="Off-plan development intelligence — track upcoming launches, developer activity, and planning approvals." />} />
+        <Route path="/demo-property-records" element={<ComingSoon title="Property Records" description="Raw property and permit records sourced from public registries." />} />
+        <Route path="/demo-developers" element={<ComingSoon title="Developers" description="Developer profiles and track records." />} />
+        <Route path="/demo-geo-intelligence" element={<ComingSoon title="Country & City Intelligence" description="Geographic intelligence breakdown by region." />} />
+        <Route path="/demo-watchlist" element={<ComingSoon title="Watchlist" description="Real-estate-specific watch targets." />} />
       </Route>
       <Route path="/command-center" element={<Navigate to="/dashboard" replace />} />
       <Route path="*" element={<PageNotFound />} />

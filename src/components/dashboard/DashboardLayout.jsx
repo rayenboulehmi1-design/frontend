@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { Menu, Radar } from "lucide-react";
+import { useDemoLink } from "@/lib/demoMode";
 import DashboardSidebar from "./DashboardSidebar";
 import NotificationBell from "./NotificationBell";
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const demoLink = useDemoLink();
 
   return (
     <div className="min-h-screen bg-[#fcfcfc] flex">
@@ -31,7 +33,7 @@ export default function DashboardLayout() {
           <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 text-slate-600">
             <Menu className="w-5 h-5" />
           </button>
-          <Link to="/dashboard" className="flex items-center gap-2">
+          <Link to={demoLink("/dashboard")} className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center">
               <Radar className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
             </div>

@@ -2,8 +2,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Radar, ArrowRight, Clock } from "lucide-react";
+import { useDemoLink } from "@/lib/demoMode";
 
 export default function MissionsModule() {
+  const demoLink = useDemoLink();
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -18,7 +20,7 @@ export default function MissionsModule() {
             <h3 className="text-sm font-bold text-slate-900">Running Missions</h3>
             <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-400 text-xs font-bold">0</span>
           </div>
-          <Link to="/missions" className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:gap-2 transition-all">
+          <Link to={demoLink("/missions")} className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:gap-2 transition-all">
             View all <ArrowRight className="w-3 h-3" />
           </Link>
         </div>

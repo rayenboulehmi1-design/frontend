@@ -2,11 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Radar, ArrowLeft, Construction } from "lucide-react";
+import { useDemoLink } from "@/lib/demoMode";
 
 export default function ComingSoon({ title, description }) {
+  const demoLink = useDemoLink();
   return (
     <div className="p-5 sm:p-8 max-w-2xl mx-auto">
-      <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-8 transition-colors">
+      <Link to={demoLink("/dashboard")} className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-8 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
       </Link>
 

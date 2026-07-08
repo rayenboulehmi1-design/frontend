@@ -5,10 +5,12 @@ import { MapPin, Clock, Bookmark, BookmarkCheck, Brain, Radio, Lightbulb, Zap, B
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 import ConfidenceBadge from "@/components/dashboard/ConfidenceBadge";
 import { getTypeStyle, getSignalTagStyle, whyItMatters } from "@/lib/dealUtils";
+import { useDemoLink } from "@/lib/demoMode";
 
 export default function DealCard({ deal }) {
   const { isSaved, toggleSave } = useSavedOpportunities();
   const saved = isSaved(deal.id);
+  const demoLink = useDemoLink();
   const typeStyle = getTypeStyle(deal.type || deal.category);
   const locationText = deal.city && deal.country ? `${deal.city}, ${deal.country}` : deal.location || deal.country || "Global";
   const analysisText = deal.explanation || deal.summary;
@@ -126,7 +128,7 @@ export default function DealCard({ deal }) {
             {saved ? <BookmarkCheck className="w-4 h-4 text-blue-600" /> : <Bookmark className="w-4 h-4 text-slate-400" />}
           </button>
           <Link
-            to={`/opportunities/${deal.id}`}
+            to={demoLink(`/opportunities/${deal.id}`)}
             className="flex items-center gap-1 px-3 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors"
           >
             Full Brief <ArrowRight className="w-3 h-3" />

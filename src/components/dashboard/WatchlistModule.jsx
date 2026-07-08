@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Bookmark, Building2, ArrowRight } from "lucide-react";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
+import { useDemoLink } from "@/lib/demoMode";
 import ConfidenceBadge from "@/components/dashboard/ConfidenceBadge";
 import { getTypeStyle } from "@/lib/dealUtils";
 
 export default function WatchlistModule() {
   const { saved } = useSavedOpportunities();
+  const demoLink = useDemoLink();
 
   if (saved.length === 0) return null;
 
@@ -27,7 +29,7 @@ export default function WatchlistModule() {
             <h3 className="text-sm font-bold text-slate-900">Saved Opportunities</h3>
             <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 text-xs font-bold">{saved.length}</span>
           </div>
-          <Link to="/saved" className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:gap-2 transition-all">
+          <Link to={demoLink("/saved")} className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:gap-2 transition-all">
             View all <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
@@ -37,7 +39,7 @@ export default function WatchlistModule() {
             return (
               <Link
                 key={deal.id}
-                to={`/opportunities/${deal.id}`}
+                to={demoLink(`/opportunities/${deal.id}`)}
                 className="flex items-center gap-3 p-2.5 rounded-xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50/30 transition-all group"
               >
                 <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase border ${typeStyle.badge} shrink-0`}>

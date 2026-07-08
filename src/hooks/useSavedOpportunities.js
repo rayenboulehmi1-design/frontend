@@ -1,20 +1,28 @@
 import { useState, useCallback, useEffect } from "react";
+import { useDemoMode } from "@/lib/demoMode";
 
-const STORAGE_KEY = "scouty_saved_opportunities";
-const EVENT = "scouty-saved-change";
-
-function readSaved() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-  } catch {
-    return [];
-  }
-}
+const PROD_STORAGE = "scouty_saved_opportunities";
+const PROD_EVENT = "scouty-saved-change";
+const DEMO_STORAGE = "demo_scouty_saved_opportunities";
+const DEMO_EVENT = "demo-scouty-saved-change";
 
 export function useSavedOpportunities() {
+  const isDemo = useDemoMode();
+  const STORAGE_KEY = isDemo ? DEMO_STORAGE : PROD_STORAGE;
+  const EVENT = isDemo ? DEMO_EVENT : PROD_EVENT;
+
+  const readSaved = useCallback(() => {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    } catch {
+      return [];
+    }
+  }, [STORAGE_KEY]);
+
   const [saved, setSaved] = useState(readSaved);
 
   useEffect(() => {
+    setSaved(readSaved());
     const handler = () => setSaved(readSaved());
     window.addEventListener(EVENT, handler);
     window.addEventListener("storage", handler);
@@ -22,7 +30,7 @@ export function useSavedOpportunities() {
       window.removeEventListener(EVENT, handler);
       window.removeEventListener("storage", handler);
     };
-  }, []);
+  }, [EVENT, readSaved]);
 
   const isSaved = useCallback((id) => saved.some((s) => s.id === id), [saved]);
 
@@ -33,14 +41,14 @@ export function useSavedOpportunities() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     window.dispatchEvent(new Event(EVENT));
     setSaved(next);
-  }, []);
+  }, [STORAGE_KEY, EVENT, readSaved]);
 
   const removeSaved = useCallback((id) => {
     const next = readSaved().filter((s) => s.id !== id);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     window.dispatchEvent(new Event(EVENT));
     setSaved(next);
-  }, []);
+  }, [STORAGE_KEY, EVENT, readSaved]);
 
   const bulkSave = useCallback((signals) => {
     const current = readSaved();
@@ -51,7 +59,7 @@ export function useSavedOpportunities() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     window.dispatchEvent(new Event(EVENT));
     setSaved(next);
-  }, []);
+  }, [STORAGE_KEY, EVENT, readSaved]);
 
   const bulkRemove = useCallback((ids) => {
     const idSet = new Set(ids);
@@ -59,7 +67,7 @@ export function useSavedOpportunities() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     window.dispatchEvent(new Event(EVENT));
     setSaved(next);
-  }, []);
+  }, [STORAGE_KEY, EVENT, readSaved]);
 
   return { saved, isSaved, toggleSave, removeSaved, bulkSave, bulkRemove, savedCount: saved.length };
 }

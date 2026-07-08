@@ -3,13 +3,13 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 /**
  * Whop checkout session creation.
  *
- * Creates a Whop checkout configuration with an inline renewal plan and
- * returns the hosted checkout URL for redirect.
+ * Creates a Whop checkout configuration with an inline plan and product,
+ * returns the hosted checkout URL (purchase_url) for redirect.
  *
- * MANUAL WHOP CONFIGURATION REQUIRED:
- * 1. Create a Whop company account — find your company_id in Dashboard > Settings
- * 2. Set WHOP_COMPANY_ID below (or as an environment variable)
- * 3. Optionally create Whop products for each plan and set the access_pass_id values
+ * Whop API reference:
+ *   POST https://api.whop.com/api/v1/checkout_configurations
+ *   company_id goes inside plan, billing_period is in days (30=monthly)
+ *   Response includes purchase_url for hosted checkout redirect
  */
 Deno.serve(async (req) => {
   try {
@@ -18,14 +18,11 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const { plan, successUrl, cancelUrl } = body;
 
-    // Whop company ID — find in Whop Dashboard > Settings
-    const WHOP_COMPANY_ID = null; // TODO: Set to your Whop company ID (e.g. "biz_xxxxx")
-
-    // Plan configuration: price and optional pre-created Whop product (access_pass_id)
-    const PLAN_CONFIG: Record<string, { price: number; accessPassId: string | null }> = {
-      'Pro': { price: 79, accessPassId: null },
-      'Pro+': { price: 199, accessPassId: null },
-      'Agency': { price: 399, accessPassId: null },
+    // Plan configuration: price and display name
+    const PLAN_CONFIG: Record<string, { price: number; title: string; description: string }> = {
+      'Pro': { price: 79, title: 'ScoutyGo Pro', description: 'Pro intelligence plan — $79/month' },
+      'Pro+': { price: 199, title: 'ScoutyGo Pro+', description: 'Advanced intelligence plan — $199/month' },
+      'Agency': { price: 399, title: 'ScoutyGo Agency', description: 'Agency intelligence plan — $399/month' },
     };
 
     const config = plan && PLAN_CONFIG[plan];
@@ -37,7 +34,7 @@ Deno.serve(async (req) => {
     }
 
     const apiKey = Deno.env.get("WHOP_API_KEY");
-    const companyId = WHOP_COMPANY_ID || Deno.env.get("WHOP_COMPANY_ID");
+    const companyId = Deno.env.get("WHOP_COMPANY_ID");
 
     if (!apiKey) {
       console.error('WHOP_API_KEY not set');
@@ -52,38 +49,30 @@ Deno.serve(async (req) => {
       }, { status: 400 });
     }
 
-    // Try to get the user for customer email
-    let customerEmail: string | null = null;
-    try {
-      const user = await base44.auth.me();
-      customerEmail = user?.email || null;
-    } catch {
-      // Public app or not logged in — proceed without customer email
-    }
-
-    const origin = successUrl ? new URL(successUrl).origin : (req.headers.get('origin') || req.headers.get('referer')?.replace(/\/$/, '') || 'https://silky-scout-path-go.base44.app');
+    const origin = successUrl ? new URL(successUrl).origin : (req.headers.get('origin') || req.headers.get('referer')?.replace(/\/$/, '') || 'https://whop.com');
     const finalSuccessUrl = successUrl || `${origin}/account-overview?status=success`;
-    const finalCancelUrl = cancelUrl || `${origin}/account-overview?status=cancelled`;
 
-    // Create a Whop checkout configuration with an inline renewal (subscription) plan
-    const checkoutBody: Record<string, unknown> = {
-      company_id: companyId,
-      plan: {
-        initial_price: config.price,
-        renewal_price: config.price,
-        plan_type: 'renewal',
-        billing_period: 'monthly',
-        ...(config.accessPassId ? { access_pass_id: config.accessPassId } : {}),
-      },
+    // Create a Whop checkout configuration with inline plan + product
+    const checkoutBody = {
+      mode: 'payment',
+      redirect_url: finalSuccessUrl,
       metadata: {
         base44_app_id: Deno.env.get("BASE44_APP_ID") || '',
         plan: plan,
       },
+      plan: {
+        company_id: companyId,
+        initial_price: config.price,
+        renewal_price: config.price,
+        billing_period: 30, // 30 days = monthly
+        currency: 'usd',
+        product: {
+          title: config.title,
+          description: config.description,
+          external_identifier: `scoutygo-${plan.toLowerCase().replace('+', 'plus')}`,
+        },
+      },
     };
-
-    if (customerEmail) {
-      checkoutBody.email = customerEmail;
-    }
 
     const whopRes = await fetch('https://api.whop.com/api/v1/checkout_configurations', {
       method: 'POST',
@@ -106,20 +95,18 @@ Deno.serve(async (req) => {
 
     const checkout = await whopRes.json();
 
-    // Build the checkout URL — Whop hosted checkout redirect
-    const checkoutId = checkout.id || checkout.plan?.id;
-    const checkoutUrl = checkout.checkout_url || checkout.hosted_url ||
-      (checkoutId ? `https://whop.com/checkout/${checkoutId}` : null);
+    // Whop returns purchase_url for hosted checkout
+    const checkoutUrl = checkout.purchase_url || checkout.checkout_url || checkout.hosted_url;
 
     if (!checkoutUrl) {
-      console.error('Whop checkout response missing URL/ID:', JSON.stringify(checkout));
+      console.error('Whop checkout response missing purchase_url:', JSON.stringify(checkout));
       return Response.json({ error: 'Could not create checkout session.' }, { status: 500 });
     }
 
     return Response.json({
       url: checkoutUrl,
       successUrl: finalSuccessUrl,
-      cancelUrl: finalCancelUrl,
+      cancelUrl: cancelUrl || `${origin}/account-overview?status=cancelled`,
     });
   } catch (error) {
     console.error('Checkout error:', error.message);

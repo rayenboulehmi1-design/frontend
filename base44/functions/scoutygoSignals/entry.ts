@@ -3,13 +3,34 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me();
-    if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
+
+    // Authenticate the user — dashboard data requires a logged-in user
+    let user = null;
+    try {
+      user = await base44.auth.me();
+    } catch {
+      // Auth failed — return a clear 401 so the frontend can distinguish auth errors from API errors
+      return Response.json(
+        { error: 'Authentication required', errorType: 'AUTH_REQUIRED' },
+        { status: 401 }
+      );
+    }
+
+    if (!user) {
+      return Response.json(
+        { error: 'Authentication required', errorType: 'AUTH_REQUIRED' },
+        { status: 401 }
+      );
+    }
 
     const apiKey = Deno.env.get("SCOUTY_API_KEY");
     const baseUrl = Deno.env.get("SCOUTY_API_BASE_URL");
     if (!apiKey || !baseUrl) {
-      return Response.json({ error: 'Server not configured' }, { status: 500 });
+      console.error('ScoutyGo API not configured: missing SCOUTY_API_KEY or SCOUTY_API_BASE_URL');
+      return Response.json(
+        { error: 'Server not configured', errorType: 'SERVER_NOT_CONFIGURED' },
+        { status: 500 }
+      );
     }
 
     let limit = 200;
@@ -35,7 +56,11 @@ Deno.serve(async (req) => {
     ]);
 
     if (!oppRes.ok) {
-      return Response.json({ error: `ScoutyGo API returned ${oppRes.status}` }, { status: 502 });
+      console.error(`ScoutyGo API returned ${oppRes.status} for opportunities`);
+      return Response.json(
+        { error: `ScoutyGo API returned ${oppRes.status}`, errorType: 'UPSTREAM_ERROR', upstreamStatus: oppRes.status },
+        { status: 502 }
+      );
     }
 
     const oppBody = await oppRes.json();
@@ -44,14 +69,18 @@ Deno.serve(async (req) => {
 
     let stats = null;
     if (statsRes.ok) {
-      stats = await statsRes.json();
+      try { stats = await statsRes.json(); } catch {}
     }
 
     const signals = opportunities.map(mapOpportunityToSignal);
 
     return Response.json({ signals, pagination, stats });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('scoutygoSignals error:', error.message);
+    return Response.json(
+      { error: error.message, errorType: 'INTERNAL_ERROR' },
+      { status: 500 }
+    );
   }
 });
 
@@ -102,7 +131,7 @@ function mapCategory(opp) {
 function formatLocation(opp) {
   const rawCity = opp.city || (opp.location && opp.location.city);
   const rawCountry = opp.country || (opp.location && opp.location.country);
-  const city = (rawCity && rawCity !== 'Unknown' && rawCity !== 'unknown') ? rawCity : null;
+  const city = (rawCity && rawCity !== 'Unknown' && rawCountry !== 'unknown') ? rawCity : null;
   const country = (rawCountry && rawCountry !== 'Unknown' && rawCountry !== 'unknown') ? rawCountry : null;
   if (city && country) return `${city}, ${country}`;
   if (country) return country;

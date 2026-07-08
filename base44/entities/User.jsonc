@@ -13,7 +13,9 @@
       "description": "Current subscription tier",
       "enum": [
         "Free",
-        "Pro"
+        "Pro",
+        "Pro+",
+        "Agency"
       ],
       "default": "Free"
     },
@@ -31,6 +33,16 @@
     "stripe_customer_id": {
       "type": "string",
       "description": "Stripe customer ID for billing"
+    },
+    "trial_start": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the user's trial started (server-controlled)"
+    },
+    "trial_expiry": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the user's trial expires (server-controlled, 30 minutes after trial_start)"
     }
   },
   "required": [

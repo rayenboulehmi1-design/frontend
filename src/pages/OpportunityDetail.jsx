@@ -6,6 +6,7 @@ import { fetchSignalById, fetchSignals } from "@/lib/scoutyClient";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 import ConfidenceBadge from "@/components/dashboard/ConfidenceBadge";
 import SignalCard from "@/components/SignalCard";
+import LeadsModule from "@/components/entitlement/LeadsModule";
 
 const categoryStyles = {
   "Real Estate": { badge: "bg-blue-50 text-blue-700 border-blue-100" },
@@ -165,6 +166,11 @@ export default function OpportunityDetail() {
           </div>
         )}
       </motion.div>
+
+      {/* Leads Provider Agent — plan-aware */}
+      <div className="mb-8">
+        <LeadsModule deal={signal} />
+      </div>
 
       {/* Related signals */}
       {related.length > 0 && (

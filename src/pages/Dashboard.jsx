@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Loader2, Bookmark, Bell, ArrowRight, AlertCircle } from "lucide-react";
+import { Loader2, Bookmark, Bell, ArrowRight, AlertCircle, Clock } from "lucide-react";
 import { fetchSignalsWithMeta } from "@/lib/scoutyClient";
 import { base44 } from "@/api/base44Client";
 import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
-import { useNotifications } from "@/hooks/useNotifications";
 import { getStoredMarket, setStoredMarket } from "@/components/dashboard/MarketSelector";
+
 import DailyIntelligenceBriefing from "@/components/dashboard/DailyIntelligenceBriefing";
 import WatchlistModule from "@/components/dashboard/WatchlistModule";
 import MissionsModule from "@/components/dashboard/MissionsModule";
@@ -37,7 +37,8 @@ export default function Dashboard() {
   const [signals, setSignals] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [dataStatus, setDataStatus] = useState('loading'); // loading | success | error | empty
+  const [lastUpdated, setLastUpdated] = useState(null);
   const [user, setUser] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
   const [filters, setFilters] = useState({
@@ -45,7 +46,6 @@ export default function Dashboard() {
     market: getStoredMarket(),
   });
   const { savedCount } = useSavedOpportunities();
-  const { addNotification } = useNotifications();
 
   // Read URL params on mount
   useEffect(() => {
@@ -73,57 +73,43 @@ export default function Dashboard() {
   useEffect(() => {
     base44.auth.me().then(setUser).catch(() => {});
     setLoading(true);
-    setError(false);
+    setDataStatus('loading');
     fetchSignalsWithMeta(200)
       .then((data) => {
-        const newSignals = data.signals || [];
-        // isNew detection via sessionStorage
-        const seenKey = "scouty_seen_deals";
-        let seen = new Set();
-        try { seen = new Set(JSON.parse(sessionStorage.getItem(seenKey) || "[]")); } catch {}
-        const tagged = newSignals.map((s) => ({ ...s, isNew: seen.size > 0 && !seen.has(s.id) }));
-        tagged.filter((s) => s.isNew).forEach((s) => addNotification(s));
-        try {
-          sessionStorage.setItem(seenKey, JSON.stringify([...new Set([...seen, ...newSignals.map((s) => s.id)])]));
-        } catch {}
-        setSignals(tagged);
+        setSignals(data.signals || []);
         setStats(data.stats || null);
-        setError(false);
+        setDataStatus(data.status);
+        if (data.status === 'success' || data.status === 'empty') {
+          setLastUpdated(data.lastUpdated);
+        }
       })
       .catch(() => {
         setSignals([]);
         setStats(null);
-        setError(true);
+        setDataStatus('error');
       })
       .finally(() => setLoading(false));
-  }, [addNotification, retryCount]);
+  }, [retryCount]);
 
   // Filtering logic
   const filtered = useMemo(() => {
     let result = signals;
 
-    // Market filter (global scope)
     if (filters.market !== "Global") {
       result = result.filter((s) => {
         const c = s.country || (s.location ? s.location.split(",").pop().trim() : "");
         return c === filters.market;
       });
     }
-
-    // Type filter
     if (filters.type !== "All") {
       result = result.filter((s) => (s.type || s.category) === filters.type);
     }
-
-    // Country filter
     if (filters.country !== "All") {
       result = result.filter((s) => {
         const c = s.country || (s.location ? s.location.split(",").pop().trim() : "");
         return c === filters.country;
       });
     }
-
-    // Real estate sub-filters
     if (filters.assetType !== "All") {
       result = result.filter((s) => s.realEstateDetails?.assetType === filters.assetType);
     }
@@ -133,8 +119,6 @@ export default function Dashboard() {
     if (filters.developmentStage !== "All") {
       result = result.filter((s) => s.realEstateDetails?.developmentStage === filters.developmentStage);
     }
-
-    // Search query
     if (filters.search) {
       const q = filters.search.toLowerCase();
       result = result.filter((s) =>
@@ -148,8 +132,6 @@ export default function Dashboard() {
         (s.signals || []).some((sig) => sig.toLowerCase().includes(q))
       );
     }
-
-    // Search mode (category bucket)
     if (["Real Estate", "Business", "Investment"].includes(filters.searchMode)) {
       result = result.filter((s) => s.category === filters.searchMode);
     }
@@ -199,39 +181,47 @@ export default function Dashboard() {
     : filters.searchMode === "Markets" ? markets.length
     : filtered.length;
 
+  // Show retry UI on error
+  const handleRetry = () => setRetryCount((c) => c + 1);
+
   return (
     <div className="p-5 md:p-8 lg:p-10 max-w-7xl mx-auto space-y-6">
-      {/* 1. Daily Intelligence Briefing */}
-      <DailyIntelligenceBriefing signals={signals} user={user} loading={loading} />
+      {/* 1. Daily Intelligence Briefing — handles loading/error/empty/success states */}
+      <DailyIntelligenceBriefing
+        signals={signals}
+        user={user}
+        loading={loading}
+        dataStatus={dataStatus}
+        lastUpdated={lastUpdated}
+      />
 
-      {loading ? (
-        <div className="flex items-center justify-center py-20">
-          <Loader2 className="w-6 h-6 text-blue-600 animate-spin" />
-        </div>
-      ) : error ? (
-        <div className="rounded-2xl border border-rose-100 bg-rose-50/50 p-6 text-center">
-          <AlertCircle className="w-8 h-8 text-rose-400 mx-auto mb-3" />
-          <p className="text-sm font-medium text-slate-700 mb-1">Couldn't load live intelligence</p>
-          <p className="text-xs text-slate-400 mb-4">The ScoutyGo API may be temporarily unavailable.</p>
+      {/* Retry button on error */}
+      {dataStatus === 'error' && (
+        <div className="flex justify-center">
           <button
-            onClick={() => setRetryCount((c) => c + 1)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors"
+            onClick={handleRetry}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors"
           >
-            <Loader2 className="w-4 h-4" /> Retry
+            <Loader2 className="w-4 h-4" /> Retry Connection
           </button>
         </div>
-      ) : (
+      )}
+
+      {/* Stale data indicator — show last updated when data loaded but potentially stale */}
+      {dataStatus === 'success' && lastUpdated && (
+        <div className="flex items-center gap-1.5 text-xs text-slate-400">
+          <Clock className="w-3 h-3" />
+          Last updated {new Date(lastUpdated).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
+        </div>
+      )}
+
+      {/* Only show the rest when we have actual data */}
+      {dataStatus !== 'error' && !loading && signals.length > 0 && (
         <>
-          {/* 2. Watchlist Module (hidden when no saved deals) */}
           <WatchlistModule />
-
-          {/* 3. Missions Module (coming soon state) */}
           <MissionsModule />
-
-          {/* 4. Live Activity Bar */}
           <LiveActivityBar liveCount={signals.length} />
 
-          {/* 5. Page Title */}
           <div className="flex items-center justify-between flex-wrap gap-3 pt-2">
             <div>
               <h2 className="text-xl font-bold tracking-tight text-slate-900">Opportunity Feed</h2>
@@ -252,7 +242,6 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* 6-9. Unified Search + Mode Tabs + Result Summary + Filter Row */}
           <EnhancedFilterBar
             signals={signals}
             filters={filters}
@@ -261,7 +250,6 @@ export default function Dashboard() {
             onClear={clearFilters}
           />
 
-          {/* 10. Results Grid / 11. Empty State */}
           {filters.searchMode === "Companies" ? (
             companies.length > 0 ? (
               <CompaniesView companies={companies} onSelect={handleSelectCompany} />
@@ -284,7 +272,6 @@ export default function Dashboard() {
             <EmptyState onClearFilters={clearFilters} />
           )}
 
-          {/* Preserved: Charts */}
           <div className="grid lg:grid-cols-2 gap-6 pt-4">
             <ConfidenceChart signals={filtered} loading={false} />
             <CategoryRadial signals={filtered} loading={false} />
@@ -292,7 +279,6 @@ export default function Dashboard() {
 
           <TopLocations signals={filtered} />
 
-          {/* Preserved: Signal Table with bulk actions */}
           <div className="pt-4">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-slate-900">Signal Registry</h2>

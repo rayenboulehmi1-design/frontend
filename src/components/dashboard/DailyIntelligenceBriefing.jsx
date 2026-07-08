@@ -1,12 +1,13 @@
 import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { AlertTriangle, Star, Globe, Coins, TrendingUp, ArrowRight } from "lucide-react";
+import { Loader2, AlertTriangle, Star, Globe, Coins, TrendingUp, ArrowRight, Clock, AlertCircle } from "lucide-react";
 import ConfidenceBadge from "@/components/dashboard/ConfidenceBadge";
 import { getTypeStyle, getGreeting, uniqueCountries } from "@/lib/dealUtils";
 import { useDemoLink } from "@/lib/demoMode";
+import PlanBadge from "@/components/entitlement/PlanBadge";
 
-export default function DailyIntelligenceBriefing({ signals, user, loading }) {
+export default function DailyIntelligenceBriefing({ signals, user, loading, dataStatus, lastUpdated }) {
   const firstName = user?.full_name?.split(" ")[0] || user?.email?.split("@")[0] || "there";
   const demoLink = useDemoLink();
 
@@ -31,7 +32,6 @@ export default function DailyIntelligenceBriefing({ signals, user, loading }) {
 
     const focus = priorities.find(isUrgent) || priorities[0] || null;
 
-    // Market activity snapshot — derived from live data
     const snapshot = [];
     const byType = {};
     const byCountry = {};
@@ -61,10 +61,14 @@ export default function DailyIntelligenceBriefing({ signals, user, loading }) {
     return { urgent, top, markets, highValue, priorities, focus, snapshot: snapshot.slice(0, 4) };
   }, [signals]);
 
+  // Loading state
   if (loading) {
     return (
       <div className="rounded-2xl border border-slate-100 bg-white p-6 mb-6">
-        <div className="h-6 w-48 bg-slate-100 rounded animate-pulse mb-4" />
+        <div className="flex items-center gap-2 mb-5">
+          <Loader2 className="w-5 h-5 text-blue-600 animate-spin" />
+          <h2 className="text-xl font-bold text-slate-900">{getGreeting()}, {firstName}</h2>
+        </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {[0, 1, 2, 3].map((i) => <div key={i} className="h-24 bg-slate-100 rounded-xl animate-pulse" />)}
         </div>
@@ -73,11 +77,78 @@ export default function DailyIntelligenceBriefing({ signals, user, loading }) {
     );
   }
 
+  // Error/unavailable state — show distinct UI, NOT zeros
+  if (dataStatus === 'error') {
+    const updatedText = lastUpdated
+      ? new Date(lastUpdated).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
+      : null;
+
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="rounded-2xl border border-amber-100 bg-amber-50/50 p-6 mb-6"
+      >
+        <div className="flex items-start gap-3 mb-4">
+          <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
+            <AlertCircle className="w-5 h-5 text-amber-600" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-slate-900">{getGreeting()}, {firstName}</h2>
+            <p className="text-sm text-amber-600 mt-0.5">
+              Live intelligence is temporarily unavailable.
+              {updatedText && <span className="text-slate-400"> · Last updated {updatedText}</span>}
+            </p>
+          </div>
+        </div>
+        <p className="text-sm text-slate-500 leading-relaxed mb-4">
+          We're having trouble connecting to the ScoutyGo intelligence pipeline. Your data will appear here once the connection is restored. This is a temporary issue — no action is needed on your part.
+        </p>
+      </motion.div>
+    );
+  }
+
+  // Empty state — API returned successfully but with 0 results
+  if (dataStatus === 'empty' || signals.length === 0) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="rounded-2xl border border-slate-100 bg-white p-6 mb-6"
+      >
+        <h2 className="text-xl font-bold text-slate-900">{getGreeting()}, {firstName}</h2>
+        <p className="text-sm text-slate-500 mt-0.5 mb-6">
+          No opportunities have been detected yet. ScoutyGo is actively scanning global markets — check back shortly.
+        </p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          {[
+            { label: "New Signals", value: 0, icon: Clock, sub: "Awaiting data" },
+            { label: "Priority Opportunities", value: 0, icon: Star, sub: "Awaiting data" },
+            { label: "Active Markets", value: 0, icon: Globe, sub: "Awaiting data" },
+            { label: "Active Missions", value: 0, icon: AlertTriangle, sub: "Set up missions" },
+          ].map((card) => {
+            const Icon = card.icon;
+            return (
+              <div key={card.label} className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+                <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center mb-2">
+                  <Icon className="w-4 h-4 text-slate-400" />
+                </div>
+                <div className="text-2xl font-bold text-slate-300">{card.value}</div>
+                <div className="text-xs text-slate-400 mt-0.5">{card.label}</div>
+              </div>
+            );
+          })}
+        </div>
+      </motion.div>
+    );
+  }
+
+  // Success state with real data
   const kpiCards = [
-    { label: "Urgent Alerts", value: insights.urgent, icon: AlertTriangle, color: "text-rose-600", bg: "bg-rose-50" },
-    { label: "Top Opportunities", value: insights.top, icon: Star, color: "text-amber-600", bg: "bg-amber-50" },
-    { label: "Active Markets", value: insights.markets, icon: Globe, color: "text-blue-600", bg: "bg-blue-50" },
-    { label: "High Value Deals", value: insights.highValue, icon: Coins, color: "text-emerald-600", bg: "bg-emerald-50" },
+    { label: "New Signals", value: signals.length, icon: Clock, color: "text-blue-600", bg: "bg-blue-50", link: demoLink("/intelligence-feed") },
+    { label: "Priority Opportunities", value: insights.top, icon: Star, color: "text-amber-600", bg: "bg-amber-50", link: demoLink("/dashboard") + "?mode=All" },
+    { label: "Active Markets", value: insights.markets, icon: Globe, color: "text-emerald-600", bg: "bg-emerald-50", link: demoLink("/geo-intelligence") },
+    { label: "High Value Deals", value: insights.highValue, icon: Coins, color: "text-violet-600", bg: "bg-violet-50", link: demoLink("/dashboard") },
   ];
 
   return (
@@ -86,26 +157,35 @@ export default function DailyIntelligenceBriefing({ signals, user, loading }) {
       animate={{ opacity: 1, y: 0 }}
       className="rounded-2xl border border-slate-100 bg-white p-6 mb-6"
     >
-      {/* Header */}
-      <div className="mb-5">
-        <h2 className="text-xl font-bold text-slate-900">{getGreeting()}, {firstName}</h2>
-        <p className="text-sm text-slate-500 mt-0.5">
-          You have <span className="font-semibold text-slate-700">{signals.length}</span> opportunities worth reviewing today.
-        </p>
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <h2 className="text-xl font-bold text-slate-900">{getGreeting()}, {firstName}</h2>
+          <p className="text-sm text-slate-500 mt-0.5">
+            You have <span className="font-semibold text-slate-700">{signals.length}</span> opportunities worth reviewing today.
+          </p>
+        </div>
+        {user?.subscription_tier && <PlanBadge size="md" />}
       </div>
 
-      {/* KPI cards */}
+      {/* KPI cards — clickable */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
         {kpiCards.map((card) => {
           const Icon = card.icon;
           return (
-            <div key={card.label} className="rounded-xl border border-slate-100 bg-slate-50/50 p-4">
+            <Link
+              key={card.label}
+              to={card.link}
+              className="rounded-xl border border-slate-100 bg-slate-50/50 p-4 hover:border-blue-200 hover:bg-blue-50/30 transition-all group"
+            >
               <div className={`w-8 h-8 rounded-lg ${card.bg} flex items-center justify-center mb-2`}>
                 <Icon className={`w-4 h-4 ${card.color}`} />
               </div>
               <div className="text-2xl font-bold text-slate-900">{card.value}</div>
-              <div className="text-xs text-slate-400 mt-0.5">{card.label}</div>
-            </div>
+              <div className="text-xs text-slate-400 mt-0.5 flex items-center gap-1">
+                {card.label}
+                <ArrowRight className="w-2.5 h-2.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+            </Link>
           );
         })}
       </div>
@@ -176,7 +256,6 @@ export default function DailyIntelligenceBriefing({ signals, user, loading }) {
             </div>
           )}
 
-          {/* Market activity snapshot */}
           {insights.snapshot.length > 0 && (
             <div>
               <h3 className="text-sm font-bold text-slate-900 mb-3">Market Activity Snapshot</h3>

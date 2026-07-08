@@ -1,13 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, CreditCard, Crown, Receipt, Check, Eye, Lock } from "lucide-react";
+import { ArrowLeft, CreditCard, Crown, Receipt, Check, AlertCircle, Lock } from "lucide-react";
 import { DEMO_USER } from "@/lib/demoData";
 import { useDemoLink } from "@/lib/demoMode";
+import { PLANS, PLAN_ORDER } from "@/lib/plans";
 
 export default function DemoAccountOverview() {
   const demoLink = useDemoLink();
   const tier = DEMO_USER.subscription_tier || "Pro";
+  const currentPlan = PLANS[tier] || PLANS.Pro;
   const initial = DEMO_USER.full_name[0].toUpperCase();
   const memberSince = new Date(DEMO_USER.created_date).toLocaleDateString("en-US", { month: "long", year: "numeric" });
 
@@ -22,7 +24,7 @@ export default function DemoAccountOverview() {
       </div>
 
       <div className="mb-6 p-4 rounded-xl flex items-center gap-3 text-sm bg-amber-50 text-amber-700 border border-amber-100">
-        <Eye className="w-4 h-4 shrink-0" />
+        <Lock className="w-4 h-4 shrink-0" />
         Demo mode — billing actions are disabled. No real charges or account changes will occur.
       </div>
 
@@ -44,34 +46,57 @@ export default function DemoAccountOverview() {
       </motion.div>
 
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="rounded-2xl border border-slate-100 bg-white p-6 mb-6">
-        <div className="flex items-center gap-2 mb-4"><Crown className="w-4 h-4 text-slate-400" /><h2 className="font-semibold text-slate-900">Subscription</h2></div>
+        <div className="flex items-center gap-2 mb-4"><Crown className="w-4 h-4 text-slate-400" /><h2 className="font-semibold text-slate-900">Current Subscription</h2></div>
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
               <span className="text-lg font-bold text-slate-900">{tier}</span>
               <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700">Active</span>
             </div>
-            <p className="text-sm text-slate-400 mt-1">You have access to all premium features.</p>
+            <p className="text-sm text-slate-400 mt-1">{currentPlan.tagline}</p>
+            <p className="text-xs text-slate-400 mt-2">${currentPlan.price}/month · Billed monthly · Renews automatically · Cancel anytime</p>
           </div>
           <button disabled className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 text-slate-400 text-sm font-semibold cursor-not-allowed">
             <Lock className="w-4 h-4" /> Manage Plan
           </button>
         </div>
-        <div className="mt-6 grid sm:grid-cols-3 gap-3">
-          {[
-            { label: "Unlimited Signals", pro: true },
-            { label: "Advanced Filters", pro: true },
-            { label: "CSV Export", pro: true },
-          ].map((feat) => (
-            <div key={feat.label} className="flex items-center gap-2 text-sm">
-              <Check className={`w-4 h-4 ${feat.pro ? "text-emerald-500" : "text-slate-300"}`} />
-              <span className={feat.pro ? "text-slate-700" : "text-slate-400"}>{feat.label}</span>
-            </div>
-          ))}
-        </div>
       </motion.div>
 
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="rounded-2xl border border-slate-100 bg-white p-6 mb-6">
+        <h2 className="font-semibold text-slate-900 mb-1">Available Plans</h2>
+        <p className="text-xs text-slate-400 mb-5">Choose the plan that fits your pipeline</p>
+        <div className="space-y-3">
+          {PLAN_ORDER.filter(p => p !== 'Free').map((planName) => {
+            const plan = PLANS[planName];
+            const isCurrent = tier === planName;
+            return (
+              <div key={planName} className={`rounded-xl border p-4 ${isCurrent ? 'border-blue-200 bg-blue-50/30' : 'border-slate-100'}`}>
+                <div className="flex items-center justify-between mb-2">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-slate-900">{planName}</span>
+                      <span className="text-sm font-medium text-slate-500">${plan.price}/mo</span>
+                      {isCurrent && <span className="px-2 py-0.5 rounded-full bg-blue-600 text-white text-[10px] font-bold">Current</span>}
+                    </div>
+                    <p className="text-xs text-slate-400 mt-0.5">{plan.tagline}</p>
+                    {plan.teamSeats > 0 && <p className="text-xs text-slate-400 mt-0.5">Up to {plan.teamSeats} team members</p>}
+                  </div>
+                  <button disabled className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-400 text-xs font-semibold cursor-not-allowed">
+                    <Lock className="w-3.5 h-3.5" /> Demo
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <p className="mt-4 text-xs text-slate-400 leading-relaxed">
+          ScoutyGo is a market intelligence and research tool. Confidence scores represent
+          analytical assessments of public data and do not guarantee business outcomes. Conduct
+          your own due diligence before making business or financial decisions.
+        </p>
+      </motion.div>
+
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="rounded-2xl border border-slate-100 bg-white p-6 mb-6">
         <div className="flex items-center gap-2 mb-4"><Receipt className="w-4 h-4 text-slate-400" /><h2 className="font-semibold text-slate-900">Payment History</h2></div>
         <div className="text-center py-10">
           <Receipt className="w-10 h-10 text-slate-200 mx-auto mb-3" />
@@ -79,7 +104,7 @@ export default function DemoAccountOverview() {
         </div>
       </motion.div>
 
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="rounded-2xl border border-slate-100 bg-white p-6">
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="rounded-2xl border border-slate-100 bg-white p-6">
         <div className="flex items-center gap-2 mb-4"><CreditCard className="w-4 h-4 text-slate-400" /><h2 className="font-semibold text-slate-900">Billing Details</h2></div>
         <div className="flex items-center justify-between">
           <p className="text-sm text-slate-500">Billing management is disabled in demo mode.</p>

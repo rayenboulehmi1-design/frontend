@@ -7,6 +7,7 @@ import { useSavedOpportunities } from "@/hooks/useSavedOpportunities";
 import { useDemoLink } from "@/lib/demoMode";
 import ConfidenceBadge from "@/components/dashboard/ConfidenceBadge";
 import SignalCard from "@/components/SignalCard";
+import LeadsModule from "@/components/entitlement/LeadsModule";
 
 const categoryStyles = {
   "Real Estate": { badge: "bg-blue-50 text-blue-700 border-blue-100" },
@@ -113,6 +114,11 @@ export default function DemoOpportunityDetail() {
           </div>
         )}
       </motion.div>
+
+      {/* Leads Provider Agent — plan-aware */}
+      <div className="mb-8">
+        <LeadsModule deal={signal} />
+      </div>
 
       {related.length > 0 && (
         <div>

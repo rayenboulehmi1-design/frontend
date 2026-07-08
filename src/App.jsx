@@ -27,6 +27,8 @@ import Settings from '@/pages/Settings';
 import AccountOverview from '@/pages/AccountOverview';
 import DataExport from '@/pages/DataExport';
 import ComingSoon from '@/pages/ComingSoon';
+import Leads from '@/pages/Leads';
+import CRM from '@/pages/CRM';
 import DemoLayout from '@/components/dashboard/DemoLayout';
 import DemoDashboard from '@/pages/demo/DemoDashboard';
 import DemoIntelligenceFeed from '@/pages/demo/DemoIntelligenceFeed';
@@ -90,6 +92,8 @@ const AuthenticatedApp = () => {
         <Route path="/developers" element={<ComingSoon title="Developers" description="Developer profiles and track records — active projects, historical launches, and market presence." />} />
         <Route path="/geo-intelligence" element={<ComingSoon title="Country & City Intelligence" description="Geographic intelligence breakdown — activity patterns, market trends, and opportunity density by region." />} />
         <Route path="/watchlist" element={<ComingSoon title="Watchlist" description="Real-estate-specific watch targets — monitor properties, developments, and areas of interest." />} />
+        <Route path="/leads" element={<Leads />} />
+        <Route path="/crm" element={<CRM />} />
         <Route path="/admin" element={<ComingSoon title="Admin Panel" description="Pipeline administration panel — manage data sources, monitor ingestion, and configure system settings." />} />
       </Route>
       {/* Public demo routes — no auth required, isolated state */}
@@ -108,6 +112,8 @@ const AuthenticatedApp = () => {
         <Route path="/demo-developers" element={<ComingSoon title="Developers" description="Developer profiles and track records." />} />
         <Route path="/demo-geo-intelligence" element={<ComingSoon title="Country & City Intelligence" description="Geographic intelligence breakdown by region." />} />
         <Route path="/demo-watchlist" element={<ComingSoon title="Watchlist" description="Real-estate-specific watch targets." />} />
+        <Route path="/demo-leads" element={<Leads />} />
+        <Route path="/demo-crm" element={<CRM />} />
       </Route>
       <Route path="/command-center" element={<Navigate to="/dashboard" replace />} />
       <Route path="*" element={<PageNotFound />} />

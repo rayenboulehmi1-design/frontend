@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { Menu, Radar } from "lucide-react";
 import { useDemoLink } from "@/lib/demoMode";
+import TrialBanner from "@/components/entitlement/TrialBanner";
 import DashboardSidebar from "./DashboardSidebar";
 import NotificationBell from "./NotificationBell";
 
@@ -10,7 +11,8 @@ export default function DashboardLayout() {
   const demoLink = useDemoLink();
 
   return (
-    <div className="min-h-screen bg-[#fcfcfc] flex">
+    <div className="min-h-screen bg-[#fcfcfc] flex flex-col">
+      <TrialBanner />
       {/* Desktop sidebar */}
       <aside className="hidden lg:block fixed inset-y-0 left-0 z-30">
         <DashboardSidebar />

@@ -30,23 +30,48 @@ Deno.serve(async (req) => {
 
     const base44 = createClientFromRequest(req);
 
+    // Map Stripe price IDs to plan tiers.
+    // When new Stripe products are created, add their price IDs here.
+    // This allows the webhook to automatically set the correct tier.
+    const PRICE_TO_TIER = {
+      // Old price — will be replaced:
+      // 'price_1TqensROHfyHuQABkBuMWoWw': 'Pro',  // $49/mo legacy
+      // New prices to be added after manual Stripe configuration:
+      // '<pro_price_id>': 'Pro',       // $79/mo
+      // '<pro_plus_price_id>': 'Pro+', // $199/mo
+      // '<agency_price_id>': 'Agency', // $399/mo
+    };
+
+    function getTierFromSubscription(subscription) {
+      if (!subscription?.items?.data?.length) return 'Pro';
+      const priceId = subscription.items.data[0]?.price?.id;
+      return PRICE_TO_TIER[priceId] || 'Pro';
+    }
+
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object;
         const appId = session.metadata?.base44_app_id || Deno.env.get("BASE44_APP_ID");
         console.log(`Checkout completed for app ${appId}, session ${session.id}`);
 
-        // Update user subscription tier if authenticated
         if (session.customer_email) {
           try {
             const users = await base44.asServiceRole.entities.User.filter({ email: session.customer_email });
             if (users && users.length > 0) {
+              // Determine tier from the subscription if available
+              let tier = 'Pro'; // default
+              if (session.subscription) {
+                try {
+                  const sub = await stripe.subscriptions.retrieve(session.subscription);
+                  tier = getTierFromSubscription(sub);
+                } catch {}
+              }
               await base44.asServiceRole.entities.User.update(users[0].id, {
-                subscription_tier: 'Pro',
+                subscription_tier: tier,
                 subscription_status: 'active',
                 stripe_customer_id: session.customer,
               });
-              console.log(`Updated user ${users[0].id} to Pro tier`);
+              console.log(`Updated user ${users[0].id} to ${tier} tier`);
             }
           } catch (err) {
             console.error('Failed to update user:', err.message);
@@ -64,15 +89,16 @@ Deno.serve(async (req) => {
       case 'customer.subscription.updated': {
         const subscription = event.data.object;
         const status = subscription.status;
-        console.log(`Subscription updated: ${subscription.id}, status: ${status}`);
+        const tier = getTierFromSubscription(subscription);
+        console.log(`Subscription updated: ${subscription.id}, status: ${status}, tier: ${tier}`);
 
         if (subscription.customer) {
           try {
             const users = await base44.asServiceRole.entities.User.filter({ stripe_customer_id: subscription.customer });
             if (users && users.length > 0) {
-              const tier = status === 'active' || status === 'trialing' ? 'Pro' : 'Free';
+              const newTier = status === 'active' || status === 'trialing' ? tier : 'Free';
               await base44.asServiceRole.entities.User.update(users[0].id, {
-                subscription_tier: tier,
+                subscription_tier: newTier,
                 subscription_status: status,
               });
             }

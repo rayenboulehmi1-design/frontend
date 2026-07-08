@@ -1,46 +1,53 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Radar, Radio, Building2, Landmark, Globe, Bookmark, Bell, Settings, ShieldCheck, LogOut, ChevronRight, User, CreditCard } from "lucide-react";
+import { LayoutDashboard, Radar, Radio, Building2, Landmark, Globe, Bookmark, Bell, Settings, ShieldCheck, LogOut, ChevronRight, User, CreditCard, Users, GitBranch } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import NotificationBell from "./NotificationBell";
 import { useDemoMode, useDemoLink } from "@/lib/demoMode";
 import { DEMO_USER } from "@/lib/demoData";
+import PlanBadge from "@/components/entitlement/PlanBadge";
 
 const navGroups = [
   {
     label: "Intelligence",
     items: [
       { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
-      { label: "Missions", path: "/missions", icon: Radar },
+      { label: "Missions", path: "/missions", icon: Radar, badge: "Core" },
       { label: "Intelligence Feed", path: "/intelligence-feed", icon: Radio },
+      { label: "Watchlist", path: "/watchlist", icon: Bookmark },
     ],
   },
   {
-    label: "Real Estate",
+    label: "Opportunities",
+    items: [
+      { label: "Saved Opportunities", path: "/saved", icon: Bookmark },
+      { label: "Alerts", path: "/alerts", icon: Bell },
+    ],
+  },
+  {
+    label: "Intelligence Verticals",
     items: [
       { label: "Off-Plan Intel", path: "/off-plan", icon: Building2 },
       { label: "Property Records", path: "/property-records", icon: Landmark },
       { label: "Developers", path: "/developers", icon: Building2 },
       { label: "Country & City", path: "/geo-intelligence", icon: Globe },
-      { label: "Watchlist", path: "/watchlist", icon: Bookmark },
+    ],
+  },
+  {
+    label: "Coming Soon",
+    items: [
+      { label: "Leads", path: "/leads", icon: Users, comingSoon: true },
+      { label: "CRM Pipeline", path: "/crm", icon: GitBranch, comingSoon: true },
     ],
   },
   {
     label: "Account",
     items: [
-      { label: "Saved Deals", path: "/saved", icon: Bookmark },
-      { label: "Alerts", path: "/alerts", icon: Bell },
+      { label: "Profile", path: "/profile", icon: User },
       { label: "Settings", path: "/settings", icon: Settings },
+      { label: "Subscription", path: "/account-overview", icon: CreditCard },
     ],
   },
-];
-
-const demoAccountItems = [
-  { label: "Saved Deals", path: "/saved", icon: Bookmark },
-  { label: "Alerts", path: "/alerts", icon: Bell },
-  { label: "Profile", path: "/profile", icon: User },
-  { label: "Settings", path: "/settings", icon: Settings },
-  { label: "Subscription", path: "/account-overview", icon: CreditCard },
 ];
 
 export default function DashboardSidebar({ onNavigate }) {
@@ -58,12 +65,6 @@ export default function DashboardSidebar({ onNavigate }) {
     base44.auth.logout("/");
   };
 
-  const groups = isDemo
-    ? navGroups.map((g) =>
-        g.label === "Account" ? { ...g, items: demoAccountItems } : g
-      )
-    : navGroups;
-
   const isActive = (path) => {
     const activePath = isDemo ? path.replace(/^\//, "/demo-") : path;
     if (path === "/dashboard") {
@@ -77,8 +78,8 @@ export default function DashboardSidebar({ onNavigate }) {
 
   const allGroups =
     !isDemo && user?.role === "admin"
-      ? [...groups, { label: "Admin", items: [{ label: "Admin", path: "/admin", icon: ShieldCheck }] }]
-      : groups;
+      ? [...navGroups, { label: "Admin", items: [{ label: "Admin Panel", path: "/admin", icon: ShieldCheck }] }]
+      : navGroups;
 
   const initial = (user?.full_name || user?.email || "?")[0].toUpperCase();
 
@@ -103,10 +104,11 @@ export default function DashboardSidebar({ onNavigate }) {
             {group.items.map((item) => {
               const active = isActive(item.path);
               const Icon = item.icon;
+              const demoPath = isDemo ? item.path.replace(/^\//, "/demo-") : item.path;
               return (
                 <Link
                   key={item.path}
-                  to={demoLink(item.path)}
+                  to={demoPath}
                   onClick={onNavigate}
                   className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
                     active ? "bg-blue-50 text-blue-600" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
@@ -114,7 +116,13 @@ export default function DashboardSidebar({ onNavigate }) {
                 >
                   <Icon className={`w-4 h-4 ${active ? "text-blue-600" : "text-slate-400"}`} />
                   <span className="flex-1">{item.label}</span>
-                  {active && <ChevronRight className="w-3.5 h-3.5 text-blue-600" />}
+                  {item.badge && (
+                    <span className="px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-600 text-[9px] font-bold uppercase tracking-wide">{item.badge}</span>
+                  )}
+                  {item.comingSoon && (
+                    <span className="px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-400 text-[9px] font-medium">Soon</span>
+                  )}
+                  {active && !item.badge && !item.comingSoon && <ChevronRight className="w-3.5 h-3.5 text-blue-600" />}
                 </Link>
               );
             })}
@@ -131,6 +139,7 @@ export default function DashboardSidebar({ onNavigate }) {
             <p className="text-sm font-semibold text-slate-900 truncate">{user?.full_name || "User"}</p>
             <p className="text-xs text-slate-400 truncate">{user?.email}</p>
           </div>
+          {!isDemo && user && <PlanBadge size="sm" />}
         </div>
         {isDemo ? (
           <Link

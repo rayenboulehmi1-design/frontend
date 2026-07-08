@@ -139,7 +139,7 @@ export default function DemoDashboard() {
 
   return (
     <div className="p-5 md:p-8 lg:p-10 max-w-7xl mx-auto space-y-6">
-      <DailyIntelligenceBriefing signals={signals} user={user} loading={false} />
+      <DailyIntelligenceBriefing signals={signals} user={user} loading={false} dataStatus="success" lastUpdated={new Date().toISOString()} />
       <WatchlistModule />
       <MissionsModule />
       <LiveActivityBar liveCount={signals.length} />

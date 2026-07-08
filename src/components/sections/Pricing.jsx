@@ -1,51 +1,74 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Sparkles } from "lucide-react";
+import { Check, Sparkles, Users, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const tiers = [
   {
-    name: "Scout",
-    tagline: "For individual dealmakers testing the waters",
-    price: 49,
+    name: "Pro",
+    tagline: "For individual professionals discovering opportunities",
+    price: 79,
     features: [
-      "AI-assisted confidence scoring",
-      "Company & entity tracking",
-      "Signal summaries & market context",
-      "Up to 2 active alerts",
-      "Email support",
+      "Opportunity intelligence — limited",
+      "Basic confidence scores",
+      "Limited search & filters",
+      "Up to 5 saved opportunities",
+      "1 active alert",
+      "Limited AI opportunity analysis",
+      "Basic geographic & category intelligence preview",
+      "Short historical intelligence window",
+      "Very limited data export",
     ],
     popular: true,
+    teamSeats: 0,
   },
   {
-    name: "Professional",
-    tagline: "For teams actively closing new business",
-    price: 149,
+    name: "Pro+",
+    tagline: "Advanced intelligence for serious dealmakers",
+    price: 199,
     features: [
-      "Everything in Scout",
-      "AI-generated outreach drafts (Coming Soon)",
-      "Unlimited active alerts",
-      "Priority instant alerts",
-      "CRM export & integrations",
+      "Everything in Pro, significantly deeper",
+      "Advanced opportunity intelligence & details",
+      "Advanced confidence analysis",
+      "Advanced evidence and sources",
+      "Higher saved opportunities & alerts",
+      "More active missions",
+      "Advanced AI opportunity analysis",
+      "Full geographic & category intelligence",
+      "Extended historical intelligence",
+      "Limited data export",
+      "Limited Leads Provider Agent access",
+      "Limited decision-maker discovery",
+      "Limited contact enrichment",
+      "Limited AI outreach assistance",
+      "Advanced personal Opportunity CRM (coming soon)",
       "Priority support",
     ],
     popular: false,
-    status: "coming_soon",
   },
   {
-    name: "Enterprise",
-    tagline: "For organizations scaling deal flow company-wide",
+    name: "Agency",
+    tagline: "The fullest workspace for agencies and small teams",
     price: 399,
     features: [
-      "Everything in Professional",
-      "Unlimited team seats",
-      "Custom market coverage",
-      "Dedicated account manager",
-      "API access",
-      "SLA-backed support",
+      "Everything in Pro+",
+      "Full intelligence access across all modules",
+      "Full evidence, sources & confidence analysis",
+      "Highest saved opportunities, alerts & missions",
+      "Full AI opportunity analysis",
+      "Full data export (fair-use limits)",
+      "Full Leads Provider Agent (fair-use limits)",
+      "Decision-maker discovery & contact enrichment",
+      "AI outreach assistance",
+      "Full Opportunity CRM (coming soon)",
+      "CRM integrations (coming soon)",
+      "API access (fair-use limits)",
+      "Client workspaces & multiple client pipelines",
+      "White-label reports",
+      "Up to 3 team members",
+      "Priority support",
     ],
     popular: false,
-    status: "contact_us",
   },
 ];
 
@@ -119,7 +142,7 @@ export default function Pricing() {
               <p className={`text-sm mt-1 mb-6 ${tier.popular ? "text-slate-400" : "text-slate-500"}`}>
                 {tier.tagline}
               </p>
-              <div className="flex items-baseline gap-1 mb-6">
+              <div className="flex items-baseline gap-1 mb-2">
                 <span className={`text-4xl font-bold ${tier.popular ? "text-white" : "text-slate-900"}`}>
                   ${billing === "annual" ? Math.round(tier.price * 0.8) : tier.price}
                 </span>
@@ -127,26 +150,28 @@ export default function Pricing() {
                   /month
                 </span>
               </div>
-              {tier.status === "coming_soon" ? (
-                <div className="block w-full text-center py-3 rounded-full text-sm font-semibold mb-8 border border-slate-200 text-slate-400 bg-slate-50 cursor-not-allowed">
-                  Coming Soon
-                </div>
-              ) : tier.status === "contact_us" ? (
-                <div className="block w-full text-center py-3 rounded-full text-sm font-semibold mb-8 border border-slate-300 text-slate-600 bg-white">
-                  Contact Us
-                </div>
-              ) : (
-                <Link
-                  to="/register"
-                  className={`block w-full text-center py-3 rounded-full text-sm font-semibold transition-colors mb-8 ${
-                    tier.popular
-                      ? "bg-blue-600 text-white hover:bg-blue-700"
-                      : "bg-slate-900 text-white hover:bg-slate-800"
-                  }`}
-                >
-                  Get Started
-                </Link>
+              {billing === "annual" && (
+                <p className={`text-xs mb-4 ${tier.popular ? "text-blue-400" : "text-blue-600"}`}>
+                  Billed annually (${Math.round(tier.price * 0.8) * 12}/year)
+                </p>
               )}
+              {tier.teamSeats > 0 && (
+                <div className={`flex items-center gap-1.5 mb-6 text-xs ${tier.popular ? "text-slate-400" : "text-slate-500"}`}>
+                  <Users className="w-3.5 h-3.5" />
+                  Up to {tier.teamSeats} team {tier.teamSeats === 1 ? "member" : "members"}
+                </div>
+              )}
+              {tier.teamSeats === 0 && <div className="mb-6" />}
+              <Link
+                to="/register"
+                className={`block w-full text-center py-3 rounded-full text-sm font-semibold transition-colors mb-8 ${
+                  tier.popular
+                    ? "bg-blue-600 text-white hover:bg-blue-700"
+                    : "bg-slate-900 text-white hover:bg-slate-800"
+                }`}
+              >
+                Get Started
+              </Link>
               <ul className="space-y-3">
                 {tier.features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2.5">
@@ -165,7 +190,12 @@ export default function Pricing() {
           ))}
         </div>
 
-        <p className="mt-10 text-center text-xs text-slate-400 max-w-2xl mx-auto leading-relaxed">
+        <div className="mt-10 flex items-center justify-center gap-2 text-sm text-slate-400">
+          <Zap className="w-4 h-4 text-blue-500" />
+          <span>New users get a 30-minute trial with broad access to core features</span>
+        </div>
+
+        <p className="mt-6 text-center text-xs text-slate-400 max-w-2xl mx-auto leading-relaxed">
           ScoutyGo is a market intelligence and research platform. Plans include access to signal
           data, confidence scoring, alerts, and export tools. Confidence scores represent the
           platform's analytical assessment of public data and do not guarantee business outcomes.

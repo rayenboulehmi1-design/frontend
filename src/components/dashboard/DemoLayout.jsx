@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { Menu, Radar, Eye } from "lucide-react";
+import TrialBanner from "@/components/entitlement/TrialBanner";
 import DashboardSidebar from "./DashboardSidebar";
 import NotificationBell from "./NotificationBell";
 import { DemoModeProvider } from "@/lib/demoMode";
@@ -11,6 +12,7 @@ export default function DemoLayout() {
   return (
     <DemoModeProvider value={true}>
       <div className="min-h-screen bg-[#fcfcfc]">
+        <TrialBanner />
         {/* Fixed demo banner */}
         <div className="fixed top-0 left-0 right-0 z-[60] h-8 bg-amber-400 flex items-center justify-center gap-2 text-xs font-bold text-amber-950 px-4">
           <Eye className="w-3.5 h-3.5 shrink-0" />

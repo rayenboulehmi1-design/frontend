@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     q: "How does billing work?",
-    a: "Plans are billed monthly or annually. You can upgrade, downgrade, or cancel at any time through your account settings. Annual plans receive a 20% discount. Payments are processed securely by Stripe. Subscriptions renew automatically until cancelled.",
+    a: "Plans are billed monthly or annually. You can upgrade, downgrade, or cancel at any time through your account settings. Annual plans receive a 20% discount. Payments are processed securely by Whop. Subscriptions renew automatically until cancelled.",
   },
 ];
 

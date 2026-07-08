@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const sections = [
   {
     title: "1. Information We Collect",
-    body: "We collect information you provide directly to us when you create an account, including your name, email address, and password. When you subscribe to a paid plan, your payment information is processed securely by Stripe; we do not store your full card details on our servers. We also collect usage data such as your saved opportunities, alert preferences, and dashboard settings to provide and improve our services.",
+    body: "We collect information you provide directly to us when you create an account, including your name, email address, and password. When you subscribe to a paid plan, your payment information is processed securely by Whop; we do not store your full card details on our servers. We also collect usage data such as your saved opportunities, alert preferences, and dashboard settings to provide and improve our services.",
   },
   {
     title: "2. How We Use Your Information",
@@ -16,11 +16,11 @@ const sections = [
   },
   {
     title: "4. Data Sharing and Disclosure",
-    body: "We do not sell your personal information. We share data only with service providers who help us operate the platform (such as Stripe for payment processing and our cloud infrastructure providers), when required by law or legal process, or in connection with a merger, acquisition, or asset sale. All third-party providers are bound by confidentiality and data protection obligations.",
+    body: "We do not sell your personal information. We share data only with service providers who help us operate the platform (such as Whop for payment processing and our cloud infrastructure providers), when required by law or legal process, or in connection with a merger, acquisition, or asset sale. All third-party providers are bound by confidentiality and data protection obligations.",
   },
   {
     title: "5. Data Security",
-    body: "We implement industry-standard security measures including encrypted data transmission (TLS), secure password hashing, and role-based access controls. Payment data is handled exclusively by Stripe, which is PCI DSS Level 1 certified. Despite these measures, no system can guarantee absolute security, and we cannot ensure the security of information transmitted over the internet.",
+    body: "We implement industry-standard security measures including encrypted data transmission (TLS), secure password hashing, and role-based access controls. Payment data is handled exclusively by Whop, which is PCI DSS Level 1 certified. Despite these measures, no system can guarantee absolute security, and we cannot ensure the security of information transmitted over the internet.",
   },
   {
     title: "6. Your Rights and Choices",

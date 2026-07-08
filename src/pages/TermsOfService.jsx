@@ -16,7 +16,7 @@ const sections = [
   },
   {
     title: "4. Subscription and Billing",
-    body: "ScoutyGo offers paid subscription plans billed on a monthly or annual basis. Plan pricing is displayed on the platform and may change with notice. Payments are processed securely through Stripe. You can upgrade, downgrade, or cancel your subscription at any time through the Account Overview page. Annual plans receive a 20% discount. Refunds are handled at our discretion in accordance with applicable law. If a payment fails, we may suspend access to paid features until payment is resolved.",
+    body: "ScoutyGo offers paid subscription plans billed on a monthly or annual basis. Plan pricing is displayed on the platform and may change with notice. Payments are processed securely through Whop. You can upgrade, downgrade, or cancel your subscription at any time through the Account Overview page. Annual plans receive a 20% discount. Refunds are handled at our discretion in accordance with applicable law. If a payment fails, we may suspend access to paid features until payment is resolved.",
   },
   {
     title: "5. Acceptable Use",

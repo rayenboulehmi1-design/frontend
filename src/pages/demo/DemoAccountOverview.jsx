@@ -109,7 +109,7 @@ export default function DemoAccountOverview() {
         <div className="flex items-center justify-between">
           <p className="text-sm text-slate-500">Billing management is disabled in demo mode.</p>
           <button disabled className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 text-sm font-medium text-slate-400 cursor-not-allowed">
-            <Lock className="w-4 h-4" /> Manage Billing
+            <Lock className="w-4 h-4" /> Manage Subscription
           </button>
         </div>
       </motion.div>

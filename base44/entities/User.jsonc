@@ -21,18 +21,17 @@
     },
     "subscription_status": {
       "type": "string",
-      "description": "Stripe subscription status",
+      "description": "Subscription status",
       "enum": [
         "active",
-        "trialing",
-        "canceled",
-        "incomplete",
-        "past_due"
+        "trial",
+        "expired",
+        "cancelled"
       ]
     },
-    "stripe_customer_id": {
+    "whop_membership_id": {
       "type": "string",
-      "description": "Stripe customer ID for billing"
+      "description": "Whop membership ID for billing"
     },
     "trial_start": {
       "type": "string",

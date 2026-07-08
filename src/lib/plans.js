@@ -17,7 +17,7 @@ export const PLANS = {
     id: 'free',
     name: 'Free',
     price: 0,
-    stripePriceId: null,
+    providerPlanId: null,
     tagline: 'Explore the platform',
     teamSeats: 0,
     features: {
@@ -53,7 +53,7 @@ export const PLANS = {
     id: 'pro',
     name: 'Pro',
     price: 79,
-    stripePriceId: null, // TODO: Create Stripe price for Pro $79/mo
+    providerPlanId: null,
     tagline: 'For individual professionals discovering opportunities',
     teamSeats: 0,
     features: {
@@ -89,7 +89,7 @@ export const PLANS = {
     id: 'pro_plus',
     name: 'Pro+',
     price: 199,
-    stripePriceId: null, // TODO: Create Stripe price for Pro+ $199/mo
+    providerPlanId: null,
     tagline: 'Advanced intelligence for serious dealmakers',
     teamSeats: 0,
     features: {
@@ -125,7 +125,7 @@ export const PLANS = {
     id: 'agency',
     name: 'Agency',
     price: 399,
-    stripePriceId: null, // TODO: Create Stripe price for Agency $399/mo
+    providerPlanId: null,
     tagline: 'The fullest intelligence workspace for agencies and small teams',
     teamSeats: 3,
     features: {
@@ -160,21 +160,6 @@ export const PLANS = {
 };
 
 export const PLAN_ORDER = ['Free', 'Pro', 'Pro+', 'Agency'];
-
-export const STRIPE_PRICE_IDS = {
-  // Existing product — ScoutyGo Pro at $49/mo (price_1TqensROHfyHuQABkBuMWoWw)
-  // This is the OLD price and needs to be replaced.
-  // 
-  // MANUAL STRIPE CONFIGURATION REQUIRED:
-  // 1. Create new Stripe products/prices for Pro ($79), Pro+ ($199), Agency ($399)
-  // 2. Update the price IDs below with the real Stripe price IDs
-  // 3. Update the Stripe webhook to map price IDs to plan tiers
-  //
-  // Current known price:
-  Pro: null,  // Was price_1TqensROHfyHuQABkBuMWoWw at $49 — needs replacement at $79
-  'Pro+': null,
-  Agency: null,
-};
 
 export const PLAN_TIERS = ['Free', 'Pro', 'Pro+', 'Agency'];
 

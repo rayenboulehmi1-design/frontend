@@ -6,6 +6,7 @@ import { base44 } from "@/api/base44Client";
 import { useEntitlement } from "@/hooks/useEntitlement";
 import { useDemoMode, useDemoLink } from "@/lib/demoMode";
 import { PLANS, PLAN_ORDER } from "@/lib/plans";
+import { startCheckout, openSubscriptionManagement } from "@/lib/paymentService";
 
 export default function AccountOverview() {
   const isDemo = useDemoMode();
@@ -34,42 +35,23 @@ export default function AccountOverview() {
   }, [isDemo, entUser]);
 
   const handleCheckout = async (planName) => {
-    if (window.self !== window.top) {
-      setStatusMsg({ type: "error", text: "Checkout works only from a published app. Please open the app in a new tab to subscribe." });
-      return;
-    }
-
     setCheckoutLoading(true);
     try {
-      const res = await base44.functions.invoke("createCheckout", { plan: planName });
-      if (res.data?.url) {
-        window.location.href = res.data.url;
-      } else if (res.data?.errorType === 'PRICE_NOT_CONFIGURED') {
-        setStatusMsg({ type: "error", text: "This plan is not yet available for purchase. Stripe pricing configuration is in progress." });
-      } else {
-        setStatusMsg({ type: "error", text: "Could not start checkout. Please try again." });
-      }
+      const { url } = await startCheckout(planName);
+      window.location.href = url;
     } catch (err) {
       setStatusMsg({ type: "error", text: err.message || "Checkout failed. Please try again." });
     }
     setCheckoutLoading(false);
   };
 
-  const handleBillingPortal = async () => {
-    if (window.self !== window.top) {
-      setStatusMsg({ type: "error", text: "Billing portal works only from a published app. Please open the app in a new tab." });
-      return;
-    }
+  const handleSubscriptionManagement = async () => {
     setCheckoutLoading(true);
     try {
-      const res = await base44.functions.invoke("stripeBillingPortal", {});
-      if (res.data?.url) {
-        window.location.href = res.data.url;
-      } else {
-        setStatusMsg({ type: "error", text: "Could not open billing portal." });
-      }
+      const { url } = await openSubscriptionManagement();
+      window.location.href = url;
     } catch (err) {
-      setStatusMsg({ type: "error", text: err.message || "Failed to open billing portal." });
+      setStatusMsg({ type: "error", text: err.message || "Failed to open subscription management." });
     }
     setCheckoutLoading(false);
   };
@@ -162,7 +144,7 @@ export default function AccountOverview() {
           </div>
           {currentTier !== 'Free' && !isDemo && (
             <button
-              onClick={handleBillingPortal}
+              onClick={handleSubscriptionManagement}
               disabled={checkoutLoading}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 text-sm font-medium text-slate-700 hover:border-slate-300 transition-colors"
             >
@@ -211,7 +193,7 @@ export default function AccountOverview() {
                       </button>
                     ) : (
                       <button
-                        onClick={handleBillingPortal}
+                        onClick={handleSubscriptionManagement}
                         disabled={checkoutLoading}
                         className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-xs font-semibold hover:border-slate-300 transition-colors"
                       >
@@ -252,13 +234,13 @@ export default function AccountOverview() {
         </div>
         {currentTier !== 'Free' && !isDemo ? (
           <div className="flex items-center justify-between">
-            <p className="text-sm text-slate-500">Manage your billing details, update payment method, or cancel your subscription via Stripe's secure portal.</p>
+            <p className="text-sm text-slate-500">Manage your billing details, update payment method, or cancel your subscription via Whop's secure portal.</p>
             <button
-              onClick={handleBillingPortal}
+              onClick={handleSubscriptionManagement}
               disabled={checkoutLoading}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 text-sm font-medium text-slate-700 hover:border-slate-300 transition-colors"
             >
-              <CreditCard className="w-4 h-4" /> Manage Billing
+              <CreditCard className="w-4 h-4" /> Manage Subscription
             </button>
           </div>
         ) : (

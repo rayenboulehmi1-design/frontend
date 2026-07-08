@@ -15,7 +15,7 @@ import { DEMO_USER } from "@/lib/demoData";
  * Backend requirements for full entitlement enforcement:
  * - User entity must carry subscription_tier, subscription_status, trial_start, trial_expiry
  * - Usage counts (alerts used, missions used, etc.) must come from server-side tracking
- * - Stripe webhook must map price IDs to plan tiers
+ * - Whop webhook must map plan metadata to subscription tiers
  */
 export function useEntitlement() {
   const isDemo = useDemoMode();

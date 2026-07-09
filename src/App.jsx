@@ -32,6 +32,7 @@ import MissionDetail from '@/pages/MissionDetail';
 import Leads from '@/pages/Leads';
 import LeadDetail from '@/pages/LeadDetail';
 import CRM from '@/pages/CRM';
+import CRMRecordDetail from '@/pages/CRMRecordDetail';
 import DemoLayout from '@/components/dashboard/DemoLayout';
 import DemoDashboard from '@/pages/demo/DemoDashboard';
 import DemoIntelligenceFeed from '@/pages/demo/DemoIntelligenceFeed';
@@ -99,6 +100,7 @@ const AuthenticatedApp = () => {
         <Route path="/leads" element={<Leads />} />
         <Route path="/leads/:leadId" element={<LeadDetail />} />
         <Route path="/crm" element={<CRM />} />
+        <Route path="/crm/:recordId" element={<CRMRecordDetail />} />
         <Route path="/admin" element={<ComingSoon title="Admin Panel" description="Pipeline administration panel — manage data sources, monitor ingestion, and configure system settings." />} />
       </Route>
       {/* Public demo routes — no auth required, isolated state */}
@@ -121,6 +123,7 @@ const AuthenticatedApp = () => {
         <Route path="/demo-leads" element={<Leads />} />
         <Route path="/demo-leads/:leadId" element={<LeadDetail />} />
         <Route path="/demo-crm" element={<CRM />} />
+        <Route path="/demo-crm/:recordId" element={<CRMRecordDetail />} />
       </Route>
       <Route path="/command-center" element={<Navigate to="/dashboard" replace />} />
       <Route path="*" element={<PageNotFound />} />

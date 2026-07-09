@@ -19,6 +19,7 @@ import SavedOpportunitiesSummary from "@/components/dashboard/SavedOpportunities
 import FutureModulesRow from "@/components/dashboard/FutureModulesRow";
 import EnhancedFilterBar from "@/components/dashboard/EnhancedFilterBar";
 import EmptyState from "@/components/dashboard/EmptyState";
+import CRMModule from "@/components/dashboard/CRMModule";
 
 const DEFAULT_FILTERS = {
   search: "",
@@ -237,6 +238,9 @@ export default function Dashboard() {
           <div>
             <h2 className="text-lg font-bold text-slate-900 mb-1">Intelligence Workspace</h2>
             <p className="text-xs text-slate-500 mb-4">Advanced modules — available on higher plans or coming soon</p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-5">
+              <CRMModule />
+            </div>
             <FutureModulesRow />
           </div>
         </>

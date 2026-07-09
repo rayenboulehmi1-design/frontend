@@ -37,7 +37,7 @@ const navGroups = [
     label: "Coming Soon",
     items: [
       { label: "Leads", path: "/leads", icon: Users, comingSoon: true },
-      { label: "CRM Pipeline", path: "/crm", icon: GitBranch, comingSoon: true },
+      { label: "CRM Pipeline", path: "/crm", icon: GitBranch },
     ],
   },
   {

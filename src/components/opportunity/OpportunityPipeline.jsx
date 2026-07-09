@@ -16,6 +16,7 @@ import LockedFeature from "@/components/entitlement/LockedFeature";
 import PipelineStep from "@/components/opportunity/PipelineStep";
 import EnginePlaceholder from "@/components/opportunity/EnginePlaceholder";
 import LeadsWorkflow from "@/components/leads/LeadsWorkflow";
+import AddToCRMDialog from "@/components/crm/AddToCRMDialog";
 
 const categoryStyles = {
   "Real Estate": { badge: "bg-blue-50 text-blue-700 border-blue-100" },
@@ -59,6 +60,7 @@ export default function OpportunityPipeline({ signal }) {
   const [tracked, setTracked] = useState(false);
   const [missionCreated, setMissionCreated] = useState(false);
   const [crmAdded, setCrmAdded] = useState(false);
+  const [crmDialogOpen, setCrmDialogOpen] = useState(false);
 
   const style = categoryStyles[signal.category] || categoryStyles["Real Estate"];
   const aiAccess = checkAccess("aiAnalysis");
@@ -166,21 +168,12 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
   };
 
   const handleAddToCRM = () => {
-    const pipeline = JSON.parse(localStorage.getItem("scouty_crm_pipeline") || "[]");
-    if (!pipeline.some((p) => p.signalId === signal.id)) {
-      localStorage.setItem("scouty_crm_pipeline", JSON.stringify([{
-        id: Date.now().toString(),
-        signalId: signal.id,
-        title: signal.title,
-        category: signal.category,
-        location: signal.location,
-        entity_name: signal.entity_name,
-        confidence: signal.confidence,
-        stage: "Discovered",
-        createdAt: new Date().toISOString(),
-      }, ...pipeline]));
-    }
+    setCrmDialogOpen(true);
+  };
+
+  const handleCRMSaved = () => {
     setCrmAdded(true);
+    window.dispatchEvent(new Event("crm-updated"));
     setTimeout(() => setCrmAdded(false), 3000);
   };
 
@@ -507,6 +500,14 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
           )}
         </button>
       </div>
+
+      <AddToCRMDialog
+        open={crmDialogOpen}
+        onOpenChange={setCrmDialogOpen}
+        opportunity={signal}
+        lead={null}
+        onSaved={handleCRMSaved}
+      />
     </motion.div>
   );
 }

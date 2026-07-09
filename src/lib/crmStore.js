@@ -11,23 +11,31 @@
  */
 
 const KEYS = {
-  records: "scouty_crm_pipeline",
-  tasks: "scouty_crm_tasks",
-  meetings: "scouty_crm_meetings",
-  notes: "scouty_crm_notes",
-  activities: "scouty_crm_activities",
+  records: "pipeline",
+  tasks: "tasks",
+  meetings: "meetings",
+  notes: "notes",
+  activities: "activities",
 };
+
+function isDemoRoute() {
+  return typeof window !== "undefined" && window.location.pathname.startsWith("/demo");
+}
+
+function fullKey(shortKey) {
+  return (isDemoRoute() ? "scouty_demo_crm_" : "scouty_crm_") + shortKey;
+}
 
 function read(key) {
   try {
-    return JSON.parse(localStorage.getItem(key) || "[]");
+    return JSON.parse(localStorage.getItem(fullKey(key)) || "[]");
   } catch {
     return [];
   }
 }
 
 function write(key, data) {
-  localStorage.setItem(key, JSON.stringify(data));
+  localStorage.setItem(fullKey(key), JSON.stringify(data));
 }
 
 function uid() {
@@ -73,7 +81,8 @@ export function createRecord(data) {
     lastActivityAt: now,
   };
   write(KEYS.records, [record, ...records]);
-  addActivity(record.id, {
+  addActivity({
+    crmRecordId: record.id,
     type: "CRM Record Created",
     description: `CRM record "${record.title}" created at stage ${record.stage}.`,
   });
@@ -93,13 +102,14 @@ export function changeStage(id, newStage) {
   const record = getRecord(id);
   if (!record || record.stage === newStage) return record;
   const updated = updateRecord(id, { stage: newStage });
-  addActivity(id, {
+  addActivity({
+    crmRecordId: id,
     type: "Stage Changed",
     description: `Stage changed from ${record.stage} to ${newStage}.`,
     metadata: { from: record.stage, to: newStage },
   });
-  if (newStage === "Won") addActivity(id, { type: "Record Won", description: "Record marked as Won." });
-  if (newStage === "Lost") addActivity(id, { type: "Record Lost", description: "Record marked as Lost." });
+  if (newStage === "Won") addActivity({ crmRecordId: id, type: "Record Won", description: "Record marked as Won." });
+  if (newStage === "Lost") addActivity({ crmRecordId: id, type: "Record Lost", description: "Record marked as Lost." });
   return updated;
 }
 
@@ -133,7 +143,7 @@ export function createTask(data) {
     createdAt: new Date().toISOString(),
   };
   write(KEYS.tasks, [task, ...tasks]);
-  addActivity(task.crmRecordId, { type: "Task Created", description: `Task "${task.title}" created.` });
+  addActivity({ crmRecordId: task.crmRecordId, type: "Task Created", description: `Task "${task.title}" created.` });
   return task;
 }
 
@@ -144,7 +154,7 @@ export function updateTask(id, patch) {
   tasks[idx] = { ...tasks[idx], ...patch };
   write(KEYS.tasks, tasks);
   if (patch.status === "Completed") {
-    addActivity(tasks[idx].crmRecordId, { type: "Task Completed", description: `Task "${tasks[idx].title}" completed.` });
+    addActivity({ crmRecordId: tasks[idx].crmRecordId, type: "Task Completed", description: `Task "${tasks[idx].title}" completed.` });
   }
   return tasks[idx];
 }
@@ -175,7 +185,7 @@ export function createMeeting(data) {
     createdAt: new Date().toISOString(),
   };
   write(KEYS.meetings, [meeting, ...meetings]);
-  addActivity(meeting.crmRecordId, { type: "Meeting Scheduled", description: `Meeting "${meeting.title}" scheduled.` });
+  addActivity({ crmRecordId: meeting.crmRecordId, type: "Meeting Scheduled", description: `Meeting "${meeting.title}" scheduled.` });
   return meeting;
 }
 
@@ -186,7 +196,7 @@ export function updateMeeting(id, patch) {
   meetings[idx] = { ...meetings[idx], ...patch };
   write(KEYS.meetings, meetings);
   if (patch.outcomeNotes) {
-    addActivity(meetings[idx].crmRecordId, { type: "Meeting Completed", description: `Meeting "${meetings[idx].title}" completed.` });
+    addActivity({ crmRecordId: meetings[idx].crmRecordId, type: "Meeting Completed", description: `Meeting "${meetings[idx].title}" completed.` });
   }
   return meetings[idx];
 }
@@ -216,7 +226,7 @@ export function createNote(data) {
   };
   write(KEYS.notes, [note, ...notes]);
   if (note.crmRecordId) {
-    addActivity(note.crmRecordId, { type: "Note Added", description: "A note was added to this record." });
+    addActivity({ crmRecordId: note.crmRecordId, type: "Note Added", description: "A note was added to this record." });
   }
   return note;
 }

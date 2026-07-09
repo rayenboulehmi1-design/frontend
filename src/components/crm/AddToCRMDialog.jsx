@@ -16,6 +16,7 @@ export default function AddToCRMDialog({ open, onOpenChange, opportunity, lead, 
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [savedId, setSavedId] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (open) {
@@ -27,6 +28,7 @@ export default function AddToCRMDialog({ open, onOpenChange, opportunity, lead, 
       setSaving(false);
       setSaved(false);
       setSavedId(null);
+      setError(null);
     }
   }, [open]);
 
@@ -36,31 +38,37 @@ export default function AddToCRMDialog({ open, onOpenChange, opportunity, lead, 
 
   const handleSave = () => {
     setSaving(true);
+    setError(null);
     setTimeout(() => {
-      const record = createRecord({
-        signalId: opportunity?.id || lead?.opportunityId || null,
-        title,
-        category: opportunity?.category || "",
-        location: opportunity?.location || "",
-        entity_name: opportunity?.entity_name || "",
-        confidence: opportunity?.confidence || null,
-        stage,
-        priority,
-        note,
-        nextAction,
-        nextActionDate,
-        companyId: lead?.company?.companyId || lead?.companyId || null,
-        companyName,
-        personId: lead?.decisionMaker?.personId || lead?.personId || null,
-        personName,
-        leadId: lead?.leadId || lead?.id || null,
-        missionId: missionId || lead?.missionId || null,
-      });
-      setSaving(false);
-      setSaved(true);
-      setSavedId(record.id);
-      window.dispatchEvent(new Event("crm-updated"));
-      if (onSaved) onSaved(record);
+      try {
+        const record = createRecord({
+          signalId: opportunity?.id || lead?.opportunityId || null,
+          title,
+          category: opportunity?.category || "",
+          location: opportunity?.location || "",
+          entity_name: opportunity?.entity_name || "",
+          confidence: opportunity?.confidence || null,
+          stage,
+          priority,
+          note,
+          nextAction,
+          nextActionDate,
+          companyId: lead?.company?.companyId || lead?.companyId || null,
+          companyName,
+          personId: lead?.decisionMaker?.personId || lead?.personId || null,
+          personName,
+          leadId: lead?.leadId || lead?.id || null,
+          missionId: missionId || lead?.missionId || null,
+        });
+        setSaving(false);
+        setSaved(true);
+        setSavedId(record.id);
+        window.dispatchEvent(new Event("crm-updated"));
+        if (onSaved) onSaved(record);
+      } catch (err) {
+        setSaving(false);
+        setError(err.message || "Failed to save CRM record. Please try again.");
+      }
     }, 400);
   };
 
@@ -123,6 +131,13 @@ export default function AddToCRMDialog({ open, onOpenChange, opportunity, lead, 
               <label className="text-xs font-medium text-slate-600 mb-1 block">Note (optional)</label>
               <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="Add an initial note..." className="w-full min-h-[60px] px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-blue-400 resize-none" />
             </div>
+
+            {error && (
+              <div className="flex items-center gap-2 rounded-lg border border-rose-100 bg-rose-50 p-3">
+                <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                <span className="text-xs text-rose-600">{error}</span>
+              </div>
+            )}
           </div>
         )}
 

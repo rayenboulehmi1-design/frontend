@@ -81,7 +81,7 @@ export default function EnhancedFilterBar({
     <div className="space-y-4">
       {/* Search bar with suggestions */}
       <div className="relative">
-        <div className="flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-200 bg-white">
+        <div className="flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
           <Search className="w-4 h-4 text-slate-400" />
           <input
             ref={searchRef}
@@ -90,7 +90,7 @@ export default function EnhancedFilterBar({
             onFocus={() => setFocused(true)}
             onBlur={() => setTimeout(() => setFocused(false), 150)}
             placeholder="Search companies, markets, signals..."
-            className="flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400"
+            className="flex-1 bg-transparent text-sm text-slate-900 dark:text-slate-100 outline-none placeholder:text-slate-400"
           />
           {filters.search && (
             <button onClick={() => update("search", "")} className="p-1 rounded hover:bg-slate-100">
@@ -105,7 +105,7 @@ export default function EnhancedFilterBar({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
               transition={{ duration: 0.15 }}
-              className="absolute top-full mt-1 left-0 right-0 rounded-xl border border-slate-200 bg-white shadow-2xl z-40 max-h-80 overflow-y-auto"
+              className="absolute top-full mt-1 left-0 right-0 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xl z-40 max-h-80 overflow-y-auto"
             >
               <SearchSuggestionsPanel
                 signals={signals}
@@ -127,8 +127,8 @@ export default function EnhancedFilterBar({
             onClick={() => update("searchMode", tab)}
             className={`px-3.5 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
               filters.searchMode === tab
-                ? "bg-slate-900 text-white"
-                : "bg-white text-slate-600 border border-slate-200 hover:border-slate-300"
+                ? "bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900"
+                : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
             }`}
           >
             {tab}

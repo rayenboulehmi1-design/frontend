@@ -1,5 +1,5 @@
 import React from "react";
-import { Loader2, AlertCircle, SearchX, RotateCcw, Database, Lock } from "lucide-react";
+import { AlertCircle, SearchX, RotateCcw, Database, Lock } from "lucide-react";
 import { SkeletonCard, SkeletonSection } from "./Skeleton";
 
 /**

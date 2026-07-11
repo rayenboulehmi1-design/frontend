@@ -17,6 +17,7 @@ import PipelineStep from "@/components/opportunity/PipelineStep";
 import EnginePlaceholder from "@/components/opportunity/EnginePlaceholder";
 import LeadsWorkflow from "@/components/leads/LeadsWorkflow";
 import AddToCRMDialog from "@/components/crm/AddToCRMDialog";
+import CreateMissionWizard from "@/components/missions/CreateMissionWizard";
 
 const categoryStyles = {
   "Real Estate": { badge: "bg-blue-50 text-blue-700 border-blue-100" },
@@ -58,9 +59,9 @@ export default function OpportunityPipeline({ signal }) {
   const [error, setError] = useState(null);
   const [shareMsg, setShareMsg] = useState(false);
   const [tracked, setTracked] = useState(false);
-  const [missionCreated, setMissionCreated] = useState(false);
   const [crmAdded, setCrmAdded] = useState(false);
   const [crmDialogOpen, setCrmDialogOpen] = useState(false);
+  const [missionWizardOpen, setMissionWizardOpen] = useState(false);
 
   const style = categoryStyles[signal.category] || categoryStyles["Real Estate"];
   const aiAccess = checkAccess("aiAnalysis");
@@ -150,21 +151,7 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
   };
 
   const handleCreateMission = () => {
-    const missions = JSON.parse(localStorage.getItem("scouty_missions") || "[]");
-    if (!missions.some((m) => m.name === signal.title.substring(0, 40))) {
-      localStorage.setItem("scouty_missions", JSON.stringify([{
-        id: Date.now().toString(),
-        name: signal.title.substring(0, 40),
-        category: signal.category || "",
-        location: signal.location || "",
-        keywords: signal.entity_name || "",
-        minConfidence: signal.confidence || 50,
-        active: true,
-        createdAt: new Date().toISOString(),
-      }, ...missions]));
-    }
-    setMissionCreated(true);
-    setTimeout(() => setMissionCreated(false), 3000);
+    setMissionWizardOpen(true);
   };
 
   const handleAddToCRM = () => {
@@ -426,17 +413,13 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
       {/* ───────── Step 9: Create AI Mission (Frontend + Backend) ───────── */}
       <PipelineStep number={9} title="Create AI Mission" icon={Radar} owner="action" compact>
         <div className="flex items-center gap-2">
-          {missionCreated && (
-            <Link to={demoLink("/missions")} className="text-xs text-blue-600 font-medium hover:underline">View Missions</Link>
-          )}
+          <Link to={demoLink("/missions")} className="text-xs text-blue-600 font-medium hover:underline">View Missions</Link>
           <button
             onClick={handleCreateMission}
-            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition-colors ${
-              missionCreated ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-slate-900 text-white hover:bg-slate-800"
-            }`}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-white hover:bg-slate-800 transition-colors"
           >
             <Radar className="w-3.5 h-3.5" />
-            {missionCreated ? "Mission Created" : "Create AI Mission"}
+            Create AI Mission
           </button>
         </div>
       </PipelineStep>
@@ -507,6 +490,21 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
         opportunity={signal}
         lead={null}
         onSaved={handleCRMSaved}
+      />
+
+      <CreateMissionWizard
+        open={missionWizardOpen}
+        onClose={() => setMissionWizardOpen(false)}
+        prefill={{
+          objective: signal.title
+            ? `Find opportunities similar to: ${signal.title}${signal.country ? ` in ${signal.country}` : ""}`
+            : "",
+          industry: signal.category || "",
+          countries: signal.country ? [signal.country] : [],
+          categories: signal.category ? [signal.category] : [],
+          keywords: [signal.company, signal.entity_name].filter(Boolean),
+          source_opportunity_id: signal.id,
+        }}
       />
     </motion.div>
   );

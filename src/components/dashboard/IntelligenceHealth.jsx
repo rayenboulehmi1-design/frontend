@@ -53,7 +53,7 @@ export default function IntelligenceHealth({ status, lastUpdated, onRetry }) {
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`rounded-2xl border ${config.border} bg-white px-5 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3`}
+      className={`rounded-2xl border ${config.border} dark:border-slate-800 bg-white dark:bg-slate-900 px-5 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3`}
     >
       <div className="flex items-center gap-3">
         <div className={`relative flex h-2.5 w-2.5 shrink-0`}>
@@ -65,7 +65,7 @@ export default function IntelligenceHealth({ status, lastUpdated, onRetry }) {
         <div className="flex items-center gap-2">
           <Icon className={`w-4 h-4 ${config.color} ${config.spin ? "animate-spin" : ""}`} />
           <div>
-            <p className="text-sm font-semibold text-slate-900">{config.label}</p>
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{config.label}</p>
             <p className="text-xs text-slate-400">
               {status === "success" && "Real-time intelligence stream active"}
               {status === "loading" && "Fetching latest opportunities and signals"}

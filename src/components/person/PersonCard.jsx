@@ -1,8 +1,46 @@
 import React, { useState } from "react";
 import {
-  ChevronDown, Mail, Phone, ShieldCheck, Star, Target,
-  FileSearch, Lock, ExternalLink,
+  ChevronDown, Mail, Phone, ShieldCheck, Shield, ShieldAlert,
+  ShieldX, Star, Target, FileSearch, Lock, ExternalLink, UserCheck, Clock,
 } from "lucide-react";
+
+const IDENTITY_STATUS_CONFIG = {
+  VERIFIED: {
+    label: "Verified",
+    icon: ShieldCheck,
+    cls: "bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-900",
+  },
+  PROBABLE: {
+    label: "Probable",
+    icon: Shield,
+    cls: "bg-blue-50 text-blue-700 border-blue-100 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-900",
+  },
+  UNCERTAIN: {
+    label: "Uncertain",
+    icon: ShieldAlert,
+    cls: "bg-amber-50 text-amber-700 border-amber-100 dark:bg-amber-950 dark:text-amber-400 dark:border-amber-900",
+  },
+  REJECTED: {
+    label: "Rejected",
+    icon: ShieldX,
+    cls: "bg-rose-50 text-rose-700 border-rose-100 dark:bg-rose-950 dark:text-rose-400 dark:border-rose-900",
+  },
+  READY_FOR_ENRICHMENT: {
+    label: "Ready for Enrichment",
+    icon: UserCheck,
+    cls: "bg-violet-50 text-violet-700 border-violet-100 dark:bg-violet-950 dark:text-violet-400 dark:border-violet-900",
+  },
+  READY_FOR_OUTREACH: {
+    label: "Ready for Outreach",
+    icon: Target,
+    cls: "bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-950 dark:text-emerald-400 dark:border-emerald-900",
+  },
+  NEEDS_REVIEW: {
+    label: "Needs Review",
+    icon: Clock,
+    cls: "bg-amber-50 text-amber-700 border-amber-100 dark:bg-amber-950 dark:text-amber-400 dark:border-amber-900",
+  },
+};
 
 function ScorePill({ label, score, icon: Icon }) {
   if (score == null) return null;
@@ -30,6 +68,9 @@ export default function PersonCard({ person }) {
   const initials = name.split(" ").map((w) => w[0]).slice(0, 2).join("").toUpperCase();
   const leadReadiness = person.leadReadiness || person.leadReadinessScore;
 
+  const statusConfig = IDENTITY_STATUS_CONFIG[identityStatus];
+  const StatusIcon = statusConfig?.icon;
+
   return (
     <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 hover:shadow-lg hover:border-slate-200 dark:hover:border-slate-700 transition-all">
       {/* Header */}
@@ -46,9 +87,9 @@ export default function PersonCard({ person }) {
           <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{title}</p>
           {company && <p className="text-xs text-slate-400 dark:text-slate-500 truncate">{company}</p>}
         </div>
-        {identityStatus && (
-          <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-50 dark:bg-slate-800 text-[10px] font-medium text-slate-500 dark:text-slate-400 shrink-0">
-            <ShieldCheck className="w-3 h-3" /> {identityStatus}
+        {statusConfig && StatusIcon && (
+          <div className={`flex items-center gap-1 px-2 py-1 rounded-full border text-[10px] font-bold uppercase tracking-wide shrink-0 ${statusConfig.cls}`}>
+            <StatusIcon className="w-3 h-3" /> {statusConfig.label}
           </div>
         )}
       </div>

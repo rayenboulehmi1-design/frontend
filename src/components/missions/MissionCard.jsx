@@ -25,7 +25,7 @@ export default function MissionCard({ mission }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.3 }}
-      className="rounded-2xl border border-slate-100 bg-white p-5 hover:shadow-lg hover:border-blue-200 transition-all flex flex-col"
+      className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 hover:shadow-lg hover:border-blue-200 dark:hover:border-blue-900 transition-all flex flex-col"
     >
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
@@ -57,13 +57,13 @@ export default function MissionCard({ mission }) {
       <Link to={demoLink(`/missions/${mission.id}`)} className="group flex-1">
         <div className="flex items-start gap-3 mb-3">
           <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
-            <Radar className="w-4.5 h-4.5 text-blue-600" strokeWidth={2.5} />
+            <Radar className="w-4 h-4 text-blue-600" strokeWidth={2.5} />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="font-bold text-slate-900 leading-snug group-hover:text-blue-600 transition-colors">
+            <h3 className="font-bold text-slate-900 dark:text-slate-100 leading-snug group-hover:text-blue-600 transition-colors">
               {mission.name}
             </h3>
-            <p className="text-xs text-slate-400 mt-0.5 line-clamp-2">{mission.objective}</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5 line-clamp-2">{mission.objective}</p>
           </div>
         </div>
       </Link>
@@ -86,8 +86,8 @@ export default function MissionCard({ mission }) {
         </div>
       )}
 
-      <div className="mt-auto pt-3 border-t border-slate-50 flex items-center justify-between">
-        <div className="flex items-center gap-3 text-xs text-slate-400">
+      <div className="mt-auto pt-3 border-t border-slate-50 dark:border-slate-800 flex items-center justify-between">
+        <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500">
           <span className="flex items-center gap-1">
             <Target className="w-3 h-3" /> {mission.matches_found || 0} matches
           </span>

@@ -60,11 +60,11 @@ export default function WatchlistActivity({ signals }) {
   const activity = useMemo(() => deriveActivity(signals), [signals]);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-slate-100 bg-white p-5">
+    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <Eye className="w-4 h-4 text-slate-400" />
-          <h3 className="text-sm font-bold text-slate-900">Watchlist Activity</h3>
+          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Watchlist Activity</h3>
           <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase border bg-blue-50 text-blue-600 border-blue-100">Engine</span>
         </div>
         <Link to={demoLink("/watchlist")} className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:gap-2 transition-all">

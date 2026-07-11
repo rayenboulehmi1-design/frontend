@@ -55,11 +55,11 @@ export default function NotificationBell() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.97 }}
             transition={{ duration: 0.15 }}
-            className="absolute right-0 top-full mt-2 w-80 sm:w-96 rounded-2xl border border-slate-200 bg-white shadow-2xl z-50 overflow-hidden"
+            className="absolute right-0 top-full mt-2 w-80 sm:w-96 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xl z-50 overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100">
-              <span className="text-sm font-bold text-slate-900">Notifications</span>
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-800">
+              <span className="text-sm font-bold text-slate-900 dark:text-slate-100">Notifications</span>
               <Link to={demoLink("/settings")} onClick={() => setOpen(false)} className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600">
                 <Settings className="w-3.5 h-3.5" /> Settings
               </Link>

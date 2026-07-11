@@ -42,8 +42,8 @@ export default function Missions() {
             <Radar className="w-5 h-5 text-white" strokeWidth={2.5} />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">AI Missions</h1>
-            <p className="text-sm text-slate-500">Autonomous intelligence objectives continuously monitored by ScoutyGo</p>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">AI Missions</h1>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Autonomous intelligence objectives continuously monitored by ScoutyGo</p>
           </div>
         </div>
         {!isLocked && (
@@ -76,7 +76,7 @@ export default function Missions() {
           )}
 
           {/* Tabs */}
-          <div className="flex items-center gap-1 p-0.5 rounded-xl bg-slate-100 mb-5 w-fit">
+          <div className="flex items-center gap-1 p-0.5 rounded-xl bg-slate-100 dark:bg-slate-800 mb-5 w-fit">
             {TABS.map((t) => {
               const count = t.key === "archived" ? archivedMissions.length : t.key === "all" ? missions.length : missions.filter((m) => m.status === t.key).length;
               return (
@@ -84,7 +84,7 @@ export default function Missions() {
                   key={t.key}
                   onClick={() => setTab(t.key)}
                   className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${
-                    tab === t.key ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                    tab === t.key ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
                   }`}
                 >
                   {t.label}
@@ -106,9 +106,9 @@ export default function Missions() {
               </AnimatePresence>
             </motion.div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-dashed border-slate-200 bg-slate-50/50">
-              <Radar className="w-12 h-12 text-slate-200 mb-3" />
-              <p className="text-lg font-semibold text-slate-600 mb-1">
+            <div className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+              <Radar className="w-12 h-12 text-slate-200 dark:text-slate-700 mb-3" />
+              <p className="text-lg font-semibold text-slate-600 dark:text-slate-400 mb-1">
                 {tab === "archived" ? "No archived missions" : `No ${tab !== "all" ? tab : ""} missions yet`}
               </p>
               <p className="text-sm text-slate-400 max-w-md mb-5">

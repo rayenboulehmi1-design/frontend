@@ -24,7 +24,7 @@ export default function DealCard({ deal }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.96 }}
       transition={{ duration: 0.3 }}
-      className="relative rounded-2xl border border-slate-100 bg-white p-5 hover:shadow-xl hover:border-slate-200 transition-all flex flex-col"
+      className="relative rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 hover:shadow-xl hover:border-slate-200 dark:hover:border-slate-700 transition-all flex flex-col"
     >
       {/* NEW badge */}
       <AnimatePresence>
@@ -51,10 +51,10 @@ export default function DealCard({ deal }) {
               <MapPin className="w-3 h-3" /> {locationText}
             </span>
           </div>
-          <h3 className="font-bold text-slate-900 text-base leading-snug">
+          <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base leading-snug">
             {deal.company || deal.entity_name || deal.title}
           </h3>
-          <div className="flex items-center gap-2 mt-1 text-xs text-slate-400">
+          <div className="flex items-center gap-2 mt-1 text-xs text-slate-400 dark:text-slate-500">
             <Clock className="w-3 h-3" /> {detectedText}
             {deal.marketSize && (
               <>
@@ -69,12 +69,12 @@ export default function DealCard({ deal }) {
 
       {/* AI Analysis */}
       {analysisText && (
-        <div className="rounded-xl bg-slate-50 p-3 mb-3">
+        <div className="rounded-xl bg-slate-50 dark:bg-slate-800/50 p-3 mb-3">
           <div className="flex items-center gap-1.5 mb-1.5">
             <Brain className="w-3.5 h-3.5 text-blue-600" />
-            <span className="text-[10px] font-bold uppercase tracking-wide text-slate-500">AI Analysis</span>
+            <span className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">AI Analysis</span>
           </div>
-          <p className="text-xs text-slate-600 leading-relaxed line-clamp-4">{analysisText}</p>
+          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-4">{analysisText}</p>
         </div>
       )}
 
@@ -106,8 +106,8 @@ export default function DealCard({ deal }) {
       </div>
 
       {/* Footer: timeline + market size + actions */}
-      <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-3 text-xs text-slate-500 min-w-0">
+      <div className="mt-auto pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 min-w-0">
           {deal.timeline && (
             <span className="flex items-center gap-1">
               <Zap className="w-3 h-3 text-amber-500" /> {deal.timeline}

@@ -89,10 +89,10 @@ Do NOT invent facts, evidence, sources, companies, people, or statistics not pre
   // ─── Loading state ───
   if (dataStatus === "loading") {
     return (
-      <div className="rounded-2xl border border-slate-100 bg-white p-6">
+      <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-6">
         <div className="flex items-center gap-2 mb-5">
           <Loader2 className="w-5 h-5 text-blue-600 animate-spin" />
-          <h2 className="text-xl font-bold text-slate-900">{getGreeting()}, {firstName}</h2>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">{getGreeting()}, {firstName}</h2>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           {[0, 1, 2, 3].map((i) => <div key={i} className="h-24 bg-slate-100 rounded-xl animate-pulse" />)}
@@ -108,13 +108,13 @@ Do NOT invent facts, evidence, sources, companies, people, or statistics not pre
       ? new Date(lastUpdated).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
       : null;
     return (
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-amber-100 bg-amber-50/50 p-6">
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-amber-100 dark:border-amber-900 bg-amber-50/50 dark:bg-amber-950/20 p-6">
         <div className="flex items-start gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
-            <AlertCircle className="w-5 h-5 text-amber-600" />
+          <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center shrink-0">
+            <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-slate-900">{getGreeting()}, {firstName}</h2>
+            <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">{getGreeting()}, {firstName}</h2>
             <p className="text-sm text-amber-600 mt-0.5">
               Live intelligence is temporarily unavailable.
               {updatedText && <span className="text-slate-400"> · Last updated {updatedText}</span>}
@@ -136,9 +136,9 @@ Do NOT invent facts, evidence, sources, companies, people, or statistics not pre
   // ─── Empty state ───
   if (dataStatus === "empty" || !engineMetrics) {
     return (
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-slate-100 bg-white p-6">
-        <h2 className="text-xl font-bold text-slate-900">{getGreeting()}, {firstName}</h2>
-        <p className="text-sm text-slate-500 mt-0.5 mb-6">
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-6">
+        <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">{getGreeting()}, {firstName}</h2>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5 mb-6">
           No opportunities have been detected yet. ScoutyGo is actively scanning global markets — check back shortly.
         </p>
       </motion.div>
@@ -154,12 +154,12 @@ Do NOT invent facts, evidence, sources, companies, people, or statistics not pre
   ];
 
   return (
-    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-slate-100 bg-white p-6">
+    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">{getGreeting()}, {firstName}</h2>
-          <p className="text-sm text-slate-500 mt-0.5">Today's Executive Intelligence Brief</p>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">{getGreeting()}, {firstName}</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">Today's Executive Intelligence Brief</p>
         </div>
         {lastUpdated && (
           <span className="flex items-center gap-1 text-xs text-slate-400">

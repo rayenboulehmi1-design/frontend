@@ -169,8 +169,8 @@ export default function Dashboard() {
           <div>
             <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
               <div>
-                <h2 className="text-lg font-bold text-slate-900">Priority Opportunities</h2>
-                <p className="text-xs text-slate-500 mt-0.5">Top opportunities by confidence — verified by the Intelligence Engine</p>
+                <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">Priority Opportunities</h2>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Top opportunities by confidence — verified by the Intelligence Engine</p>
               </div>
               <div className="flex items-center gap-2">
                 <Link to="/saved" className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-700 hover:border-slate-300 transition-colors">
@@ -236,8 +236,8 @@ export default function Dashboard() {
 
           {/* I. Future-ready modules */}
           <div>
-            <h2 className="text-lg font-bold text-slate-900 mb-1">Intelligence Workspace</h2>
-            <p className="text-xs text-slate-500 mb-4">Advanced modules — available on higher plans or coming soon</p>
+            <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-1">Intelligence Workspace</h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Advanced modules — available on higher plans or coming soon</p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-5">
               <CRMModule />
             </div>

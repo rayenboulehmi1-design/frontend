@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, User, Mail, Save, Loader2 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
+import { useDemoLink } from "@/lib/demoMode";
 
 export default function Profile() {
+  const demoLink = useDemoLink();
   const [user, setUser] = useState(null);
   const [fullName, setFullName] = useState("");
   const [saving, setSaving] = useState(false);
@@ -41,23 +43,23 @@ export default function Profile() {
 
   return (
     <div className="p-5 sm:p-8 max-w-2xl mx-auto">
-      <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-6 transition-colors">
+      <Link to={demoLink("/dashboard")} className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 mb-6 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
       </Link>
 
       <div className="flex items-center gap-3 mb-8">
         <User className="w-5 h-5 text-blue-600" />
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Profile</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Profile</h1>
       </div>
 
-      <div className="rounded-2xl border border-slate-100 bg-white p-6">
+      <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-6">
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center">
-            <span className="text-xl font-bold text-blue-600">{initial}</span>
+          <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-950 flex items-center justify-center">
+            <span className="text-xl font-bold text-blue-600 dark:text-blue-400">{initial}</span>
           </div>
           <div>
-            <p className="font-semibold text-slate-900">{user.full_name || "—"}</p>
-            <p className="text-sm text-slate-500">{user.email}</p>
+            <p className="font-semibold text-slate-900 dark:text-slate-100">{user.full_name || "—"}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{user.email}</p>
           </div>
         </div>
 

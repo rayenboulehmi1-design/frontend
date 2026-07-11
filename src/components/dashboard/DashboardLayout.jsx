@@ -11,7 +11,7 @@ export default function DashboardLayout() {
   const demoLink = useDemoLink();
 
   return (
-    <div className="min-h-screen bg-[#fcfcfc] flex flex-col">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col">
       <TrialBanner />
       {/* Desktop sidebar */}
       <aside className="hidden lg:block fixed inset-y-0 left-0 z-30">
@@ -31,15 +31,15 @@ export default function DashboardLayout() {
       {/* Main content */}
       <div className="flex-1 lg:ml-64 flex flex-col min-w-0">
         {/* Mobile top bar */}
-        <header className="lg:hidden sticky top-0 z-20 flex items-center justify-between h-16 px-4 bg-white border-b border-slate-200">
-          <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 text-slate-600">
+        <header className="lg:hidden sticky top-0 z-20 flex items-center justify-between h-16 px-4 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+          <button onClick={() => setSidebarOpen(true)} className="p-2 -ml-2 text-slate-600 dark:text-slate-400">
             <Menu className="w-5 h-5" />
           </button>
           <Link to={demoLink("/dashboard")} className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center">
               <Radar className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
             </div>
-            <span className="font-bold text-slate-900">ScoutyGo</span>
+            <span className="font-bold text-slate-900 dark:text-slate-100">ScoutyGo</span>
           </Link>
           <NotificationBell />
         </header>

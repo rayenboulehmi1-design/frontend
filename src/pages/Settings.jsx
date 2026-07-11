@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Settings as SettingsIcon, Bell, Globe } from "lucide-react";
+import { useDemoLink } from "@/lib/demoMode";
 
 const STORAGE_KEY = "scouty_settings";
 
@@ -16,6 +17,7 @@ function Toggle({ checked, onChange }) {
 }
 
 export default function Settings() {
+  const demoLink = useDemoLink();
   const [settings, setSettings] = useState(() => {
     try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch { return {}; }
   });
@@ -28,20 +30,20 @@ export default function Settings() {
 
   return (
     <div className="p-5 sm:p-8 max-w-2xl mx-auto">
-      <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-6 transition-colors">
+      <Link to={demoLink("/dashboard")} className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 mb-6 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
       </Link>
 
       <div className="flex items-center gap-3 mb-8">
         <SettingsIcon className="w-5 h-5 text-blue-600" />
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Settings</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Settings</h1>
       </div>
 
       {/* Notifications */}
-      <div className="rounded-2xl border border-slate-100 bg-white p-6 mb-6">
+      <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 mb-6">
         <div className="flex items-center gap-2 mb-4">
           <Bell className="w-4 h-4 text-slate-400" />
-          <h2 className="font-semibold text-slate-900">Notifications</h2>
+          <h2 className="font-semibold text-slate-900 dark:text-slate-100">Notifications</h2>
         </div>
         <div className="space-y-4">
           {[
@@ -61,10 +63,10 @@ export default function Settings() {
       </div>
 
       {/* Preferences */}
-      <div className="rounded-2xl border border-slate-100 bg-white p-6 mb-6">
+      <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 mb-6">
         <div className="flex items-center gap-2 mb-4">
           <Globe className="w-4 h-4 text-slate-400" />
-          <h2 className="font-semibold text-slate-900">Preferences</h2>
+          <h2 className="font-semibold text-slate-900 dark:text-slate-100">Preferences</h2>
         </div>
         <div className="space-y-4">
           <div className="flex items-center justify-between">

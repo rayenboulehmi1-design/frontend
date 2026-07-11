@@ -84,13 +84,13 @@ export default function DashboardSidebar({ onNavigate }) {
   const initial = (user?.full_name || user?.email || "?")[0].toUpperCase();
 
   return (
-    <div className="flex flex-col h-full w-64 bg-white border-r border-slate-200">
-      <div className="flex items-center justify-between px-5 h-16 border-b border-slate-100 shrink-0">
+    <div className="flex flex-col h-full w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
+      <div className="flex items-center justify-between px-5 h-16 border-b border-slate-100 dark:border-slate-800 shrink-0">
         <Link to={demoLink("/dashboard")} className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
             <Radar className="w-4 h-4 text-white" strokeWidth={2.5} />
           </div>
-          <span className="text-lg font-bold tracking-tight text-slate-900">
+          <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100">
             Scouty<span className="text-blue-600">Go</span>
           </span>
         </Link>
@@ -100,7 +100,7 @@ export default function DashboardSidebar({ onNavigate }) {
       <nav className="flex-1 px-3 py-4 overflow-y-auto">
         {allGroups.map((group) => (
           <div key={group.label} className="mb-4">
-            <p className="px-3 mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-300">{group.label}</p>
+            <p className="px-3 mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-300 dark:text-slate-600">{group.label}</p>
             {group.items.map((item) => {
               const active = isActive(item.path);
               const Icon = item.icon;
@@ -111,10 +111,10 @@ export default function DashboardSidebar({ onNavigate }) {
                   to={demoPath}
                   onClick={onNavigate}
                   className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
-                    active ? "bg-blue-50 text-blue-600" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                    active ? "bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400" : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200"
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${active ? "text-blue-600" : "text-slate-400"}`} />
+                  <Icon className={`w-4 h-4 ${active ? "text-blue-600 dark:text-blue-400" : "text-slate-400"}`} />
                   <span className="flex-1">{item.label}</span>
                   {item.badge && (
                     <span className="px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-600 text-[9px] font-bold uppercase tracking-wide">{item.badge}</span>
@@ -130,21 +130,21 @@ export default function DashboardSidebar({ onNavigate }) {
         ))}
       </nav>
 
-      <div className="px-3 py-3 border-t border-slate-100 shrink-0">
+      <div className="px-3 py-3 border-t border-slate-100 dark:border-slate-800 shrink-0">
         <div className="flex items-center gap-3 px-2 py-2 mb-1">
-          <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-            <span className="text-sm font-bold text-blue-600">{initial}</span>
+          <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950 flex items-center justify-center shrink-0">
+            <span className="text-sm font-bold text-blue-600 dark:text-blue-400">{initial}</span>
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-slate-900 truncate">{user?.full_name || "User"}</p>
-            <p className="text-xs text-slate-400 truncate">{user?.email}</p>
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">{user?.full_name || "User"}</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 truncate">{user?.email}</p>
           </div>
           {!isDemo && user && <PlanBadge size="sm" />}
         </div>
         {isDemo ? (
           <Link
             to="/"
-            className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 w-full transition-colors"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 w-full transition-colors"
           >
             <LogOut className="w-4 h-4 text-slate-400" />
             Exit Demo
@@ -152,7 +152,7 @@ export default function DashboardSidebar({ onNavigate }) {
         ) : (
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 w-full transition-colors"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 w-full transition-colors"
           >
             <LogOut className="w-4 h-4 text-slate-400" />
             Sign Out

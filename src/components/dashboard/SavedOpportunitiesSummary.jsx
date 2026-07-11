@@ -13,11 +13,11 @@ export default function SavedOpportunitiesSummary() {
   const recent = saved.slice(0, 3);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-slate-100 bg-white p-5">
+    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <Bookmark className="w-4 h-4 text-blue-600" />
-          <h3 className="text-sm font-bold text-slate-900">Saved Opportunities</h3>
+          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Saved Opportunities</h3>
           {saved.length > 0 && <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 text-xs font-bold">{saved.length}</span>}
         </div>
         <Link to={demoLink("/saved")} className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:gap-2 transition-all">

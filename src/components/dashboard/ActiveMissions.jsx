@@ -47,13 +47,13 @@ export default function ActiveMissions({ signals = [] }) {
   }, [missions]);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50/50 to-white p-6">
+    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-blue-100 dark:border-blue-950 bg-gradient-to-br from-blue-50/50 to-white dark:from-blue-950/20 dark:to-slate-900 p-6">
       {wizardOpen && <CreateMissionWizard open={wizardOpen} onClose={() => setWizardOpen(false)} />}
 
       <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center">
-            <Radar className="w-4.5 h-4.5 text-white" strokeWidth={2.5} />
+            <Radar className="w-4 h-4 text-white" strokeWidth={2.5} />
           </div>
           <div>
             <h3 className="text-base font-bold text-slate-900">Active AI Missions</h3>

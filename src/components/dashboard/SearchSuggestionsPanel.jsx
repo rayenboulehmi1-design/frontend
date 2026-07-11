@@ -26,10 +26,10 @@ export default function SearchSuggestionsPanel({ signals, query, onSelectDeal, o
           <button
             key={s.id}
             onClick={() => onSelectDeal(s)}
-            className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-slate-50 flex items-center gap-2"
+            className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2"
           >
             <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            <span className="text-sm text-slate-700 truncate flex-1">{s.company || s.entity_name || s.title}</span>
+            <span className="text-sm text-slate-700 dark:text-slate-300 truncate flex-1">{s.company || s.entity_name || s.title}</span>
             <span className="text-xs text-slate-400 shrink-0">{s.time_ago}</span>
           </button>
         ))}
@@ -38,10 +38,10 @@ export default function SearchSuggestionsPanel({ signals, query, onSelectDeal, o
           <button
             key={country}
             onClick={() => onSelectMarket(country)}
-            className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-slate-50 flex items-center gap-2"
+            className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2"
           >
             <Globe className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-            <span className="text-sm text-slate-700 flex-1">{country}</span>
+            <span className="text-sm text-slate-700 dark:text-slate-300 flex-1">{country}</span>
             <span className="text-xs text-slate-400">{count} signals</span>
           </button>
         ))}
@@ -72,7 +72,7 @@ export default function SearchSuggestionsPanel({ signals, query, onSelectDeal, o
   if (!hasResults) {
     return (
       <div className="p-6 text-center">
-        <p className="text-sm text-slate-400">No genuine intelligence matches "{query}" yet.</p>
+        <p className="text-sm text-slate-400 dark:text-slate-500">No genuine intelligence matches "{query}" yet.</p>
       </div>
     );
   }
@@ -84,9 +84,9 @@ export default function SearchSuggestionsPanel({ signals, query, onSelectDeal, o
         <button
           key={name}
           onClick={() => onSelectCategory(name)}
-          className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-slate-50 flex items-center justify-between"
+          className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-between"
         >
-          <span className="text-sm text-slate-700">{name}</span>
+          <span className="text-sm text-slate-700 dark:text-slate-300">{name}</span>
           <span className="text-xs text-slate-400">{count} signals</span>
         </button>
       ))}
@@ -95,10 +95,10 @@ export default function SearchSuggestionsPanel({ signals, query, onSelectDeal, o
         <button
           key={s.id}
           onClick={() => onSelectDeal(s)}
-          className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-slate-50 flex items-center gap-2"
+          className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2"
         >
           <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-          <span className="text-sm text-slate-700 truncate flex-1">{s.company || s.entity_name || s.title}</span>
+          <span className="text-sm text-slate-700 dark:text-slate-300 truncate flex-1">{s.company || s.entity_name || s.title}</span>
           <span className="text-xs text-slate-400 shrink-0">{s.type || s.category}</span>
         </button>
       ))}
@@ -107,10 +107,10 @@ export default function SearchSuggestionsPanel({ signals, query, onSelectDeal, o
         <button
           key={country}
           onClick={() => onSelectMarket(country)}
-          className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-slate-50 flex items-center gap-2"
+          className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2"
         >
           <Globe className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-          <span className="text-sm text-slate-700">{country}</span>
+          <span className="text-sm text-slate-700 dark:text-slate-300">{country}</span>
         </button>
       ))}
     </div>
@@ -120,8 +120,8 @@ export default function SearchSuggestionsPanel({ signals, query, onSelectDeal, o
 function Section({ label, icon: Icon }) {
   return (
     <div className="flex items-center gap-1.5 px-2 pt-3 pb-1">
-      <Icon className="w-3 h-3 text-slate-300" />
-      <span className="text-[10px] font-bold uppercase tracking-wide text-slate-300">{label}</span>
+      <Icon className="w-3 h-3 text-slate-300 dark:text-slate-600" />
+      <span className="text-[10px] font-bold uppercase tracking-wide text-slate-300 dark:text-slate-600">{label}</span>
     </div>
   );
 }

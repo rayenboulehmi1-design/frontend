@@ -15,16 +15,16 @@ import {
 } from "lucide-react";
 
 export const STATUS_CONFIG = {
-  running: { label: "Running", color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100", dot: "bg-emerald-500" },
-  paused: { label: "Paused", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100", dot: "bg-amber-400" },
-  completed: { label: "Completed", color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100", dot: "bg-blue-500" },
-  archived: { label: "Archived", color: "text-slate-400", bg: "bg-slate-50", border: "border-slate-100", dot: "bg-slate-300" },
+  running: { label: "Running", color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-950/50", border: "border-emerald-100 dark:border-emerald-900", dot: "bg-emerald-500" },
+  paused: { label: "Paused", color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-50 dark:bg-amber-950/50", border: "border-amber-100 dark:border-amber-900", dot: "bg-amber-400" },
+  completed: { label: "Completed", color: "text-blue-600 dark:text-blue-400", bg: "bg-blue-50 dark:bg-blue-950/50", border: "border-blue-100 dark:border-blue-900", dot: "bg-blue-500" },
+  archived: { label: "Archived", color: "text-slate-400 dark:text-slate-500", bg: "bg-slate-50 dark:bg-slate-800/50", border: "border-slate-100 dark:border-slate-700", dot: "bg-slate-300 dark:bg-slate-600" },
 };
 
 export const PRIORITY_CONFIG = {
-  high: { label: "High Priority", color: "text-rose-600", bg: "bg-rose-50", border: "border-rose-100", dot: "bg-rose-500" },
-  medium: { label: "Medium Priority", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-100", dot: "bg-amber-500" },
-  low: { label: "Low Priority", color: "text-slate-500", bg: "bg-slate-50", border: "border-slate-100", dot: "bg-slate-400" },
+  high: { label: "High Priority", color: "text-rose-600 dark:text-rose-400", bg: "bg-rose-50 dark:bg-rose-950/50", border: "border-rose-100 dark:border-rose-900", dot: "bg-rose-500" },
+  medium: { label: "Medium Priority", color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-50 dark:bg-amber-950/50", border: "border-amber-100 dark:border-amber-900", dot: "bg-amber-500" },
+  low: { label: "Low Priority", color: "text-slate-500 dark:text-slate-400", bg: "bg-slate-50 dark:bg-slate-800/50", border: "border-slate-100 dark:border-slate-700", dot: "bg-slate-400 dark:bg-slate-500" },
 };
 
 export const NOTIFICATION_CONFIG = {
@@ -35,15 +35,15 @@ export const NOTIFICATION_CONFIG = {
 };
 
 export const ACTIVITY_CONFIG = {
-  created: { label: "Mission Created", icon: Rocket, color: "text-blue-600", bg: "bg-blue-50" },
-  matched: { label: "New Opportunity Matched", icon: Target, color: "text-emerald-600", bg: "bg-emerald-50" },
-  saved: { label: "Opportunity Saved", icon: Bookmark, color: "text-violet-600", bg: "bg-violet-50" },
-  alert: { label: "Alert Triggered", icon: Bell, color: "text-amber-600", bg: "bg-amber-50" },
-  updated: { label: "Mission Updated", icon: Pencil, color: "text-slate-600", bg: "bg-slate-50" },
-  paused: { label: "Mission Paused", icon: Pause, color: "text-amber-600", bg: "bg-amber-50" },
-  resumed: { label: "Mission Resumed", icon: Play, color: "text-emerald-600", bg: "bg-emerald-50" },
-  archived: { label: "Mission Archived", icon: Archive, color: "text-slate-500", bg: "bg-slate-50" },
-  scan: { label: "Scan Completed", icon: RefreshCw, color: "text-slate-500", bg: "bg-slate-50" },
+  created: { label: "Mission Created", icon: Rocket, color: "text-blue-600 dark:text-blue-400", bg: "bg-blue-50 dark:bg-blue-950/50" },
+  matched: { label: "New Opportunity Matched", icon: Target, color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-950/50" },
+  saved: { label: "Opportunity Saved", icon: Bookmark, color: "text-violet-600 dark:text-violet-400", bg: "bg-violet-50 dark:bg-violet-950/50" },
+  alert: { label: "Alert Triggered", icon: Bell, color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-50 dark:bg-amber-950/50" },
+  updated: { label: "Mission Updated", icon: Pencil, color: "text-slate-600 dark:text-slate-400", bg: "bg-slate-50 dark:bg-slate-800/50" },
+  paused: { label: "Mission Paused", icon: Pause, color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-50 dark:bg-amber-950/50" },
+  resumed: { label: "Mission Resumed", icon: Play, color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-950/50" },
+  archived: { label: "Mission Archived", icon: Archive, color: "text-slate-500 dark:text-slate-400", bg: "bg-slate-50 dark:bg-slate-800/50" },
+  scan: { label: "Scan Completed", icon: RefreshCw, color: "text-slate-500 dark:text-slate-400", bg: "bg-slate-50 dark:bg-slate-800/50" },
 };
 
 /**

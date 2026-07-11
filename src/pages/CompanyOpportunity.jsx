@@ -267,15 +267,15 @@ export default function CompanyOpportunity() {
           <div className="grid grid-cols-3 gap-3 mt-4">
             <div className="text-center">
               <p className="text-lg font-bold text-slate-300 dark:text-slate-700">—</p>
-              <p className="text-[10px] text-slate-400">Discovered</p>
+              <p className="text-[10px] text-slate-400 dark:text-slate-500">Discovered</p>
             </div>
             <div className="text-center">
               <p className="text-lg font-bold text-slate-300 dark:text-slate-700">—</p>
-              <p className="text-[10px] text-slate-400">Verified</p>
+              <p className="text-[10px] text-slate-400 dark:text-slate-500">Verified</p>
             </div>
             <div className="text-center">
               <p className="text-lg font-bold text-slate-300 dark:text-slate-700">—</p>
-              <p className="text-[10px] text-slate-400">Enriched</p>
+              <p className="text-[10px] text-slate-400 dark:text-slate-500">Enriched</p>
             </div>
           </div>
         </div>

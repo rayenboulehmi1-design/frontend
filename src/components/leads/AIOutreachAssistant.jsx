@@ -144,14 +144,14 @@ Generate a professional ${typeLabel}. Do not include any contact details (email,
       {generating && (
         <div className="flex items-center gap-2 py-4 justify-center">
           <Loader2 className="w-4 h-4 text-violet-500 animate-spin" />
-          <span className="text-sm text-slate-400">AI Assistant is drafting outreach from verified data...</span>
+          <span className="text-sm text-slate-400 dark:text-slate-500">AI Assistant is drafting outreach from verified data...</span>
         </div>
       )}
 
       {error && (
-        <div className="rounded-xl border border-rose-100 bg-rose-50 p-3 flex items-center justify-between">
-          <span className="text-sm text-rose-600">{error}</span>
-          <button onClick={handleGenerate} className="text-xs font-semibold text-rose-700 hover:underline">Retry</button>
+        <div className="rounded-xl border border-rose-100 dark:border-rose-900 bg-rose-50 dark:bg-rose-950/30 p-3 flex items-center justify-between">
+          <span className="text-sm text-rose-600 dark:text-rose-400">{error}</span>
+          <button onClick={handleGenerate} className="text-xs font-semibold text-rose-700 dark:text-rose-400 hover:underline">Retry</button>
         </div>
       )}
 
@@ -159,20 +159,20 @@ Generate a professional ${typeLabel}. Do not include any contact details (email,
         <div className="space-y-3">
           {result.subject && (
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-1">Subject / Opening</p>
-              <p className="text-sm font-medium text-slate-900">{result.subject}</p>
+              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-1">Subject / Opening</p>
+              <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{result.subject}</p>
             </div>
           )}
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-1">Content</p>
-            <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">{result.body}</p>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-1">Content</p>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">{result.body}</p>
           </div>
           {result.key_points?.length > 0 && (
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-1">Key Points</p>
+              <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-1">Key Points</p>
               <ul className="space-y-1">
                 {result.key_points.map((point, i) => (
-                  <li key={i} className="text-xs text-slate-600 flex items-start gap-1.5">
+                  <li key={i} className="text-xs text-slate-600 dark:text-slate-300 flex items-start gap-1.5">
                     <Check className="w-3 h-3 mt-0.5 text-emerald-500 shrink-0" /> {point}
                   </li>
                 ))}
@@ -180,11 +180,11 @@ Generate a professional ${typeLabel}. Do not include any contact details (email,
             </div>
           )}
           <div className="flex items-center gap-2 pt-2">
-            <button onClick={handleCopy} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-xs font-medium hover:border-slate-300 transition-colors">
+            <button onClick={handleCopy} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-xs font-medium hover:border-slate-300 dark:hover:border-slate-600 transition-colors">
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? "Copied" : "Copy"}
             </button>
-            <button onClick={() => setResult(null)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-xs font-medium hover:border-slate-300 transition-colors">
+            <button onClick={() => setResult(null)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-xs font-medium hover:border-slate-300 dark:hover:border-slate-600 transition-colors">
               Regenerate
             </button>
           </div>

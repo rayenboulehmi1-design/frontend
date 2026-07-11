@@ -48,7 +48,7 @@ export default function MarketSelector({ value, onChange, signals }) {
       <button
         onClick={() => setOpen(!open)}
         className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium border whitespace-nowrap transition-colors ${
-          value !== "Global" ? "bg-blue-50 border-blue-200 text-blue-600" : "bg-white border-slate-200 text-slate-500 hover:border-slate-300"
+          value !== "Global" ? "bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400" : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600"
         }`}
       >
         <Globe className="w-3.5 h-3.5 shrink-0" />
@@ -62,16 +62,16 @@ export default function MarketSelector({ value, onChange, signals }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.15 }}
-            className="absolute top-full mt-1 left-0 w-64 rounded-xl bg-white border border-slate-200 shadow-2xl z-30 overflow-hidden"
+            className="absolute top-full mt-1 left-0 w-64 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-2xl z-30 overflow-hidden"
           >
-            <div className="p-2 border-b border-slate-100">
-              <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-slate-50">
+            <div className="p-2 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800">
                 <Search className="w-3.5 h-3.5 text-slate-400" />
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search markets..."
-                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-slate-400"
+                  className="flex-1 bg-transparent text-sm text-slate-900 dark:text-slate-100 outline-none placeholder:text-slate-400"
                   autoFocus
                 />
               </div>
@@ -94,15 +94,15 @@ export default function MarketSelector({ value, onChange, signals }) {
 }
 
 function GroupLabel({ label }) {
-  return <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-slate-300">{label}</p>;
+  return <p className="px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-slate-300 dark:text-slate-600">{label}</p>;
 }
 
 function MarketItem({ label, value, onSelect }) {
   return (
     <button
       onClick={() => onSelect(label)}
-      className={`w-full flex items-center justify-between px-3 py-2 text-sm hover:bg-slate-50 transition-colors ${
-        value === label ? "text-blue-600 font-medium bg-blue-50/50" : "text-slate-600"
+      className={`w-full flex items-center justify-between px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors ${
+        value === label ? "text-blue-600 dark:text-blue-400 font-medium bg-blue-50/50 dark:bg-blue-950/30" : "text-slate-600 dark:text-slate-300"
       }`}
     >
       {label}

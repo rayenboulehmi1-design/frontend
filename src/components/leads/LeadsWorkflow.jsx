@@ -61,10 +61,10 @@ export default function LeadsWorkflow({ opportunity }) {
       </div>
 
       <div className="mt-4 flex items-center justify-between">
-        <p className="text-[10px] text-slate-400">
-          Source opportunity: <span className="font-medium text-slate-500">{opportunity?.title?.substring(0, 50) || "Current opportunity"}</span>
+        <p className="text-[10px] text-slate-400 dark:text-slate-500">
+          Source opportunity: <span className="font-medium text-slate-500 dark:text-slate-400">{opportunity?.title?.substring(0, 50) || "Current opportunity"}</span>
         </p>
-        <Link to={demoLink("/leads")} className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700">
+        <Link to={demoLink("/leads")} className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
           View All Leads <ArrowRight className="w-3 h-3" />
         </Link>
       </div>

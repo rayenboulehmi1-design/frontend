@@ -22,13 +22,13 @@ export default function TopLocations({ signals }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl border border-slate-100 bg-white p-6"
+      className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-6"
     >
       <div className="flex items-center gap-2 mb-1">
         <MapPin className="w-4 h-4 text-slate-400" />
-        <h2 className="text-lg font-bold text-slate-900">Top Markets</h2>
+        <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">Top Markets</h2>
       </div>
-      <p className="text-sm text-slate-400 mb-6">Geographic distribution of signals</p>
+      <p className="text-sm text-slate-400 dark:text-slate-500 mb-6">Geographic distribution of signals</p>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart data={data} layout="vertical" margin={{ left: 10 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />

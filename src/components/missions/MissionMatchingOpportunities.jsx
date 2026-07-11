@@ -20,8 +20,8 @@ export default function MissionMatchingOpportunities({ mission, signals }) {
         <div className="flex items-center gap-2">
           <Target className="w-4 h-4 text-slate-400" />
           <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Matching Opportunities</h3>
-          <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 text-xs font-bold">{matches.length}</span>
-          <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase border bg-blue-50 text-blue-600 border-blue-100">Engine</span>
+          <span className="px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 text-xs font-bold">{matches.length}</span>
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase border bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-900">Engine</span>
         </div>
         <div className="flex items-center gap-1 p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800">
           <button
@@ -72,16 +72,16 @@ export default function MissionMatchingOpportunities({ mission, signals }) {
                   <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate group-hover:text-blue-600 transition-colors">
                     {signal.company || signal.entity_name || signal.title}
                   </p>
-                  <p className="text-xs text-slate-400 truncate">{signal.country || signal.location} · {signal.time_ago}</p>
+                  <p className="text-xs text-slate-400 dark:text-slate-500 truncate">{signal.country || signal.location} · {signal.time_ago}</p>
                 </div>
                 {signal.confidence != null && <ConfidenceBadge score={signal.confidence} size="sm" />}
-                <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-blue-600 transition-colors shrink-0" />
+                <ArrowRight className="w-3.5 h-3.5 text-slate-300 dark:text-slate-600 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors shrink-0" />
               </Link>
             );
           })}
           {matches.length > 6 && (
             <div className="text-center pt-2">
-              <span className="text-xs text-slate-400">+ {matches.length - 6} more matches</span>
+              <span className="text-xs text-slate-400 dark:text-slate-500">+ {matches.length - 6} more matches</span>
             </div>
           )}
         </div>

@@ -39,7 +39,7 @@ export default function MissionPerformance({ mission, matchingSignals }) {
       <div className="flex items-center gap-2 mb-3">
         <Gauge className="w-4 h-4 text-slate-400" />
         <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Mission Performance</h3>
-        <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase border bg-blue-50 text-blue-600 border-blue-100">Engine</span>
+        <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase border bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-900">Engine</span>
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
         <MetricCard icon={Target} label="Matches Found" value={mission.matches_found || matches.length} />

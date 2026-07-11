@@ -45,32 +45,32 @@ export default function CRMList({ records }) {
                   <Link to={demoLink(`/crm/${record.id}`)} className="font-medium text-slate-900 dark:text-slate-100 hover:text-blue-600 transition-colors">
                     {record.title}
                   </Link>
-                  {record.entity_name && <p className="text-[11px] text-slate-400">{record.entity_name}</p>}
+                  {record.entity_name && <p className="text-[11px] text-slate-400 dark:text-slate-500">{record.entity_name}</p>}
                 </td>
-                <td className="px-4 py-3 text-xs text-slate-600">
+                <td className="px-4 py-3 text-xs text-slate-600 dark:text-slate-400">
                   {record.companyName ? (
                     <span className="flex items-center gap-1"><Building2 className="w-3 h-3 text-slate-400" /> {record.companyName}</span>
-                  ) : <span className="text-slate-300">—</span>}
+                  ) : <span className="text-slate-300 dark:text-slate-600">—</span>}
                 </td>
-                <td className="px-4 py-3 text-xs text-slate-600">
+                <td className="px-4 py-3 text-xs text-slate-600 dark:text-slate-400">
                   {record.personName ? (
                     <span className="flex items-center gap-1"><User className="w-3 h-3 text-slate-400" /> {record.personName}</span>
-                  ) : <span className="text-slate-300">—</span>}
+                  ) : <span className="text-slate-300 dark:text-slate-600">—</span>}
                 </td>
                 <td className="px-4 py-3"><StageBadge stage={record.stage} size="xs" /></td>
                 <td className="px-4 py-3"><PriorityBadge priority={record.priority} /></td>
-                <td className="px-4 py-3 text-xs text-slate-500 max-w-[160px] truncate">
+                <td className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400 max-w-[160px] truncate">
                   {record.nextAction ? (
                     <span>
                       {record.nextAction}
-                      {record.nextActionDate && <span className="text-slate-400 ml-1 text-[10px]">· {new Date(record.nextActionDate).toLocaleDateString()}</span>}
+                      {record.nextActionDate && <span className="text-slate-400 dark:text-slate-500 ml-1 text-[10px]">· {new Date(record.nextActionDate).toLocaleDateString()}</span>}
                     </span>
-                  ) : <span className="text-slate-300">—</span>}
+                  ) : <span className="text-slate-300 dark:text-slate-600">—</span>}
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-1.5">
                     <CRMIntelligenceStatus status={record.intelligenceStatus} size="xs" />
-                    {record.missionId && <Radar className="w-3 h-3 text-slate-300" />}
+                    {record.missionId && <Radar className="w-3 h-3 text-slate-300 dark:text-slate-600" />}
                   </div>
                 </td>
               </tr>
@@ -88,7 +88,7 @@ export default function CRMList({ records }) {
               <StageBadge stage={record.stage} size="xs" />
               <PriorityBadge priority={record.priority} />
             </div>
-            <div className="flex items-center justify-between text-[11px] text-slate-400">
+            <div className="flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500">
               <span>{record.companyName || "No company"}</span>
               <CRMIntelligenceStatus status={record.intelligenceStatus} size="xs" />
             </div>

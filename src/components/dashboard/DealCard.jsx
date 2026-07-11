@@ -83,8 +83,8 @@ export default function DealCard({ deal }) {
         <div className="mb-3">
           <div className="flex items-center gap-1.5 mb-2">
             <Radio className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Signal Intelligence</span>
-            <span className="text-[10px] text-slate-300">{signals.length}</span>
+            <span className="text-[10px] font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Signal Intelligence</span>
+            <span className="text-[10px] text-slate-300 dark:text-slate-600">{signals.length}</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {signals.map((tag) => (
@@ -97,12 +97,12 @@ export default function DealCard({ deal }) {
       )}
 
       {/* Why It Matters */}
-      <div className="rounded-xl bg-amber-50/50 p-3 mb-3">
+      <div className="rounded-xl bg-amber-50/50 dark:bg-amber-950/20 p-3 mb-3">
         <div className="flex items-center gap-1.5 mb-1">
-          <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
-          <span className="text-[10px] font-bold uppercase tracking-wide text-amber-600">Why It Matters</span>
+          <Lightbulb className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
+          <span className="text-[10px] font-bold uppercase tracking-wide text-amber-600 dark:text-amber-400">Why It Matters</span>
         </div>
-        <p className="text-xs text-slate-600 leading-relaxed">{whyItMatters(deal)}</p>
+        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{whyItMatters(deal)}</p>
       </div>
 
       {/* Footer: timeline + market size + actions */}
@@ -122,7 +122,7 @@ export default function DealCard({ deal }) {
         <div className="flex items-center gap-1.5 shrink-0">
           <button
             onClick={() => toggleSave(deal)}
-            className="p-2 rounded-lg border border-slate-200 hover:border-slate-300 transition-colors"
+            className="p-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-colors"
             aria-label={saved ? "Remove from saved" : "Save opportunity"}
           >
             {saved ? <BookmarkCheck className="w-4 h-4 text-blue-600" /> : <Bookmark className="w-4 h-4 text-slate-400" />}

@@ -48,7 +48,7 @@ export default function CRMTaskPanel({ recordId, tasks, onChanged }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <p className="text-xs text-slate-400">{tasks.length} task{tasks.length !== 1 ? "s" : ""}</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500">{tasks.length} task{tasks.length !== 1 ? "s" : ""}</p>
         {!adding && (
           <button onClick={() => setAdding(true)} className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600 transition-colors">
             <Plus className="w-3.5 h-3.5" /> Add Task
@@ -59,7 +59,7 @@ export default function CRMTaskPanel({ recordId, tasks, onChanged }) {
       {adding && <MiniForm recordId={recordId} onDone={() => { setAdding(false); onChanged(); }} />}
 
       {tasks.length === 0 && !adding ? (
-        <p className="text-xs text-slate-400 text-center py-6">No tasks yet. Create one to track follow-ups and actions.</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500 text-center py-6">No tasks yet. Create one to track follow-ups and actions.</p>
       ) : (
         <div className="space-y-1.5">
           {tasks.map((task) => {
@@ -72,14 +72,14 @@ export default function CRMTaskPanel({ recordId, tasks, onChanged }) {
                 <button
                   onClick={() => { updateTask(task.id, { status: done ? "Pending" : "Completed" }); onChanged(); }}
                   aria-label={done ? "Mark task as pending" : "Mark task as completed"}
-                  className={`w-4 h-4 rounded border shrink-0 flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${done ? "bg-emerald-500 border-emerald-500" : "border-slate-300 hover:border-slate-400"}`}
+                  className={`w-4 h-4 rounded border shrink-0 flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${done ? "bg-emerald-500 border-emerald-500" : "border-slate-300 dark:border-slate-600 hover:border-slate-400"}`}
                 >
                   {done && <Check className="w-3 h-3 text-white" />}
                 </button>
                 <div className="flex-1 min-w-0">
-                  <p className={`text-xs font-medium ${done ? "text-slate-400 line-through" : "text-slate-700"}`}>{task.title}</p>
+                  <p className={`text-xs font-medium ${done ? "text-slate-400 dark:text-slate-500 line-through" : "text-slate-700 dark:text-slate-300"}`}>{task.title}</p>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className={`inline-flex items-center gap-0.5 text-[10px] ${overdue ? "text-rose-500" : "text-slate-400"}`}>
+                    <span className={`inline-flex items-center gap-0.5 text-[10px] ${overdue ? "text-rose-500 dark:text-rose-400" : "text-slate-400 dark:text-slate-500"}`}>
                       {task.dueDate && <><Calendar className="w-2.5 h-2.5" /> {new Date(task.dueDate).toLocaleDateString()}</>}
                     </span>
                     <span className={`px-1.5 py-0.5 rounded-full text-[9px] font-medium ${prioMeta.cls} capitalize`}>{task.priority}</span>
@@ -92,7 +92,7 @@ export default function CRMTaskPanel({ recordId, tasks, onChanged }) {
                 >
                   {TASK_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
-                <button onClick={() => { deleteTask(task.id); onChanged(); }} aria-label="Delete task" className="text-slate-300 hover:text-rose-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 rounded">
+                <button onClick={() => { deleteTask(task.id); onChanged(); }} aria-label="Delete task" className="text-slate-300 dark:text-slate-600 hover:text-rose-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 rounded">
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
               </div>

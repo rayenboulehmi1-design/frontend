@@ -20,7 +20,7 @@ export default function ConfidenceChart({ signals, loading }) {
   }, [signals]);
 
   if (loading) {
-    return <div className="h-64 rounded-2xl bg-slate-100 animate-pulse" />;
+    return <div className="h-64 rounded-2xl bg-slate-100 dark:bg-slate-800 animate-pulse" />;
   }
 
   const colors = ["#f87171", "#fbbf24", "#facc15", "#34d399", "#10b981"];
@@ -29,10 +29,10 @@ export default function ConfidenceChart({ signals, loading }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl border border-slate-100 bg-white p-6"
+      className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-6"
     >
-      <h2 className="text-lg font-bold text-slate-900 mb-1">Confidence Distribution</h2>
-      <p className="text-sm text-slate-400 mb-6">Signal count by confidence score range</p>
+      <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-1">Confidence Distribution</h2>
+      <p className="text-sm text-slate-400 dark:text-slate-500 mb-6">Signal count by confidence score range</p>
       <ResponsiveContainer width="100%" height={260}>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />

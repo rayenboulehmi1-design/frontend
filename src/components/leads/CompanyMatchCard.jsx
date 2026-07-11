@@ -19,26 +19,26 @@ export default function CompanyMatchCard({ company, onViewCompany, onFindDecisio
     <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-start gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
-            <Building2 className="w-5 h-5 text-blue-600" />
+          <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/50 flex items-center justify-center shrink-0">
+            <Building2 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
           </div>
           <div className="min-w-0">
-            <p className="font-bold text-slate-900 truncate">{company.companyName}</p>
+            <p className="font-bold text-slate-900 dark:text-slate-100 truncate">{company.companyName}</p>
             <div className="flex items-center gap-2 flex-wrap mt-0.5">
-              {company.industry && <span className="text-xs text-slate-500">{company.industry}</span>}
-              {company.companySize && <span className="text-xs text-slate-400">· {company.companySize}</span>}
+              {company.industry && <span className="text-xs text-slate-500 dark:text-slate-400">{company.industry}</span>}
+              {company.companySize && <span className="text-xs text-slate-400 dark:text-slate-500">· {company.companySize}</span>}
             </div>
           </div>
         </div>
         {company.relevanceScore != null && (
           <div className="shrink-0 text-right">
-            <p className="text-lg font-bold text-slate-900">{company.relevanceScore}</p>
-            <p className="text-[10px] text-slate-400">Relevance</p>
+            <p className="text-lg font-bold text-slate-900 dark:text-slate-100">{company.relevanceScore}</p>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500">Relevance</p>
           </div>
         )}
       </div>
 
-      <div className="flex flex-wrap gap-3 text-xs text-slate-500 mb-3">
+      <div className="flex flex-wrap gap-3 text-xs text-slate-500 dark:text-slate-400 mb-3">
         {(company.country || company.city) && (
           <span className="flex items-center gap-1">
             <MapPin className="w-3 h-3 text-slate-400" />
@@ -46,7 +46,7 @@ export default function CompanyMatchCard({ company, onViewCompany, onFindDecisio
           </span>
         )}
         {company.website && (
-          <a href={company.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-500 hover:text-blue-700">
+          <a href={company.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
             <Globe className="w-3 h-3" /> Website <ExternalLink className="w-2.5 h-2.5" />
           </a>
         )}
@@ -54,11 +54,11 @@ export default function CompanyMatchCard({ company, onViewCompany, onFindDecisio
 
       {company.relevanceReasons?.length > 0 && (
         <div className="mb-3">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 mb-1.5">Why This Company</p>
+          <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-1.5">Why This Company</p>
           <ul className="space-y-1">
             {company.relevanceReasons.map((reason, i) => (
-              <li key={i} className="text-xs text-slate-600 flex items-start gap-1.5">
-                <span className="w-1 h-1 rounded-full bg-slate-300 mt-1.5 shrink-0" /> {reason}
+              <li key={i} className="text-xs text-slate-600 dark:text-slate-300 flex items-start gap-1.5">
+                <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600 mt-1.5 shrink-0" /> {reason}
               </li>
             ))}
           </ul>
@@ -70,28 +70,28 @@ export default function CompanyMatchCard({ company, onViewCompany, onFindDecisio
         {company.enrichmentStatus && <LeadStatusBadge status={company.enrichmentStatus} size="xs" />}
       </div>
 
-      <div className="flex items-center gap-2 flex-wrap pt-3 border-t border-slate-50">
+      <div className="flex items-center gap-2 flex-wrap pt-3 border-t border-slate-50 dark:border-slate-800">
         <button
           onClick={onFindDecisionMakers}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors"
         >
           <UserCheck className="w-3.5 h-3.5" /> Find Decision Makers
         </button>
         <button
           onClick={onViewCompany}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-xs font-medium hover:border-slate-300 transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-xs font-medium hover:border-slate-300 dark:hover:border-slate-600 transition-colors"
         >
           View Company <ArrowRight className="w-3 h-3" />
         </button>
         <button
           onClick={onSave}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-xs font-medium hover:border-slate-300 transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-xs font-medium hover:border-slate-300 dark:hover:border-slate-600 transition-colors"
         >
           <Bookmark className="w-3.5 h-3.5" /> Save
         </button>
         <button
           onClick={onAddToCRM}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-xs font-medium hover:border-slate-300 transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-xs font-medium hover:border-slate-300 dark:hover:border-slate-600 transition-colors"
         >
           <GitBranch className="w-3.5 h-3.5" /> CRM
         </button>

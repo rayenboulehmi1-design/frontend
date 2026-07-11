@@ -141,14 +141,14 @@ ${meetings.map((m) => `- ${m.title} on ${m.dateTime || "unscheduled"}`).join("\n
       {loading && (
         <div className="flex items-center gap-2 py-4 justify-center">
           <Loader2 className="w-4 h-4 text-violet-500 animate-spin" />
-          <span className="text-sm text-slate-400">AI Assistant is analyzing verified CRM data...</span>
+          <span className="text-sm text-slate-400 dark:text-slate-500">AI Assistant is analyzing verified CRM data...</span>
         </div>
       )}
 
       {error && (
-        <div className="rounded-xl border border-rose-100 bg-rose-50 p-3 flex items-center justify-between">
-          <span className="text-sm text-rose-600">{error}</span>
-          <button onClick={() => handleGenerate(activeAction)} className="text-xs font-semibold text-rose-700 hover:underline">Retry</button>
+        <div className="rounded-xl border border-rose-100 dark:border-rose-900 bg-rose-50 dark:bg-rose-950/30 p-3 flex items-center justify-between">
+          <span className="text-sm text-rose-600 dark:text-rose-400">{error}</span>
+          <button onClick={() => handleGenerate(activeAction)} className="text-xs font-semibold text-rose-700 dark:text-rose-400 hover:underline">Retry</button>
         </div>
       )}
 
@@ -158,16 +158,16 @@ ${meetings.map((m) => `- ${m.title} on ${m.dateTime || "unscheduled"}`).join("\n
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">{result.content}</p>
           </div>
           {result.caveats?.length > 0 && (
-            <div className="flex items-start gap-1.5 text-[11px] text-slate-400">
+            <div className="flex items-start gap-1.5 text-[11px] text-slate-400 dark:text-slate-500">
               <AlertCircle className="w-3 h-3 mt-0.5 shrink-0" />
               <span>{result.caveats.join(" · ")}</span>
             </div>
           )}
           <div className="flex items-center gap-2">
-            <button onClick={handleCopy} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-xs font-medium hover:border-slate-300 transition-colors">
+            <button onClick={handleCopy} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-xs font-medium hover:border-slate-300 dark:hover:border-slate-600 transition-colors">
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />} {copied ? "Copied" : "Copy"}
             </button>
-            <button onClick={() => handleGenerate(activeAction)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-xs font-medium hover:border-slate-300 transition-colors">
+            <button onClick={() => handleGenerate(activeAction)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-xs font-medium hover:border-slate-300 dark:hover:border-slate-600 transition-colors">
               <RefreshCw className="w-3.5 h-3.5" /> Regenerate
             </button>
           </div>

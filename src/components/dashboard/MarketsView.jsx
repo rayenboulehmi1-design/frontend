@@ -8,20 +8,20 @@ export default function MarketsView({ markets, onSelect }) {
         <div
           key={m.name}
           onClick={() => onSelect(m.name)}
-          className="rounded-2xl border border-slate-100 bg-white p-5 hover:shadow-lg hover:border-blue-200 cursor-pointer transition-all"
+          className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 hover:shadow-lg hover:border-blue-200 dark:hover:border-blue-900 cursor-pointer transition-all"
         >
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-              <Globe className="w-5 h-5 text-emerald-600" />
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 flex items-center justify-center shrink-0">
+              <Globe className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
             </div>
             <div className="min-w-0">
-              <p className="font-bold text-slate-900 truncate">{m.name}</p>
-              <p className="text-xs text-slate-400">{m.signals.length} signals tracked</p>
+              <p className="font-bold text-slate-900 dark:text-slate-100 truncate">{m.name}</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500">{m.signals.length} signals tracked</p>
             </div>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {Object.entries(m.categories).slice(0, 3).map(([cat, count]) => (
-              <span key={cat} className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-50 text-slate-600">
+              <span key={cat} className="px-2 py-0.5 rounded-md text-[10px] font-medium bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
                 {cat}: {count}
               </span>
             ))}

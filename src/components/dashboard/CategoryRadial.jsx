@@ -22,7 +22,7 @@ export default function CategoryRadial({ signals, loading }) {
   }, [signals]);
 
   if (loading) {
-    return <div className="h-64 rounded-2xl bg-slate-100 animate-pulse" />;
+    return <div className="h-64 rounded-2xl bg-slate-100 dark:bg-slate-800 animate-pulse" />;
   }
 
   const total = data.reduce((acc, d) => acc + d.value, 0) || 1;
@@ -31,10 +31,10 @@ export default function CategoryRadial({ signals, loading }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl border border-slate-100 bg-white p-6"
+      className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-6"
     >
-      <h2 className="text-lg font-bold text-slate-900 mb-1">Category Breakdown</h2>
-      <p className="text-sm text-slate-400 mb-6">Radial distribution of signal categories</p>
+      <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-1">Category Breakdown</h2>
+      <p className="text-sm text-slate-400 dark:text-slate-500 mb-6">Radial distribution of signal categories</p>
       <ResponsiveContainer width="100%" height={260}>
         <RadialBarChart innerRadius="30%" outerRadius="100%" data={data} startAngle={90} endAngle={-270}>
           <PolarAngleAxis type="number" domain={[0, total]} tick={false} />

@@ -38,8 +38,8 @@ export default function OpportunityDetail() {
   if (!signal) {
     return (
       <div className="p-8 max-w-2xl mx-auto text-center py-20">
-        <p className="text-slate-400 mb-4">This opportunity could not be found.</p>
-        <Link to="/dashboard" className="inline-flex items-center gap-2 text-blue-600 font-medium">
+        <p className="text-slate-400 dark:text-slate-500 mb-4">This opportunity could not be found.</p>
+        <Link to="/dashboard" className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium">
           <ArrowLeft className="w-4 h-4" /> Back to Dashboard
         </Link>
       </div>
@@ -48,7 +48,7 @@ export default function OpportunityDetail() {
 
   return (
     <div className="p-5 sm:p-8 max-w-3xl mx-auto">
-      <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-6 transition-colors">
+      <Link to="/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 mb-6 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
       </Link>
 
@@ -61,7 +61,7 @@ export default function OpportunityDetail() {
         </Link>
         <button
           onClick={() => setMissionWizardOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-sm font-semibold hover:border-slate-300 transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm font-semibold hover:border-slate-300 dark:hover:border-slate-600 transition-colors"
         >
           <Radar className="w-4 h-4" /> Create AI Mission
         </button>
@@ -71,7 +71,7 @@ export default function OpportunityDetail() {
 
       {related.length > 0 && (
         <div className="mt-10">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Related Signals</h2>
+          <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-4">Related Signals</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {related.map((s) => (
               <SignalCard key={s.id} signal={s} />

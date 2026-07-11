@@ -23,12 +23,12 @@ export default function CRMCard({ record }) {
 
       <div className="space-y-1 mb-2.5">
         {record.companyName && (
-          <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
+          <div className="flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400">
             <Building2 className="w-3 h-3 text-slate-400 shrink-0" /> {record.companyName}
           </div>
         )}
         {record.personName && (
-          <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
+          <div className="flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400">
             <User className="w-3 h-3 text-slate-400 shrink-0" /> {record.personName}
           </div>
         )}
@@ -45,7 +45,7 @@ export default function CRMCard({ record }) {
       </div>
 
       {record.nextAction && (
-        <div className={`flex items-center gap-1.5 text-[11px] ${nextActionOverdue ? "text-rose-500" : "text-slate-400"}`}>
+        <div className={`flex items-center gap-1.5 text-[11px] ${nextActionOverdue ? "text-rose-500 dark:text-rose-400" : "text-slate-400 dark:text-slate-500"}`}>
           <Calendar className="w-3 h-3 shrink-0" />
           <span className="truncate">{record.nextAction}</span>
           {record.nextActionDate && (
@@ -56,7 +56,7 @@ export default function CRMCard({ record }) {
 
       <div className="flex items-center justify-between pt-2 mt-2 border-t border-slate-50 dark:border-slate-800/50">
         <CRMIntelligenceStatus status={record.intelligenceStatus} size="xs" />
-        <span className="text-[10px] text-slate-300">
+        <span className="text-[10px] text-slate-300 dark:text-slate-600">
           {record.lastActivityAt ? new Date(record.lastActivityAt).toLocaleDateString() : ""}
         </span>
       </div>

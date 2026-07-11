@@ -138,29 +138,29 @@ export default function EnhancedFilterBar({
 
       {/* Result summary + avg confidence */}
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-slate-500 dark:text-slate-400">
           {filters.searchMode === "Companies"
             ? `${resultCount} companies matching "${filters.search || "all"}"`
             : filters.searchMode === "Markets"
             ? `${resultCount} markets matching "${filters.search || "all"}"`
             : <>
                 {resultCount} results across intelligence categories —{" "}
-                <span className="text-blue-600">Real Estate: {counts["Real Estate"]}</span> ·{" "}
-                <span className="text-violet-600">Business: {counts["Business"]}</span> ·{" "}
-                <span className="text-emerald-600">Investment: {counts["Investment"]}</span>
+                <span className="text-blue-600 dark:text-blue-400">Real Estate: {counts["Real Estate"]}</span> ·{" "}
+                <span className="text-violet-600 dark:text-violet-400">Business: {counts["Business"]}</span> ·{" "}
+                <span className="text-emerald-600 dark:text-emerald-400">Investment: {counts["Investment"]}</span>
               </>
           }
         </p>
         <div className="flex items-center gap-2">
           {avg > 0 && (
-            <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-semibold">
+            <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400 text-xs font-semibold">
               Avg Confidence: {avg}%
             </span>
           )}
           {hasActiveFilters && (
             <button
               onClick={onClear}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               <RotateCcw className="w-3 h-3" /> Clear filters
             </button>

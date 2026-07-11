@@ -287,7 +287,7 @@ export default function CreateMissionWizard({ open, onClose, prefill = null }) {
                       );
                     })}
                   </RadioGroup>
-                  <p className="text-[10px] text-slate-300 mt-2">
+                  <p className="text-[10px] text-slate-400 dark:text-slate-600 mt-2">
                     Future channels: Email, Push, Slack, Microsoft Teams
                   </p>
                 </div>

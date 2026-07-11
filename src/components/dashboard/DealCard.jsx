@@ -128,7 +128,7 @@ export default function DealCard({ deal }) {
             {saved ? <BookmarkCheck className="w-4 h-4 text-blue-600" /> : <Bookmark className="w-4 h-4 text-slate-400" />}
           </button>
           <Link
-            to={demoLink(`/opportunities/${deal.id}`)}
+            to={demoLink(`/company/${deal.id}`)}
             className="flex items-center gap-1 px-3 py-2 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition-colors"
           >
             Full Brief <ArrowRight className="w-3 h-3" />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Loader2, Radar } from "lucide-react";
+import { ArrowLeft, Loader2, Radar, Building2 } from "lucide-react";
 import { fetchSignalById, fetchSignals } from "@/lib/scoutyClient";
 import OpportunityPipeline from "@/components/opportunity/OpportunityPipeline";
 import SignalCard from "@/components/SignalCard";
@@ -52,16 +52,19 @@ export default function OpportunityDetail() {
         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
       </Link>
 
-      <div className="mb-6">
-        <button
-          onClick={() => setMissionWizardOpen(true)}
+      <div className="mb-6 flex flex-wrap gap-3">
+        <Link
+          to={`/company/${id}`}
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition-colors"
         >
-          <Radar className="w-4 h-4" /> Create AI Mission from this Opportunity
+          <Building2 className="w-4 h-4" /> Company Intelligence
+        </Link>
+        <button
+          onClick={() => setMissionWizardOpen(true)}
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-sm font-semibold hover:border-slate-300 transition-colors"
+        >
+          <Radar className="w-4 h-4" /> Create AI Mission
         </button>
-        <p className="text-xs text-slate-400 mt-2">
-          ScoutyGo will continuously monitor for opportunities similar to this one
-        </p>
       </div>
 
       <OpportunityPipeline signal={signal} />

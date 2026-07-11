@@ -27,6 +27,7 @@ import MissionTimeline from "@/components/missions/MissionTimeline";
 import MissionFiltersDisplay from "@/components/missions/MissionFiltersDisplay";
 import MissionMatchingOpportunities from "@/components/missions/MissionMatchingOpportunities";
 import MissionFutureModules from "@/components/missions/MissionFutureModules";
+import MissionPipeline from "@/components/missions/MissionPipeline";
 import MissionLeadsSection from "@/components/leads/MissionLeadsSection";
 import { Button } from "@/components/ui/button";
 import {
@@ -184,11 +185,7 @@ export default function MissionDetail() {
           </div>
 
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <Sparkles className="w-4 h-4 text-slate-400" />
-              <h3 className="text-sm font-bold text-slate-900">Intelligence Pipeline</h3>
-            </div>
-            <MissionFutureModules mission={mission} />
+            <MissionPipeline mission={mission} />
           </div>
         </div>
       </div>

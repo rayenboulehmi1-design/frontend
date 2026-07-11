@@ -1,10 +1,10 @@
 import React from "react";
 
 const ownerStyles = {
-  engine: { label: "Intelligence Engine", className: "bg-blue-50 text-blue-600 border-blue-100" },
-  ai: { label: "AI Assistant", className: "bg-violet-50 text-violet-600 border-violet-100" },
-  future: { label: "Future Module", className: "bg-slate-100 text-slate-500 border-slate-200" },
-  action: { label: "Action", className: "bg-emerald-50 text-emerald-600 border-emerald-100" },
+  engine: { label: "Intelligence Engine", className: "bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-900" },
+  ai: { label: "AI Assistant", className: "bg-violet-50 text-violet-600 border-violet-100 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-900" },
+  future: { label: "Future Module", className: "bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800/60 dark:text-slate-400 dark:border-slate-700" },
+  action: { label: "Action", className: "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-900" },
 };
 
 export default function PipelineStep({ number, title, icon: Icon, owner, isLast = false, compact = false, children }) {

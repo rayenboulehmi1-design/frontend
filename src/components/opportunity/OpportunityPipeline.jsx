@@ -166,7 +166,7 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
   const generateBtn = (
     <button
       onClick={generateAnalysis}
-      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-100 text-xs font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors"
+      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors"
     >
       <Sparkles className="w-3.5 h-3.5" /> Generate Executive Brief
     </button>
@@ -209,7 +209,7 @@ Do NOT invent companies, people, evidence, sources, or statistics that are not i
               </span>
             )}
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 dark:text-slate-100 leading-tight mb-3">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100 leading-tight mb-3">
             {signal.title}
           </h1>
           <div className="flex flex-wrap gap-4 text-sm mb-3">

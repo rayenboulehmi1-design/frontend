@@ -113,7 +113,7 @@ export default function CreateMissionWizard({ open, onClose, prefill = null }) {
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto dark:bg-slate-900 dark:border-slate-800">
         <DialogHeader>
           <div className="flex items-center gap-2 mb-1">
             <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center">
@@ -152,12 +152,12 @@ export default function CreateMissionWizard({ open, onClose, prefill = null }) {
                 <React.Fragment key={i}>
                   <div
                     className={`flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold transition-colors ${
-                      i < step ? "bg-blue-600 text-white" : i === step ? "bg-blue-100 text-blue-600 ring-2 ring-blue-600" : "bg-slate-100 text-slate-400"
+                      i < step ? "bg-blue-600 text-white" : i === step ? "bg-blue-100 text-blue-600 ring-2 ring-blue-600 dark:bg-blue-950 dark:text-blue-400 dark:ring-blue-500" : "bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500"
                     }`}
                   >
                     {i < step ? <Check className="w-3.5 h-3.5" /> : i + 1}
                   </div>
-                  {i < TOTAL_STEPS - 1 && <div className={`flex-1 h-0.5 rounded ${i < step ? "bg-blue-600" : "bg-slate-100"}`} />}
+                  {i < TOTAL_STEPS - 1 && <div className={`flex-1 h-0.5 rounded ${i < step ? "bg-blue-600" : "bg-slate-100 dark:bg-slate-800"}`} />}
                 </React.Fragment>
               ))}
             </div>
@@ -179,7 +179,7 @@ export default function CreateMissionWizard({ open, onClose, prefill = null }) {
                     className="mt-1 min-h-[120px] resize-none"
                   />
                   <div className="mt-2 space-y-1">
-                    <p className="text-xs font-medium text-slate-400">Examples:</p>
+                    <p className="text-xs font-medium text-slate-400 dark:text-slate-500">Examples:</p>
                     {EXAMPLE_OBJECTIVES.map((ex, i) => (
                       <button
                         key={i}
@@ -197,7 +197,7 @@ export default function CreateMissionWizard({ open, onClose, prefill = null }) {
             {/* Step 2: Optional Filters */}
             {step === 1 && (
               <div className="space-y-4">
-                <div className="flex items-center gap-2 text-xs text-slate-400 mb-2">
+                <div className="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 mb-2">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Optional — refine the mission to improve precision</span>
                 </div>
@@ -209,12 +209,12 @@ export default function CreateMissionWizard({ open, onClose, prefill = null }) {
                   <div>
                     <Label htmlFor="countries">Countries</Label>
                     <Input id="countries" value={countries} onChange={(e) => setCountries(e.target.value)} placeholder="Saudi Arabia, UAE, Qatar" className="mt-1" />
-                    <p className="text-[10px] text-slate-400 mt-1">Separate with commas</p>
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Separate with commas</p>
                   </div>
                   <div>
                     <Label htmlFor="regions">Regions</Label>
                     <Input id="regions" value={regions} onChange={(e) => setRegions(e.target.value)} placeholder="GCC, East Africa, Southeast Asia" className="mt-1" />
-                    <p className="text-[10px] text-slate-400 mt-1">Separate with commas</p>
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Separate with commas</p>
                   </div>
                 </div>
                 <div>
@@ -225,7 +225,7 @@ export default function CreateMissionWizard({ open, onClose, prefill = null }) {
                         key={cat}
                         onClick={() => toggleCategory(cat)}
                         className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                          categories.includes(cat) ? "bg-blue-600 text-white border-blue-600" : "bg-white text-slate-600 border-slate-200 hover:border-blue-200"
+                          categories.includes(cat) ? "bg-blue-600 text-white border-blue-600" : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-800"
                         }`}
                       >
                         {cat}
@@ -272,16 +272,16 @@ export default function CreateMissionWizard({ open, onClose, prefill = null }) {
                         <label
                           key={key}
                           className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-colors ${
-                            notificationPref === key ? "border-blue-300 bg-blue-50/50" : "border-slate-200 hover:border-slate-300"
+                            notificationPref === key ? "border-blue-300 bg-blue-50/50 dark:border-blue-800 dark:bg-blue-950/30" : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
                           }`}
                         >
                           <RadioGroupItem value={key} className="mt-1" />
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
-                              <Icon className="w-3.5 h-3.5 text-slate-500" />
-                              <span className="text-sm font-medium text-slate-900">{config.label}</span>
+                              <Icon className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+                              <span className="text-sm font-medium text-slate-900 dark:text-slate-100">{config.label}</span>
                             </div>
-                            <p className="text-xs text-slate-400 mt-0.5">{config.description}</p>
+                            <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{config.description}</p>
                           </div>
                         </label>
                       );
@@ -295,14 +295,14 @@ export default function CreateMissionWizard({ open, onClose, prefill = null }) {
                   <Label>Priority Level</Label>
                   <RadioGroup value={priority} onValueChange={setPriority} className="mt-2 flex gap-2">
                     {[
-                      { key: "low", label: "Low", color: "text-slate-500" },
+                      { key: "low", label: "Low", color: "text-slate-500 dark:text-slate-400" },
                       { key: "medium", label: "Medium", color: "text-amber-500" },
                       { key: "high", label: "High", color: "text-rose-500" },
                     ].map((p) => (
                       <label
                         key={p.key}
                         className={`flex-1 flex items-center justify-center gap-2 p-2.5 rounded-xl border cursor-pointer transition-colors ${
-                          priority === p.key ? "border-blue-300 bg-blue-50/50" : "border-slate-200 hover:border-slate-300"
+                          priority === p.key ? "border-blue-300 bg-blue-50/50 dark:border-blue-800 dark:bg-blue-950/30" : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
                         }`}
                       >
                         <RadioGroupItem value={p.key} />
@@ -317,41 +317,41 @@ export default function CreateMissionWizard({ open, onClose, prefill = null }) {
             {/* Step 4: Review */}
             {step === 3 && (
               <div className="space-y-3">
-                <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4 space-y-3">
+                <div className="rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 p-4 space-y-3">
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Mission Name</p>
-                    <p className="text-sm font-semibold text-slate-900">{name || "—"}</p>
+                    <p className="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Mission Name</p>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{name || "—"}</p>
                   </div>
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Objective</p>
-                    <p className="text-sm text-slate-700">{objective || "—"}</p>
+                    <p className="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Objective</p>
+                    <p className="text-sm text-slate-700 dark:text-slate-300">{objective || "—"}</p>
                   </div>
                   {(industry || countries || keywords || categories.length > 0 || minConfidence > 0) && (
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wide text-slate-400 mb-1">Filters</p>
+                      <p className="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 mb-1">Filters</p>
                       <div className="flex flex-wrap gap-1.5">
-                        {industry && <span className="px-2 py-0.5 rounded-md bg-white text-slate-600 text-xs border border-slate-100">Industry: {industry}</span>}
-                        {countries && <span className="px-2 py-0.5 rounded-md bg-white text-slate-600 text-xs border border-slate-100">{countries}</span>}
-                        {keywords && <span className="px-2 py-0.5 rounded-md bg-white text-slate-600 text-xs border border-slate-100">Keywords: {keywords}</span>}
-                        {categories.map((c) => <span key={c} className="px-2 py-0.5 rounded-md bg-white text-slate-600 text-xs border border-slate-100">{c}</span>)}
-                        {minConfidence > 0 && <span className="px-2 py-0.5 rounded-md bg-white text-slate-600 text-xs border border-slate-100">Min Confidence: {minConfidence}%</span>}
+                        {industry && <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs border border-slate-100 dark:border-slate-700">Industry: {industry}</span>}
+                        {countries && <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs border border-slate-100 dark:border-slate-700">{countries}</span>}
+                        {keywords && <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs border border-slate-100 dark:border-slate-700">Keywords: {keywords}</span>}
+                        {categories.map((c) => <span key={c} className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs border border-slate-100 dark:border-slate-700">{c}</span>)}
+                        {minConfidence > 0 && <span className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs border border-slate-100 dark:border-slate-700">Min Confidence: {minConfidence}%</span>}
                       </div>
                     </div>
                   )}
-                  <div className="flex items-center gap-4 pt-2 border-t border-slate-100">
+                  <div className="flex items-center gap-4 pt-2 border-t border-slate-100 dark:border-slate-800">
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Notifications</p>
-                      <p className="text-sm text-slate-700">{NOTIFICATION_CONFIG[notificationPref]?.label}</p>
+                      <p className="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Notifications</p>
+                      <p className="text-sm text-slate-700 dark:text-slate-300">{NOTIFICATION_CONFIG[notificationPref]?.label}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Priority</p>
-                      <p className="text-sm text-slate-700 capitalize">{priority}</p>
+                      <p className="text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Priority</p>
+                      <p className="text-sm text-slate-700 dark:text-slate-300 capitalize">{priority}</p>
                     </div>
                   </div>
                 </div>
-                <div className="flex items-start gap-2 rounded-xl bg-blue-50/50 border border-blue-100 p-3">
-                  <Radar className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
-                  <p className="text-xs text-slate-600 leading-relaxed">
+                <div className="flex items-start gap-2 rounded-xl bg-blue-50/50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900 p-3">
+                  <Radar className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                     Once created, the ScoutyGo Intelligence Engine will continuously scan for opportunities matching this objective. You can pause, edit, or archive at any time.
                   </p>
                 </div>
@@ -359,7 +359,7 @@ export default function CreateMissionWizard({ open, onClose, prefill = null }) {
             )}
 
             {/* Navigation */}
-            <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-100">
+            <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
               <Button variant="ghost" onClick={() => (step === 0 ? onClose() : setStep(step - 1))} disabled={false}>
                 <ChevronLeft className="w-4 h-4" /> {step === 0 ? "Cancel" : "Back"}
               </Button>

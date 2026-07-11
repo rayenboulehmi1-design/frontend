@@ -6,9 +6,9 @@ import { useDemoLink } from "@/lib/demoMode";
 import ConfidenceBadge from "@/components/dashboard/ConfidenceBadge";
 
 const categoryStyles = {
-  "Real Estate": { icon: Building2, color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100", badge: "bg-blue-50 text-blue-700" },
-  Investment: { icon: TrendingUp, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100", badge: "bg-emerald-50 text-emerald-700" },
-  Business: { icon: Building2, color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-100", badge: "bg-violet-50 text-violet-700" },
+  "Real Estate": { icon: Building2, color: "text-blue-600 dark:text-blue-400", bg: "bg-blue-50 dark:bg-blue-950/40", border: "border-blue-100 dark:border-slate-800", badge: "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400" },
+  Investment: { icon: TrendingUp, color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-950/40", border: "border-emerald-100 dark:border-slate-800", badge: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400" },
+  Business: { icon: Building2, color: "text-violet-600 dark:text-violet-400", bg: "bg-violet-50 dark:bg-violet-950/40", border: "border-violet-100 dark:border-slate-800", badge: "bg-violet-50 text-violet-700 dark:bg-violet-950/40 dark:text-violet-400" },
 };
 
 function SaveButton({ signal, saved, onToggle }) {
@@ -18,7 +18,7 @@ function SaveButton({ signal, saved, onToggle }) {
       className="p-1.5 rounded-lg transition-colors"
       aria-label={saved ? "Remove from saved" : "Save opportunity"}
     >
-      <Bookmark className={`w-4 h-4 ${saved ? "fill-blue-600 text-blue-600" : "text-slate-400 hover:text-slate-600"}`} />
+      <Bookmark className={`w-4 h-4 ${saved ? "fill-blue-600 text-blue-600" : "text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"}`} />
     </button>
   );
 }
@@ -68,7 +68,7 @@ export default function SignalCard({ signal, compact = false }) {
           <span className={`px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${style.badge}`}>
             {signal.category}
           </span>
-          <span className="text-xs text-slate-400 flex items-center gap-1">
+          <span className="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
             <Clock className="w-3 h-3" /> {signal.time_ago}
           </span>
         </div>

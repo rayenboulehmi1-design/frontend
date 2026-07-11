@@ -42,18 +42,18 @@ export default function LeadsWorkflow({ opportunity }) {
         {WORKFLOW_STEPS.map((step, i) => {
           const Icon = step.icon;
           return (
-            <div key={i} className="flex items-center gap-3 p-3 rounded-xl border border-slate-50 bg-slate-50/30">
-              <div className="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
-                <Icon className="w-3.5 h-3.5 text-slate-400" />
+            <div key={i} className="flex items-center gap-3 p-3 rounded-xl border border-slate-50 dark:border-slate-800/50 bg-slate-50/30 dark:bg-slate-800/30">
+              <div className="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                <Icon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-semibold text-slate-700">
-                  <span className="text-slate-400 mr-1">{i + 1}.</span>{step.label}
+                <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                  <span className="text-slate-400 dark:text-slate-500 mr-1">{i + 1}.</span>{step.label}
                 </p>
-                <p className="text-[11px] text-slate-400 leading-relaxed">{step.desc}</p>
+                <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-relaxed">{step.desc}</p>
               </div>
               {i < WORKFLOW_STEPS.length - 1 && (
-                <ArrowRight className="w-3 h-3 text-slate-200 shrink-0 rotate-90" />
+                <ArrowRight className="w-3 h-3 text-slate-200 dark:text-slate-700 shrink-0 rotate-90" />
               )}
             </div>
           );

@@ -5,13 +5,13 @@ function FilterRow({ icon: Icon, label, values }) {
   if (!values || (Array.isArray(values) ? values.length === 0 : !values)) return null;
   const display = Array.isArray(values) ? values : [values];
   return (
-    <div className="flex items-start gap-2 py-2 border-b border-slate-50 last:border-0">
-      <Icon className="w-3.5 h-3.5 text-slate-400 mt-0.5 shrink-0" />
+    <div className="flex items-start gap-2 py-2 border-b border-slate-50 dark:border-slate-800/50 last:border-0">
+      <Icon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 mt-0.5 shrink-0" />
       <div className="min-w-0 flex-1">
-        <span className="text-xs font-medium text-slate-500">{label}</span>
+        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{label}</span>
         <div className="flex flex-wrap gap-1.5 mt-1">
           {display.map((v, i) => (
-            <span key={i} className="px-2 py-0.5 rounded-md bg-slate-50 text-slate-600 text-xs font-medium">
+            <span key={i} className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-medium">
               {v}
             </span>
           ))}
@@ -37,10 +37,10 @@ export default function MissionFiltersDisplay({ mission }) {
     <div>
       <div className="flex items-center gap-2 mb-3">
         <Filter className="w-4 h-4 text-slate-400" />
-        <h3 className="text-sm font-bold text-slate-900">Mission Filters</h3>
+        <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Mission Filters</h3>
       </div>
       {hasFilters ? (
-        <div className="rounded-xl border border-slate-100 bg-white px-4 py-1">
+        <div className="rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-1">
           <FilterRow icon={Building2} label="Industry" values={mission.industry} />
           <FilterRow icon={MapPin} label="Countries" values={mission.countries} />
           <FilterRow icon={MapPin} label="Regions" values={mission.regions} />
@@ -50,17 +50,17 @@ export default function MissionFiltersDisplay({ mission }) {
           <FilterRow icon={Building2} label="Company Names" values={mission.company_names} />
           <FilterRow icon={Type} label="Opportunity Types" values={mission.opportunity_types} />
           {mission.min_confidence > 0 && (
-            <div className="flex items-center gap-2 py-2 border-b border-slate-50 last:border-0">
-              <Target className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-              <span className="text-xs font-medium text-slate-500">Min Confidence</span>
-              <span className="ml-auto px-2 py-0.5 rounded-md bg-blue-50 text-blue-600 text-xs font-bold">≥ {mission.min_confidence}%</span>
+            <div className="flex items-center gap-2 py-2 border-b border-slate-50 dark:border-slate-800/50 last:border-0">
+              <Target className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
+              <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Min Confidence</span>
+              <span className="ml-auto px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 text-xs font-bold">≥ {mission.min_confidence}%</span>
             </div>
           )}
         </div>
       ) : (
-        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-4 text-center">
-          <Filter className="w-6 h-6 text-slate-200 mx-auto mb-1.5" />
-          <p className="text-xs text-slate-400">No filters applied — the engine matches based on the objective alone</p>
+        <div className="rounded-xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-4 text-center">
+          <Filter className="w-6 h-6 text-slate-200 dark:text-slate-700 mx-auto mb-1.5" />
+          <p className="text-xs text-slate-400 dark:text-slate-500">No filters applied — the engine matches based on the objective alone</p>
         </div>
       )}
     </div>

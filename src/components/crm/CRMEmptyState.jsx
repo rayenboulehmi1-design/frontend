@@ -13,12 +13,12 @@ export default function CRMEmptyState({ variant = "empty", action }) {
   const v = VARIANTS[variant] || VARIANTS.empty;
   const Icon = v.icon;
   return (
-    <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 p-8 sm:p-12 text-center">
-      <div className="w-12 h-12 rounded-full bg-white border border-slate-100 flex items-center justify-center mx-auto mb-4 shadow-sm">
-        <Icon className="w-6 h-6 text-slate-400" />
+    <div className="rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-8 sm:p-12 text-center">
+      <div className="w-12 h-12 rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-center mx-auto mb-4 shadow-sm">
+        <Icon className="w-6 h-6 text-slate-400 dark:text-slate-500" />
       </div>
-      <p className="text-sm font-bold text-slate-700 mb-1">{v.title}</p>
-      <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">{v.desc}</p>
+      <p className="text-sm font-bold text-slate-700 dark:text-slate-300 mb-1">{v.title}</p>
+      <p className="text-xs text-slate-400 dark:text-slate-500 max-w-sm mx-auto leading-relaxed">{v.desc}</p>
       {action && <div className="mt-4">{action}</div>}
     </div>
   );

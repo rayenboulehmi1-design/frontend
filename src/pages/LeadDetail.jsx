@@ -15,15 +15,15 @@ function DetailSection({ number, title, icon: Icon, children }) {
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="relative flex gap-4">
       <div className="flex flex-col items-center">
-        <div className="w-9 h-9 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold shrink-0 z-10">
+        <div className="w-9 h-9 rounded-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 flex items-center justify-center text-xs font-bold shrink-0 z-10">
           {number}
         </div>
-        <div className="w-px flex-1 bg-gradient-to-b from-slate-200 to-slate-100 min-h-[1.5rem] my-1" />
+        <div className="w-px flex-1 bg-gradient-to-b from-slate-200 dark:from-slate-700 to-slate-100 dark:to-slate-800 min-h-[1.5rem] my-1" />
       </div>
       <div className="flex-1 pb-6">
         <div className="flex items-center gap-2 mb-2.5 flex-wrap">
-          {Icon && <Icon className="w-4 h-4 text-slate-400 shrink-0" />}
-          <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wide">{title}</h3>
+          {Icon && <Icon className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0" />}
+          <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">{title}</h3>
         </div>
         {children}
       </div>
@@ -41,26 +41,26 @@ export default function LeadDetail() {
 
   return (
     <div className="p-5 sm:p-8 max-w-4xl mx-auto">
-      <Link to={demoLink("/leads")} className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-6 transition-colors">
+      <Link to={demoLink("/leads")} className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 mb-6 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Leads
       </Link>
 
       <div className="flex items-center gap-3 mb-3">
-        <Users className="w-5 h-5 text-blue-600" />
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Lead Detail</h1>
+        <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Lead Detail</h1>
       </div>
-      <p className="text-sm text-slate-400 mb-6">
+      <p className="text-sm text-slate-400 dark:text-slate-500 mb-6">
         Full lead context, verification, and outreach — powered by verified data from the Leads Intelligence Engine.
       </p>
 
       {/* Engine status banner */}
-      <div className="rounded-2xl border border-blue-100 bg-blue-50/50 p-4 mb-6 flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
-          <Clock className="w-4 h-4 text-blue-600" />
+      <div className="rounded-2xl border border-blue-100 dark:border-blue-950 bg-blue-50/50 dark:bg-blue-950/20 p-4 mb-6 flex items-center gap-3">
+        <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-950/50 flex items-center justify-center shrink-0">
+          <Clock className="w-4 h-4 text-blue-600 dark:text-blue-400" />
         </div>
         <div>
-          <p className="text-sm font-medium text-slate-700">Lead data will appear here when the Leads Intelligence Engine is connected.</p>
-          <p className="text-xs text-slate-400 mt-0.5">Lead ID: {leadId}</p>
+          <p className="text-sm font-medium text-slate-700 dark:text-slate-300">Lead data will appear here when the Leads Intelligence Engine is connected.</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">Lead ID: {leadId}</p>
         </div>
       </div>
 
@@ -70,7 +70,7 @@ export default function LeadDetail() {
         </DetailSection>
 
         <DetailSection number={2} title="Related Opportunity" icon={Lightbulb}>
-          <div className="rounded-2xl border border-slate-100 bg-white p-5">
+          <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
             <p className="text-xs text-slate-400 mb-2">The verified opportunity that produced this lead recommendation:</p>
             <EnginePlaceholder message="The source opportunity will be linked here when lead data is available." />
           </div>
@@ -89,7 +89,7 @@ export default function LeadDetail() {
         </DetailSection>
 
         <DetailSection number={6} title="Verification Status" icon={ShieldCheck}>
-          <div className="rounded-2xl border border-slate-100 bg-white p-5 flex items-center gap-3 flex-wrap">
+          <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 flex items-center gap-3 flex-wrap">
             <LeadStatusBadge status="discovered" />
             <LeadStatusBadge status="enrichment_pending" />
             <LeadStatusBadge status="verification_pending" />
@@ -100,7 +100,7 @@ export default function LeadDetail() {
         </DetailSection>
 
         <DetailSection number={7} title="Public Business Contact Information" icon={Mail}>
-          <div className="rounded-2xl border border-slate-100 bg-white p-5">
+          <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
             <p className="text-xs text-slate-400 mb-3">
               Contact information is only displayed after verification. The frontend never guesses contact details.
             </p>
@@ -117,7 +117,7 @@ export default function LeadDetail() {
         </DetailSection>
 
         <DetailSection number={10} title="Notes" icon={StickyNote}>
-          <div className="rounded-2xl border border-slate-100 bg-white p-5">
+          <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
             <textarea
               disabled
               placeholder="Notes will be saved here when the Leads Intelligence Engine is connected..."
@@ -127,7 +127,7 @@ export default function LeadDetail() {
         </DetailSection>
 
         <DetailSection number={11} title="Add to CRM" icon={GitBranch}>
-          <div className="rounded-2xl border border-slate-100 bg-white p-5">
+          <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
             <p className="text-xs text-slate-400 mb-3">
               CRM integration point: Opportunity → Company → Decision Maker → Lead → CRM Record
             </p>
@@ -138,7 +138,7 @@ export default function LeadDetail() {
         </DetailSection>
 
         <DetailSection number={12} title="Track Outcome" icon={Target}>
-          <div className="rounded-2xl border border-slate-100 bg-white p-5">
+          <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
             <p className="text-xs text-slate-400 mb-3">
               Track the outcome of this lead — from first contact through to won/lost.
             </p>

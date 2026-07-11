@@ -32,17 +32,17 @@ export default function CRMPipeline({ records }) {
             <div className="flex items-center justify-between mb-2 px-1">
               <div className="flex items-center gap-1.5">
                 <span className={`w-2 h-2 rounded-full ${meta.dot}`} />
-                <span className="text-xs font-bold text-slate-700">{stage}</span>
+                <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{stage}</span>
               </div>
-              <span className="text-[10px] font-medium text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded-full">{stageRecords.length}</span>
+              <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-800 px-1.5 py-0.5 rounded-full">{stageRecords.length}</span>
             </div>
             <div className="space-y-2 flex-1 min-h-[60px]">
               {stageRecords.map((record) => (
                 <CRMCard key={record.id} record={record} />
               ))}
               {stageRecords.length === 0 && (
-                <div className="rounded-xl border border-dashed border-slate-100 bg-slate-50/30 p-4 text-center">
-                  <span className="text-[10px] text-slate-300">No records</span>
+                <div className="rounded-xl border border-dashed border-slate-100 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-800/30 p-4 text-center">
+                  <span className="text-[10px] text-slate-300 dark:text-slate-600">No records</span>
                 </div>
               )}
             </div>

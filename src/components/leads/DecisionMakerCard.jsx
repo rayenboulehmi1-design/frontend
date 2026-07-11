@@ -5,10 +5,10 @@ import LeadStatusBadge from "./LeadStatusBadge";
 export default function DecisionMakerCard({ person, onSave, onAddToCRM, onGenerateOutreach }) {
   if (!person || !person.personId) {
     return (
-      <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 p-5 text-center">
-        <User className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-        <p className="text-sm font-medium text-slate-500">Decision Maker Discovery Pending</p>
-        <p className="text-xs text-slate-400 mt-1 max-w-xs mx-auto">
+      <div className="rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-5 text-center">
+        <User className="w-8 h-8 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
+        <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Decision Maker Discovery Pending</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-xs mx-auto">
           Key decision makers will appear here when discovered by the Leads Intelligence Engine.
         </p>
       </div>
@@ -19,7 +19,7 @@ export default function DecisionMakerCard({ person, onSave, onAddToCRM, onGenera
   const hasContact = person.publicBusinessEmail || person.publicBusinessPhone || person.publicProfessionalProfileUrl;
 
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-5">
+    <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-start gap-3 min-w-0">
           <div className="w-10 h-10 rounded-full bg-violet-50 flex items-center justify-center shrink-0">
@@ -49,7 +49,7 @@ export default function DecisionMakerCard({ person, onSave, onAddToCRM, onGenera
 
       {/* Contact information — only rendered from backend-provided fields, never guessed */}
       {hasContact ? (
-        <div className="rounded-xl bg-slate-50 border border-slate-100 p-3 mb-3 space-y-1.5">
+        <div className="rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-3 mb-3 space-y-1.5">
           {person.publicBusinessEmail && (
             <div className="flex items-center gap-2 text-xs">
               <Mail className="w-3.5 h-3.5 text-slate-400" />
@@ -75,7 +75,7 @@ export default function DecisionMakerCard({ person, onSave, onAddToCRM, onGenera
           )}
         </div>
       ) : (
-        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-3 mb-3 text-center">
+        <div className="rounded-xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-3 mb-3 text-center">
           <AlertCircle className="w-4 h-4 text-slate-300 mx-auto mb-1" />
           <p className="text-xs text-slate-400">No public business contact information available yet.</p>
         </div>

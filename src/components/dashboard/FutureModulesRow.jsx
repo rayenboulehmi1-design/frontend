@@ -50,7 +50,7 @@ export default function FutureModulesRow() {
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {modules.map((mod) => (
-        <div key={mod.key} className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 p-5">
+        <div key={mod.key} className="rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-5">
           {mod.locked ? (
             <LockedFeature featureKey={mod.featureKey} title={mod.title} description={mod.description}>
               <div className="h-8" />
@@ -58,15 +58,15 @@ export default function FutureModulesRow() {
           ) : (
             <>
               <div className="flex items-center justify-between mb-3">
-                <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
-                  <Radar className="w-4 h-4 text-blue-600" />
+                <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-950/50 flex items-center justify-center">
+                  <Radar className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 </div>
-                <Link to={mod.link} className="text-blue-600 hover:text-blue-700">
+                <Link to={mod.link} className="text-blue-600 dark:text-blue-400 hover:text-blue-700">
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-              <p className="text-sm font-bold text-slate-900 mb-1">{mod.title}</p>
-              <p className="text-xs text-slate-400 leading-relaxed">{mod.description}</p>
+              <p className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-1">{mod.title}</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">{mod.description}</p>
             </>
           )}
         </div>

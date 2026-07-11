@@ -3,33 +3,25 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Bell, ArrowLeft, Plus, Trash2, MapPin, Tag, SlidersHorizontal } from "lucide-react";
 import { useDemoLink } from "@/lib/demoMode";
+import { useAlerts } from "@/hooks/useAlerts";
 
-const STORAGE_KEY = "scouty_alerts";
 const categories = ["Real Estate", "Investment", "Business"];
 
 export default function Alerts() {
   const demoLink = useDemoLink();
-  const [alerts, setAlerts] = useState(() => {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); } catch { return []; }
-  });
+  const { alerts, createAlert, deleteAlert } = useAlerts();
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ name: "", category: "", location: "", keywords: "", minConfidence: 50 });
 
-  const persist = (next) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    setAlerts(next);
-  };
-
   const handleCreate = (e) => {
     e.preventDefault();
-    const alert = { ...form, id: Date.now().toString(), createdAt: new Date().toISOString() };
-    persist([alert, ...alerts]);
+    createAlert(form);
     setForm({ name: "", category: "", location: "", keywords: "", minConfidence: 50 });
     setShowForm(false);
   };
 
   const handleDelete = (id) => {
-    persist(alerts.filter((a) => a.id !== id));
+    deleteAlert(id);
   };
 
   return (
@@ -161,7 +153,8 @@ export default function Alerts() {
                   </div>
                   <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(alert.id); }}
-                    className="p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0"
+                    aria-label={`Delete alert: ${alert.name}`}
+                    className="p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

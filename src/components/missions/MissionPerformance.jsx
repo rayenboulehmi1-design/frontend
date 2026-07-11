@@ -4,22 +4,22 @@ import { formatRelativeTime } from "@/lib/missionUtils";
 
 function MetricCard({ icon: Icon, label, value, sublabel, pending }) {
   return (
-    <div className="rounded-xl border border-slate-100 bg-white p-4">
+    <div className="rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
       <div className="flex items-center gap-2 mb-2">
-        <div className="w-7 h-7 rounded-lg bg-slate-50 flex items-center justify-center">
-          <Icon className="w-3.5 h-3.5 text-slate-400" />
+        <div className="w-7 h-7 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center">
+          <Icon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
         </div>
-        <span className="text-xs font-medium text-slate-500">{label}</span>
+        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{label}</span>
       </div>
       {pending ? (
         <div className="flex items-center gap-1.5">
-          <span className="text-lg font-bold text-slate-300">—</span>
-          <span className="text-[10px] text-slate-300 font-medium uppercase">Pending backend</span>
+          <span className="text-lg font-bold text-slate-300 dark:text-slate-600">—</span>
+          <span className="text-[10px] text-slate-300 dark:text-slate-600 font-medium uppercase">Pending backend</span>
         </div>
       ) : (
         <>
-          <p className="text-2xl font-bold text-slate-900">{value}</p>
-          {sublabel && <p className="text-xs text-slate-400 mt-0.5">{sublabel}</p>}
+          <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{value}</p>
+          {sublabel && <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{sublabel}</p>}
         </>
       )}
     </div>
@@ -38,7 +38,7 @@ export default function MissionPerformance({ mission, matchingSignals }) {
     <div>
       <div className="flex items-center gap-2 mb-3">
         <Gauge className="w-4 h-4 text-slate-400" />
-        <h3 className="text-sm font-bold text-slate-900">Mission Performance</h3>
+        <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Mission Performance</h3>
         <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase border bg-blue-50 text-blue-600 border-blue-100">Engine</span>
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">

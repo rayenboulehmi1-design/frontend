@@ -5,10 +5,10 @@ import LeadStatusBadge from "./LeadStatusBadge";
 export default function CompanyMatchCard({ company, onViewCompany, onFindDecisionMakers, onSave, onAddToCRM }) {
   if (!company || !company.companyId) {
     return (
-      <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50/50 p-5 text-center">
-        <Building2 className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-        <p className="text-sm font-medium text-slate-500">Company Match Pending</p>
-        <p className="text-xs text-slate-400 mt-1 max-w-xs mx-auto">
+      <div className="rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-5 text-center">
+        <Building2 className="w-8 h-8 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
+        <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Company Match Pending</p>
+        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-xs mx-auto">
           Relevant companies will appear here when identified by the Leads Intelligence Engine.
         </p>
       </div>
@@ -16,7 +16,7 @@ export default function CompanyMatchCard({ company, onViewCompany, onFindDecisio
   }
 
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-5">
+    <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-start gap-3 min-w-0">
           <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">

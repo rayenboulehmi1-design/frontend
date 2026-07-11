@@ -14,7 +14,7 @@ const FILTER_CONFIG = [
 
 export default function LeadsFilterBar({ filters, onChange }) {
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-4 mb-6">
+    <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 mb-6">
       <div className="relative mb-3">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
         <input
@@ -22,7 +22,7 @@ export default function LeadsFilterBar({ filters, onChange }) {
           placeholder="Search leads by company, decision maker, or opportunity..."
           value={filters.search || ""}
           onChange={(e) => onChange({ ...filters, search: e.target.value })}
-          className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-blue-300 transition-colors"
+          className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 focus:outline-none focus:border-blue-300 transition-colors"
         />
       </div>
       <div className="flex items-center gap-2 flex-wrap">
@@ -31,7 +31,7 @@ export default function LeadsFilterBar({ filters, onChange }) {
             <select
               value={filters[opt.key] || ""}
               onChange={(e) => onChange({ ...filters, [opt.key]: e.target.value })}
-              className="appearance-none pl-3 pr-8 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 bg-white hover:border-slate-300 focus:outline-none focus:border-blue-300 cursor-pointer transition-colors"
+              className="appearance-none pl-3 pr-8 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-600 focus:outline-none focus:border-blue-300 cursor-pointer transition-colors"
             >
               <option value="">{opt.label}</option>
               {opt.options.map((o) => (

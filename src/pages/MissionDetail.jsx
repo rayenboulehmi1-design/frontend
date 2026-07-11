@@ -88,7 +88,7 @@ export default function MissionDetail() {
   return (
     <div className="p-5 md:p-8 lg:p-10 max-w-7xl mx-auto">
       {/* Breadcrumb */}
-      <Link to={demoLink("/missions")} className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-6 transition-colors">
+      <Link to={demoLink("/missions")} className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 mb-6 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to AI Missions
       </Link>
 
@@ -97,12 +97,12 @@ export default function MissionDetail() {
         <div className="flex items-center gap-2 mb-3">
           <MissionStatusBadge status={mission.status} />
           <MissionPriorityBadge priority={mission.priority_level} />
-          <span className="text-xs text-slate-400 flex items-center gap-1">
+          <span className="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
             <Radar className="w-3 h-3" /> Created {formatRelativeTime(mission.created_date)}
           </span>
         </div>
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">{mission.name}</h1>
-        <p className="text-sm text-slate-500 leading-relaxed max-w-3xl">{mission.objective}</p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">{mission.name}</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed max-w-3xl">{mission.objective}</p>
 
         {/* Actions */}
         <div className="flex items-center gap-2 mt-4 flex-wrap">
@@ -139,9 +139,9 @@ export default function MissionDetail() {
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Left column — Matching Opportunities + Activity Timeline */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="rounded-2xl border border-slate-100 bg-white p-5">
+          <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
             {loadingSignals ? (
-              <div className="flex items-center gap-2 py-8 justify-center">
+              <div className="flex items-center gap-2 py-8 justify-center" role="status" aria-live="polite">
                 <Loader2 className="w-5 h-5 text-blue-600 animate-spin" />
                 <span className="text-sm text-slate-400">Loading matching opportunities...</span>
               </div>
@@ -150,10 +150,10 @@ export default function MissionDetail() {
             )}
           </div>
 
-          <div className="rounded-2xl border border-slate-100 bg-white p-5">
+          <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
             <div className="flex items-center gap-2 mb-4">
               <History className="w-4 h-4 text-slate-400" />
-              <h3 className="text-sm font-bold text-slate-900">Activity Timeline</h3>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Activity Timeline</h3>
             </div>
             <MissionTimeline activities={mission.activity} />
           </div>
@@ -161,25 +161,25 @@ export default function MissionDetail() {
 
         {/* Right column — Filters, Notifications, Future Modules */}
         <div className="space-y-6">
-          <div className="rounded-2xl border border-slate-100 bg-white p-5">
+          <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
             <MissionFiltersDisplay mission={mission} />
           </div>
 
-          <div className="rounded-2xl border border-slate-100 bg-white p-5">
+          <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
             <div className="flex items-center gap-2 mb-3">
               <Bell className="w-4 h-4 text-slate-400" />
-              <h3 className="text-sm font-bold text-slate-900">Notifications</h3>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Notifications</h3>
             </div>
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50">
-              <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shrink-0">
-                <NotifIcon className="w-4 h-4 text-slate-500" />
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+              <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-900 flex items-center justify-center shrink-0">
+                <NotifIcon className="w-4 h-4 text-slate-500 dark:text-slate-400" />
               </div>
               <div>
-                <p className="text-sm font-medium text-slate-900">{notifConfig.label}</p>
-                <p className="text-xs text-slate-400">{notifConfig.description}</p>
+                <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{notifConfig.label}</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500">{notifConfig.description}</p>
               </div>
             </div>
-            <p className="text-[10px] text-slate-300 mt-2">
+            <p className="text-[10px] text-slate-300 dark:text-slate-600 mt-2">
               Future channels: Email, Push, Slack, Microsoft Teams
             </p>
           </div>

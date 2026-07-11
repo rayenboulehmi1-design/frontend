@@ -27,12 +27,12 @@ export default function CRMList({ records }) {
   return (
     <>
       {/* Desktop table */}
-      <div className="hidden lg:block overflow-x-auto rounded-2xl border border-slate-100 bg-white">
+      <div className="hidden lg:block overflow-x-auto rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-slate-100 bg-slate-50/50">
+            <tr className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
               {COLUMNS.map((col) => (
-                <th key={col.key} className="text-left px-4 py-2.5 text-[10px] font-bold uppercase tracking-wide text-slate-400 whitespace-nowrap">
+                <th key={col.key} className="text-left px-4 py-2.5 text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500 whitespace-nowrap">
                   {col.label}
                 </th>
               ))}
@@ -40,9 +40,9 @@ export default function CRMList({ records }) {
           </thead>
           <tbody>
             {records.map((record) => (
-              <tr key={record.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+              <tr key={record.id} className="border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
                 <td className="px-4 py-3">
-                  <Link to={demoLink(`/crm/${record.id}`)} className="font-medium text-slate-900 hover:text-blue-600 transition-colors">
+                  <Link to={demoLink(`/crm/${record.id}`)} className="font-medium text-slate-900 dark:text-slate-100 hover:text-blue-600 transition-colors">
                     {record.title}
                   </Link>
                   {record.entity_name && <p className="text-[11px] text-slate-400">{record.entity_name}</p>}
@@ -82,8 +82,8 @@ export default function CRMList({ records }) {
       {/* Mobile cards */}
       <div className="lg:hidden space-y-2">
         {records.map((record) => (
-          <Link key={record.id} to={demoLink(`/crm/${record.id}`)} className="block rounded-xl border border-slate-100 bg-white p-3.5 hover:border-slate-300 transition-colors">
-            <p className="text-sm font-semibold text-slate-900 mb-1">{record.title}</p>
+          <Link key={record.id} to={demoLink(`/crm/${record.id}`)} className="block rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-3.5 hover:border-slate-300 dark:hover:border-slate-600 transition-colors">
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-1">{record.title}</p>
             <div className="flex items-center gap-1.5 flex-wrap mb-2">
               <StageBadge stage={record.stage} size="xs" />
               <PriorityBadge priority={record.priority} />

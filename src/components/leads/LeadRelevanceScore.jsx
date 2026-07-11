@@ -37,15 +37,15 @@ export default function LeadRelevanceScore({ score, factors }) {
   };
 
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-5">
+    <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
       <div className="flex items-center gap-4">
         <div className={`w-16 h-16 rounded-2xl ${colors[tier]} flex items-center justify-center shrink-0`}>
           <Gauge className="w-7 h-7" />
         </div>
         <div>
-          <p className="text-2xl font-bold text-slate-900">{score}<span className="text-sm text-slate-400">/100</span></p>
-          <p className="text-xs text-slate-500">Lead Relevance Score</p>
-          <p className="text-[10px] text-slate-400 mt-0.5">Calculated by Leads Intelligence Engine</p>
+          <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{score}<span className="text-sm text-slate-400 dark:text-slate-500">/100</span></p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Lead Relevance Score</p>
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">Calculated by Leads Intelligence Engine</p>
         </div>
       </div>
       {factors && factors.length > 0 && (

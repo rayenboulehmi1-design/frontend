@@ -15,20 +15,20 @@ import { PLANS } from "@/lib/plans";
 
 function LeadsEmptyState({ icon: Icon, title, description }) {
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-8 text-center">
-      <Icon className="w-10 h-10 text-slate-200 mx-auto mb-3" />
-      <p className="text-sm font-medium text-slate-500">{title}</p>
-      <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">{description}</p>
+    <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 text-center">
+      <Icon className="w-10 h-10 text-slate-200 dark:text-slate-700 mx-auto mb-3" />
+      <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{title}</p>
+      <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-sm mx-auto leading-relaxed">{description}</p>
     </div>
   );
 }
 
 function StatusSummaryCard({ icon: Icon, title, statuses }) {
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-4">
+    <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-4">
       <div className="flex items-center gap-2 mb-3">
-        <Icon className="w-3.5 h-3.5 text-slate-400" />
-        <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wide">{title}</h3>
+        <Icon className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+        <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">{title}</h3>
       </div>
       <div className="space-y-2">
         {statuses.map((s) => (
@@ -53,23 +53,23 @@ export default function Leads() {
     const upgradePlan = tier === "Pro" ? "Pro+" : "Agency";
     return (
       <div className="p-5 sm:p-8 max-w-5xl mx-auto">
-        <Link to={demoLink("/dashboard")} className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-6 transition-colors">
+        <Link to={demoLink("/dashboard")} className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 mb-6 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to Dashboard
         </Link>
 
         <div className="flex items-center gap-3 mb-8">
-          <Users className="w-5 h-5 text-blue-600" />
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Leads Provider Agent</h1>
+          <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Leads Provider Agent</h1>
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-violet-50 p-6">
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="rounded-2xl border border-blue-100 dark:border-blue-950 bg-gradient-to-br from-blue-50 to-violet-50 dark:from-blue-950/30 dark:to-violet-950/30 p-6">
           <div className="flex items-start gap-4">
             <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center shrink-0">
               <Lock className="w-6 h-6 text-white" />
             </div>
             <div className="flex-1">
-              <p className="text-base font-bold text-slate-900 mb-1">Leads Provider Agent requires {upgradePlan}</p>
-              <p className="text-sm text-slate-500 leading-relaxed mb-4">
+              <p className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">Leads Provider Agent requires {upgradePlan}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
                 The Leads Provider Agent starts from a verified ScoutyGo opportunity and helps identify
                 relevant companies and decision makers. It discovers public business contacts, verifies them,
                 scores lead relevance, and assists with AI-powered outreach.
@@ -95,13 +95,13 @@ export default function Leads() {
           ].map((step, i) => {
             const Icon = step.icon;
             return (
-              <div key={i} className="flex items-start gap-3 p-4 rounded-xl border border-slate-50 bg-white">
-                <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center shrink-0">
-                  <Icon className="w-4 h-4 text-slate-400" />
+              <div key={i} className="flex items-start gap-3 p-4 rounded-xl border border-slate-50 dark:border-slate-800/50 bg-white dark:bg-slate-900">
+                <div className="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center shrink-0">
+                  <Icon className="w-4 h-4 text-slate-400 dark:text-slate-500" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-slate-700">{step.title}</p>
-                  <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">{step.desc}</p>
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">{step.title}</p>
+                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5 leading-relaxed">{step.desc}</p>
                 </div>
               </div>
             );
@@ -114,13 +114,13 @@ export default function Leads() {
   // Pro+ or Agency — full leads experience
   return (
     <div className="p-5 sm:p-8 max-w-5xl mx-auto">
-      <Link to={demoLink("/dashboard")} className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 mb-6 transition-colors">
+      <Link to={demoLink("/dashboard")} className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 mb-6 transition-colors">
         <ArrowLeft className="w-4 h-4" /> Back to Dashboard
       </Link>
 
       <div className="flex items-center gap-3 mb-8">
-        <Users className="w-5 h-5 text-blue-600" />
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Leads Provider Agent</h1>
+        <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">Leads Provider Agent</h1>
         <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
           access === "FULL" ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
         }`}>
@@ -159,7 +159,7 @@ export default function Leads() {
 
       {/* Recent discoveries */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-        <h2 className="text-sm font-bold text-slate-900 mb-3">Recent Lead Discoveries</h2>
+        <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Recent Lead Discoveries</h2>
         <LeadsEmptyState
           icon={Building2}
           title="No leads discovered yet"
@@ -169,7 +169,7 @@ export default function Leads() {
 
       {/* Saved leads */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="mb-6">
-        <h2 className="text-sm font-bold text-slate-900 mb-3">Saved Leads</h2>
+        <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Saved Leads</h2>
         <LeadsEmptyState
           icon={Bookmark}
           title="No saved leads"
@@ -179,7 +179,7 @@ export default function Leads() {
 
       {/* Leads by opportunity */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mb-6">
-        <h2 className="text-sm font-bold text-slate-900 mb-3">Leads by Opportunity</h2>
+        <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Leads by Opportunity</h2>
         <LeadsEmptyState
           icon={Database}
           title="No opportunity-linked leads yet"
@@ -189,7 +189,7 @@ export default function Leads() {
 
       {/* Leads by AI Mission */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-        <h2 className="text-sm font-bold text-slate-900 mb-3">Leads by AI Mission</h2>
+        <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Leads by AI Mission</h2>
         <LeadsEmptyState
           icon={Radar}
           title="No mission-linked leads yet"

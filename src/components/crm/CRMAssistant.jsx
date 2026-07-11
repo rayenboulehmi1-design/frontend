@@ -33,15 +33,15 @@ export default function CRMAssistant({ record, activities, tasks, meetings }) {
 
   if (!hasContext) {
     return (
-      <div className="rounded-2xl border border-slate-100 bg-white p-5">
+      <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-slate-400" />
-          <h3 className="text-sm font-bold text-slate-900">CRM AI Assistant</h3>
+          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">CRM AI Assistant</h3>
         </div>
-        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-5 text-center">
-          <Lock className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-          <p className="text-sm font-medium text-slate-500">CRM Context Required</p>
-          <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
+        <div className="rounded-xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-5 text-center">
+          <Lock className="w-8 h-8 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">CRM Context Required</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-sm mx-auto leading-relaxed">
             AI assistance is available only for saved CRM records with verified context. The AI never invents meetings, contact attempts, deal values, or outcomes.
           </p>
         </div>
@@ -113,11 +113,11 @@ ${meetings.map((m) => `- ${m.title} on ${m.dateTime || "unscheduled"}`).join("\n
   };
 
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-5">
+    <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
       <div className="flex items-center gap-2 mb-4">
         <Sparkles className="w-4 h-4 text-violet-500" />
-        <h3 className="text-sm font-bold text-slate-900">CRM AI Assistant</h3>
-        <span className="text-[10px] text-slate-400 ml-auto">Verified data only</span>
+        <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">CRM AI Assistant</h3>
+        <span className="text-[10px] text-slate-400 dark:text-slate-500 ml-auto">Verified data only</span>
       </div>
 
       <div className="grid grid-cols-2 gap-1.5 mb-4">
@@ -129,7 +129,7 @@ ${meetings.map((m) => `- ${m.title} on ${m.dateTime || "unscheduled"}`).join("\n
               onClick={() => handleGenerate(action.key)}
               disabled={loading}
               className={`inline-flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors ${
-                activeAction === action.key ? "bg-violet-600 text-white" : "bg-slate-50 text-slate-500 hover:bg-slate-100 border border-slate-100"
+                activeAction === action.key ? "bg-violet-600 text-white" : "bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700"
               } disabled:opacity-50`}
             >
               <Icon className="w-3.5 h-3.5" /> {action.label}
@@ -154,8 +154,8 @@ ${meetings.map((m) => `- ${m.title} on ${m.dateTime || "unscheduled"}`).join("\n
 
       {result && (
         <div className="space-y-2">
-          <div className="rounded-xl bg-slate-50 border border-slate-100 p-3">
-            <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">{result.content}</p>
+          <div className="rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-3">
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">{result.content}</p>
           </div>
           {result.caveats?.length > 0 && (
             <div className="flex items-start gap-1.5 text-[11px] text-slate-400">

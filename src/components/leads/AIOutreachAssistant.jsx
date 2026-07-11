@@ -42,15 +42,15 @@ export default function AIOutreachAssistant({ lead }) {
 
   if (!hasVerifiedData) {
     return (
-      <div className="rounded-2xl border border-slate-100 bg-white p-5">
+      <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
         <div className="flex items-center gap-2 mb-3">
           <Sparkles className="w-4 h-4 text-slate-400" />
-          <h3 className="text-sm font-bold text-slate-900">AI Outreach Assistance</h3>
+          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">AI Outreach Assistance</h3>
         </div>
-        <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-5 text-center">
-          <Lock className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-          <p className="text-sm font-medium text-slate-500">Verified Lead Data Required</p>
-          <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
+        <div className="rounded-xl border border-dashed border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-5 text-center">
+          <Lock className="w-8 h-8 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Verified Lead Data Required</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-sm mx-auto leading-relaxed">
             AI outreach generation is available only after a lead's company and decision-maker data
             have been verified by the Leads Intelligence Engine. The AI never invents contact
             information or unsupported facts.
@@ -104,11 +104,11 @@ Generate a professional ${typeLabel}. Do not include any contact details (email,
   };
 
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-5">
+    <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5">
       <div className="flex items-center gap-2 mb-4">
         <Sparkles className="w-4 h-4 text-violet-500" />
-        <h3 className="text-sm font-bold text-slate-900">AI Outreach Assistance</h3>
-        <span className="text-[10px] text-slate-400 ml-auto">Generated from verified data only</span>
+        <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">AI Outreach Assistance</h3>
+        <span className="text-[10px] text-slate-400 dark:text-slate-500 ml-auto">Generated from verified data only</span>
       </div>
 
       {/* Outreach type tabs */}
@@ -122,7 +122,7 @@ Generate a professional ${typeLabel}. Do not include any contact details (email,
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                 activeType === type.key
                   ? "bg-violet-600 text-white"
-                  : "bg-slate-50 text-slate-500 hover:bg-slate-100 border border-slate-100"
+                  : "bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700"
               }`}
             >
               <Icon className="w-3.5 h-3.5" /> {type.label}
@@ -135,7 +135,7 @@ Generate a professional ${typeLabel}. Do not include any contact details (email,
       {!result && !generating && !error && (
         <button
           onClick={handleGenerate}
-          className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 text-white text-sm font-semibold hover:bg-slate-800 transition-colors"
+          className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-sm font-semibold hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors"
         >
           <Sparkles className="w-4 h-4" /> Generate {OUTREACH_TYPES.find((t) => t.key === activeType)?.label}
         </button>

@@ -94,8 +94,8 @@ export default function AddToCRMDialog({ open, onOpenChange, opportunity, lead, 
           </div>
         ) : (
           <div className="space-y-3 py-2">
-            <div className="rounded-lg bg-slate-50 border border-slate-100 p-3">
-              <p className="text-xs font-medium text-slate-700">{title}</p>
+            <div className="rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-3">
+              <p className="text-xs font-medium text-slate-700 dark:text-slate-300">{title}</p>
               {(companyName || personName) && (
                 <p className="text-[11px] text-slate-400 mt-0.5">
                   {companyName}{companyName && personName ? " · " : ""}{personName}
@@ -105,31 +105,31 @@ export default function AddToCRMDialog({ open, onOpenChange, opportunity, lead, 
 
             <div>
               <label className="text-xs font-medium text-slate-600 mb-1 block">Initial Stage</label>
-              <select value={stage} onChange={(e) => setStage(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-blue-400 bg-white">
+              <select value={stage} onChange={(e) => setStage(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-blue-400 bg-white dark:bg-slate-900">
                 {CRM_STAGES.filter((s) => s !== "Won" && s !== "Lost").map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
 
             <div>
               <label className="text-xs font-medium text-slate-600 mb-1 block">Priority</label>
-              <select value={priority} onChange={(e) => setPriority(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-blue-400 bg-white capitalize">
+              <select value={priority} onChange={(e) => setPriority(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-blue-400 bg-white dark:bg-slate-900 capitalize">
                 {PRIORITIES.map((p) => <option key={p} value={p}>{p}</option>)}
               </select>
             </div>
 
             <div>
               <label className="text-xs font-medium text-slate-600 mb-1 block">Next Action (optional)</label>
-              <input value={nextAction} onChange={(e) => setNextAction(e.target.value)} placeholder="e.g. Send introductory email" className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-blue-400" />
+              <input value={nextAction} onChange={(e) => setNextAction(e.target.value)} placeholder="e.g. Send introductory email" className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-blue-400 bg-white dark:bg-slate-900" />
             </div>
 
             <div>
               <label className="text-xs font-medium text-slate-600 mb-1 block">Next Action Date (optional)</label>
-              <input type="date" value={nextActionDate} onChange={(e) => setNextActionDate(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-blue-400" />
+              <input type="date" value={nextActionDate} onChange={(e) => setNextActionDate(e.target.value)} className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-blue-400 bg-white dark:bg-slate-900" />
             </div>
 
             <div>
               <label className="text-xs font-medium text-slate-600 mb-1 block">Note (optional)</label>
-              <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="Add an initial note..." className="w-full min-h-[60px] px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-blue-400 resize-none" />
+              <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="Add an initial note..." className="w-full min-h-[60px] px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:border-blue-400 bg-white dark:bg-slate-900 resize-none" />
             </div>
 
             {error && (

@@ -50,15 +50,15 @@ export default function CRMActivityTimeline({ activities }) {
         return (
           <div key={act.id} className="flex gap-3">
             <div className="flex flex-col items-center">
-              <div className="w-7 h-7 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
-                <Icon className="w-3.5 h-3.5 text-slate-500" />
+              <div className="w-7 h-7 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center shrink-0">
+                <Icon className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
               </div>
-              {!isLast && <div className="w-px flex-1 bg-slate-100 my-0.5" />}
+              {!isLast && <div className="w-px flex-1 bg-slate-100 dark:bg-slate-700 my-0.5" />}
             </div>
             <div className="flex-1 pb-4">
-              <p className="text-xs font-medium text-slate-700">{act.type}</p>
-              <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">{act.description}</p>
-              <p className="text-[10px] text-slate-300 mt-0.5">{timeAgo(act.createdAt)}</p>
+              <p className="text-xs font-medium text-slate-700 dark:text-slate-300">{act.type}</p>
+              <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-relaxed mt-0.5">{act.description}</p>
+              <p className="text-[10px] text-slate-300 dark:text-slate-600 mt-0.5">{timeAgo(act.createdAt)}</p>
             </div>
           </div>
         );

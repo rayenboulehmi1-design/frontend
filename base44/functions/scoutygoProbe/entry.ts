@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.38';
 
 Deno.serve(async (req) => {
   try {
@@ -22,7 +22,17 @@ Deno.serve(async (req) => {
 
     // Get one opportunity, extract only mapping-relevant scalar fields
     const oppRes = await fetch(baseUrl + '/opportunities?limit=1', { headers, signal: AbortSignal.timeout(8000) });
-    const oppBody = await oppRes.json();
+    let oppBody;
+    try {
+      oppBody = await oppRes.json();
+    } catch {
+      const oppText = await oppRes.text().catch(() => '');
+      return Response.json({
+        error: `Opportunities endpoint returned non-JSON (HTTP ${oppRes.status})`,
+        oppStatus: oppRes.status,
+        oppBody: oppText ? oppText.substring(0, 500) : null,
+      });
+    }
     const o = oppBody.opportunities?.[0] || {};
     const opp = {
       id: o.id, title: o.title, summary: o.summary?.substring(0, 200),
@@ -44,7 +54,12 @@ Deno.serve(async (req) => {
 
     // Get stats structure
     const statsRes = await fetch(baseUrl + '/stats', { headers, signal: AbortSignal.timeout(8000) });
-    const statsBody = await statsRes.json();
+    let statsBody;
+    try {
+      statsBody = await statsRes.json();
+    } catch {
+      statsBody = { error: `Stats endpoint returned non-JSON (HTTP ${statsRes.status})` };
+    }
 
     return Response.json({ opp, pagination, stats: statsBody });
   } catch (error) {

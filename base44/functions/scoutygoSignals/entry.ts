@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.38';
 
 Deno.serve(async (req) => {
   try {
@@ -63,7 +63,15 @@ Deno.serve(async (req) => {
       );
     }
 
-    const oppBody = await oppRes.json();
+    let oppBody;
+    try {
+      oppBody = await oppRes.json();
+    } catch {
+      return Response.json(
+        { error: 'Intelligence Engine returned a non-JSON response', errorType: 'UPSTREAM_ERROR', upstreamStatus: oppRes.status },
+        { status: 502 }
+      );
+    }
     const opportunities = oppBody.opportunities || [];
     const pagination = oppBody.pagination || null;
 

@@ -16,9 +16,9 @@ export default function RecentIntelligence({ signals }) {
         <div className="flex items-center gap-2">
           <Clock className="w-4 h-4 text-slate-400" />
           <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Recent Intelligence</h3>
-          <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase border bg-blue-50 text-blue-600 border-blue-100">Engine</span>
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase border bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-900">Engine</span>
         </div>
-        <Link to={demoLink("/intelligence-feed")} className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:gap-2 transition-all">
+        <Link to={demoLink("/intelligence-feed")} className="flex items-center gap-1 text-xs font-medium text-blue-600 dark:text-blue-400 hover:gap-2 transition-all">
           View Full Intelligence Feed <ArrowRight className="w-3 h-3" />
         </Link>
       </div>

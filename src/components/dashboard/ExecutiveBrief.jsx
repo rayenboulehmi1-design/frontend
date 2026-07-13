@@ -147,10 +147,10 @@ Do NOT invent facts, evidence, sources, companies, people, or statistics not pre
 
   // ─── KPI Cards (engine-owned data) ───
   const kpiCards = [
-    { label: "New Signals", value: engineMetrics.newCount, icon: Clock, color: "text-blue-600", bg: "bg-blue-50", link: demoLink("/intelligence-feed") },
-    { label: "Priority Opportunities", value: engineMetrics.priority, icon: Star, color: "text-amber-600", bg: "bg-amber-50", link: demoLink("/dashboard") },
-    { label: "Active Markets", value: engineMetrics.markets, icon: Globe, color: "text-emerald-600", bg: "bg-emerald-50", link: demoLink("/geo-intelligence") },
-    { label: "Urgent Changes", value: engineMetrics.urgent, icon: Zap, color: "text-rose-600", bg: "bg-rose-50", link: demoLink("/alerts") },
+    { label: "New Signals", value: engineMetrics.newCount, icon: Clock, color: "text-blue-600 dark:text-blue-400", bg: "bg-blue-50 dark:bg-blue-950/50", link: demoLink("/intelligence-feed") },
+    { label: "Priority Opportunities", value: engineMetrics.priority, icon: Star, color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-50 dark:bg-amber-950/50", link: demoLink("/dashboard") },
+    { label: "Active Markets", value: engineMetrics.markets, icon: Globe, color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-950/50", link: demoLink("/geo-intelligence") },
+    { label: "Urgent Changes", value: engineMetrics.urgent, icon: Zap, color: "text-rose-600 dark:text-rose-400", bg: "bg-rose-50 dark:bg-rose-950/50", link: demoLink("/alerts") },
   ];
 
   return (
@@ -173,12 +173,12 @@ Do NOT invent facts, evidence, sources, companies, people, or statistics not pre
         {kpiCards.map((card) => {
           const Icon = card.icon;
           return (
-            <Link key={card.label} to={card.link} className="rounded-xl border border-slate-100 bg-slate-50/50 p-4 hover:border-blue-200 hover:bg-blue-50/30 transition-all group">
+            <Link key={card.label} to={card.link} className="rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 p-4 hover:border-blue-200 dark:hover:border-blue-900 hover:bg-blue-50/30 dark:hover:bg-blue-950/20 transition-all group">
               <div className={`w-8 h-8 rounded-lg ${card.bg} flex items-center justify-center mb-2`}>
                 <Icon className={`w-4 h-4 ${card.color}`} />
               </div>
-              <div className="text-2xl font-bold text-slate-900">{card.value}</div>
-              <div className="text-xs text-slate-400 mt-0.5 flex items-center gap-1">
+              <div className="text-2xl font-bold text-slate-900 dark:text-slate-100">{card.value}</div>
+              <div className="text-xs text-slate-400 dark:text-slate-500 mt-0.5 flex items-center gap-1">
                 {card.label}
                 <ArrowRight className="w-2.5 h-2.5 opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
@@ -188,13 +188,13 @@ Do NOT invent facts, evidence, sources, companies, people, or statistics not pre
       </div>
 
       {/* AI Executive Brief */}
-      <div className="rounded-xl border border-violet-100 bg-gradient-to-br from-violet-50/30 to-white p-5">
+      <div className="rounded-xl border border-violet-100 dark:border-violet-900 bg-gradient-to-br from-violet-50/30 to-white dark:from-violet-950/20 dark:to-slate-900 p-5">
         <div className="flex items-center gap-2 mb-3">
-          <div className="w-7 h-7 rounded-lg bg-violet-100 flex items-center justify-center">
-            <Sparkles className="w-3.5 h-3.5 text-violet-600" />
+          <div className="w-7 h-7 rounded-lg bg-violet-100 dark:bg-violet-950/50 flex items-center justify-center">
+            <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
           </div>
-          <span className="text-xs font-bold uppercase tracking-wide text-violet-600">AI Executive Brief</span>
-          <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase border bg-slate-50 text-slate-500 border-slate-200">AI Assistant</span>
+          <span className="text-xs font-bold uppercase tracking-wide text-violet-600 dark:text-violet-400">AI Executive Brief</span>
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase border bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700">AI Assistant</span>
         </div>
 
         {aiAccess === "LOCKED" || aiAccess === "PREVIEW" ? (
@@ -203,24 +203,24 @@ Do NOT invent facts, evidence, sources, companies, people, or statistics not pre
           </LockedFeature>
         ) : brief ? (
           <div className="space-y-4">
-            <p className="text-sm text-slate-700 leading-relaxed">{brief.summary}</p>
+            <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{brief.summary}</p>
             {brief.key_points?.length > 0 && (
               <ul className="space-y-1.5">
                 {brief.key_points.map((point, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
-                    <span className="w-1.5 h-1.5 rounded-full bg-violet-400 mt-1.5 shrink-0" />
+                  <li key={i} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-violet-400 dark:bg-violet-500 mt-1.5 shrink-0" />
                     {point}
                   </li>
                 ))}
               </ul>
             )}
             {brief.recommended_action && (
-              <div className="flex items-start gap-2 pt-3 border-t border-violet-100">
-                <ArrowRight className="w-4 h-4 text-violet-600 mt-0.5 shrink-0" />
-                <p className="text-sm font-medium text-slate-700">{brief.recommended_action}</p>
+              <div className="flex items-start gap-2 pt-3 border-t border-violet-100 dark:border-violet-900">
+                <ArrowRight className="w-4 h-4 text-violet-600 dark:text-violet-400 mt-0.5 shrink-0" />
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{brief.recommended_action}</p>
               </div>
             )}
-            <button onClick={generateBrief} className="text-xs text-slate-400 hover:text-slate-600 transition-colors">Regenerate brief</button>
+            <button onClick={generateBrief} className="text-xs text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">Regenerate brief</button>
           </div>
         ) : loading ? (
           <div className="flex items-center gap-2 text-sm text-slate-400 py-3">
@@ -241,19 +241,19 @@ Do NOT invent facts, evidence, sources, companies, people, or statistics not pre
       {/* Priority Opportunities quick list */}
       {engineMetrics.priorities.length > 0 && (
         <div className="mt-5">
-          <h3 className="text-sm font-bold text-slate-900 mb-3">Priority Opportunities</h3>
+          <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-3">Priority Opportunities</h3>
           <div className="space-y-2">
             {engineMetrics.priorities.map((deal, i) => {
               const typeStyle = getTypeStyle(deal.type || deal.category);
               return (
-                <Link key={deal.id} to={demoLink(`/opportunities/${deal.id}`)} className="flex items-center gap-3 p-2.5 rounded-xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50/30 transition-all group">
-                  <span className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-500 shrink-0">{i + 1}</span>
+                <Link key={deal.id} to={demoLink(`/opportunities/${deal.id}`)} className="flex items-center gap-3 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-blue-200 dark:hover:border-blue-900 hover:bg-blue-50/30 dark:hover:bg-blue-950/20 transition-all group">
+                  <span className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-500 dark:text-slate-400 shrink-0">{i + 1}</span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-0.5">
                       <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase border ${typeStyle.badge}`}>{deal.type || deal.category}</span>
                     </div>
-                    <p className="text-sm font-medium text-slate-900 truncate group-hover:text-blue-600 transition-colors">{deal.company || deal.entity_name || deal.title}</p>
-                    <p className="text-xs text-slate-400 truncate">{deal.country || deal.location}</p>
+                    <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{deal.company || deal.entity_name || deal.title}</p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500 truncate">{deal.country || deal.location}</p>
                   </div>
                   {deal.confidence != null && <ConfidenceBadge score={deal.confidence} size="sm" />}
                 </Link>

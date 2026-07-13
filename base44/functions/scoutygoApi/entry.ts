@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.38';
 
 /**
  * Generic Replit API proxy.
@@ -96,7 +96,21 @@ Deno.serve(async (req) => {
       );
     }
 
-    const data = await response.json();
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      const text = await response.text().catch(() => '');
+      return Response.json(
+        {
+          error: `Upstream returned non-JSON response (HTTP ${response.status})`,
+          errorType: 'UPSTREAM_ERROR',
+          upstreamStatus: response.status,
+          upstreamBody: text ? text.substring(0, 500) : null,
+        },
+        { status: 502 }
+      );
+    }
     return Response.json(data);
   } catch (error) {
     console.error('scoutygoApi error:', error.message);
